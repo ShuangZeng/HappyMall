@@ -1,4 +1,4 @@
-package com.example.happyMall;
+package com.example.HappyMall;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
