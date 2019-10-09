@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,7 +23,7 @@ public class OrderLine {
 	@JoinColumn(name="orders_Id")
 	private Orders orders;
 	
-	@ManyToOne
+	@OneToOne
 	private Product product;
 	
 	private double price;
