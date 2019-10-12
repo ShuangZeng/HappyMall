@@ -1,6 +1,7 @@
 package com.happymall.webservice.notifications;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -14,16 +15,36 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.happymall.webservice.service.EmailService;
+import com.happymall.webservice.service.impl.EmailServiceImpl;
+
 @Component
 public class MessageSender {
 	
 	@Autowired
     private JavaMailSender javaMailSender;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	@EventListener
 	public void run(ContextRefreshedEvent event) {
+//		try {
+//			sendEmailWithAttachment();
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+		
+		String recipientName = "Buba Bojang";
+		String recipientEmail = "biji.application@gmail.com";
+		String imgName = "HappyMall logo";
+		byte[] byt = {};
+		Locale locale = new Locale("en");
+		
 		try {
-			sendEmailWithAttachment();
+		this.emailService.sendMailWithInline(
+	            recipientName, recipientEmail, imgName,
+	            byt, "image/png", locale);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

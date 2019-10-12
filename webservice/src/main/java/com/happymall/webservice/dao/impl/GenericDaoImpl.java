@@ -1,6 +1,7 @@
 package com.happymall.webservice.dao.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,13 +34,13 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
      }
 
 	@Override
-	public void delete(Long id) {
+	public void delete(UUID id) {
         T entity = findOne( id );
         delete( entity );  
     }
 
 	@Override
-	public T findOne( Long id ){
+	public T findOne( UUID id ){
 	    return (T) entityManager.find( daoType, id );
 	 }
 	
