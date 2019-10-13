@@ -13,18 +13,31 @@
 <body style="text-align:center;">
 <div class="text-center"><h1>Welcome!  <button type="button" class="btn btn-link">LOG OUT</button></h1></div>
 <div class="text-center">
-	<label>I WANT TO</label><br/>
-	<label class="radio-inline">
-  		<input type="radio" name="function" id="function1" value="option1"> User Management
-	</label><br/>
-	<label class="radio-inline">
-  		<input type="radio" name="function" id="function2" value="option2"> Product Validation
-	</label><br/>
-	<label class="radio-inline">
-  		<input type="radio" name="function" id="function3" value="option3"> Payment  Approval
-	</label><br/>
-	<br/>
-	<button class="btn btn-default btn-xs" type="submit">GO</button> <br/>
+	<h2></h2><br/>
+<table class="table table-hover " align="center" style="width:60%">
+	<thead>
+		<tr> 
+			<th> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><button class="btn btn-default" onclick="location.href='http://localhost:8080/admin/usermgmt'"type="submit">User Management</button></td>
+		</tr>
+		<tr>
+			<td><button class="btn btn-default" onclick="location.href='http://localhost:8080/admin/productmgmt'" type="submit">Product Validation</button></td>
+		</tr>
+		<tr>
+			<td><button class="btn btn-default" onclick="location.href='http://localhost:8080/admin/paymentmgmt'"type="submit">Payment Approval</button></td>
+		</tr>
+		<tr>
+			<td><td>
+		</tr>
+	</tbody>
+</table>
+	
+	
+	 
 	<br/>
 	<label> VIEW REPORT</label>
 	<div class="center-block" style="width:200px;">
