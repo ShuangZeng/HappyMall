@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SHOPPING CART</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<H1>SHOPPING CART</H1>
+		
+		<div class="col-12">
+			<table class="table table-hover">
+			  <thead>
+			    <tr>
+			      <th scope="col" colspan="2">Total products: </th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td scope="row">Image</td>
+			      <td>Product's information</td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Image</td>
+			      <td>Product's information</td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Image</td>
+			      <td>Product's information</td>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+		
+		<div class="col-6">
+			<div class="pull-right">
+				<table class="table">
+				  <tbody>
+				    <tr>
+				      <td scope="row">Total before Tax</td>
+				      <td>0.00</td>
+				    </tr>
+				    <tr>
+				      <td scope="row">Estimated Tax</td>
+				      <td>0.00</td>
+				    </tr>
+				    <tr>
+				      <td scope="row">Order total</td>
+				      <td>0.00</td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div class="col-12">
+			<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">Shipping Information</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td>Name		      
+			      	<div class="pull-right"> <a href="#" data-toggle="" data-target="#nameModal">Edit</a></div>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td>Address		      
+			      	<div class="pull-right"> <a href="#" data-toggle="" data-target="#addressModal">Edit</a></div>
+			      </td>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+		
+		<div class="col-12">
+			<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">Payment Information</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td>Payment Method: </td>
+			    </tr>
+			    <tr>
+			      <td>Billing Address: 
+			      	<div class="pull-right"> <a href="#" data-toggle="" data-target="#addressModal">Edit</a></div>
+			      </td>
+			    </tr>
+			  </tbody>
+			</table>					
+		</div>
+		
+			<div class="pull-right">
+				<a class="btn btn-primary">Check out</a>
+			</div>
+			
+			<div class="modal fade" id="addressModal">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							Edit Address
+						</div>
+						<div class="modal-body">
+							Body
+						</div>
+						<div class="modal-footer">
+							<input class="btn btn-secondary" data-dismiss="modal" value="Close">
+							<input class="btn btn-primary" value="Save">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="nameModal">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							Edit Name
+						</div>
+						<div class="modal-body">
+							<input class="form-control">
+						</div>
+						<div class="modal-footer">
+							<input class="btn btn-secondary" data-dismiss="modal" value="Close">
+							<input class="btn btn-primary" value="Save">
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	
+	
+</body>
+</html>
