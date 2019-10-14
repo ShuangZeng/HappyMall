@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<title>Login</title>
+</head>
+<body>
+ <div class="row" >
+    <div class="col-md-6 col-md-offset-3" id="login">
+    <form th:action="@{/login}" th:object = "${user}" method="POST" class="form-signin">
+        <h3 class="form-signin-heading" th:text="Welcome"></h3>
+        <br/>
+
+        <input type="text" id="email" name="email" th:placeholder="Email"
+               class="form-control"/> <br/>
+        <input type="password" th:placeholder="Password"
+               id="password" name="password" class="form-control"/> <br/>
+        <input type="checkbox" name="keepMe"/>Remember Me?<br/>
+
+        <div align="center" th:if="${param.error}">
+            <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit"
+                th:text="Login"></button>
+        
+    </form>
+    <div>
+    <form th:action="@{/register}" method="GET" class="form-signin">
+    <div>If you are new here, please do register.</div>
+    <button class="btn btn-lg btn-primary btn-block" type="Submit">Register</button>
+</form>
+    
+    </div>
+    
+</div>
+</body>
+</html>
