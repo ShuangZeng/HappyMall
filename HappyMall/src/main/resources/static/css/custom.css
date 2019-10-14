@@ -1,0 +1,31 @@
+@charset "ISO-8859-1";
+
+.row-titile{
+	background-color: lightgrey;
+}
+
+thead, .modal-header  {
+	background-color: lightgrey;
+}
+
+.quantity {
+	width: 50%;
+}
+
+.info {
+	font-style: italic;
+	font-weight: 600;
+}
+
+.emphasize{
+	font-weight: bold;
+}
+
+.btn {
+	margin: 0px 10px 0px 10px;
+}
+
+.error {
+	color: red;
+	margin: 0px;
+}
