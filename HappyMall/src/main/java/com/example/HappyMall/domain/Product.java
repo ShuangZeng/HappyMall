@@ -19,10 +19,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Product {
-
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
 	
 	@Id
     @GeneratedValue(generator = "uuid2")
@@ -54,4 +50,90 @@ public class Product {
 	
 	@OneToMany(mappedBy="product")
 	private List<Resource> listResouce;
+
+	public Product() {
+		super();
+	}
+	
+
+	public Product(UUID id, User vendor, @NotBlank String name, @NotBlank String description, double price,
+			int quantity, String status, Date createDate, Date modifiedDate, List<Resource> listResouce) {
+		super();
+		this.id = id;
+		this.vendor = vendor;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.quantity = quantity;
+		this.status = status;
+		this.createDate = createDate;
+		this.modifiedDate = modifiedDate;
+		this.listResouce = listResouce;
+	}
+
+
+	public User getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(User vendor) {
+		this.vendor = vendor;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public List<Resource> getListResouce() {
+		return listResouce;
+	}
+
+	public void setListResouce(List<Resource> listResouce) {
+		this.listResouce = listResouce;
+	}
+
 }
