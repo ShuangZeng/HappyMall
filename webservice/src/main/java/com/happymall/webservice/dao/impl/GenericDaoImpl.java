@@ -44,7 +44,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 	    return (T) entityManager.find( daoType, id );
 	 }
 	
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<T> findAll(){
 		      return entityManager.createQuery( "from " + daoType.getName() )

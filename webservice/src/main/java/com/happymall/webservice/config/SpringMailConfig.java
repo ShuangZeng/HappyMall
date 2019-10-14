@@ -104,7 +104,6 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 
     /* ******************************************************************** */
     /*  THYMELEAF-SPECIFIC ARTIFACTS FOR EMAIL                              */
-    /*  TemplateResolver(3) <- TemplateEngine                               */
     /* ******************************************************************** */
 
     @Bean

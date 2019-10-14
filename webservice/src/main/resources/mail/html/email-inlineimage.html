@@ -1,36 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title th:remove="all">Template for HTML email with inline image</title>
+        <title th:remove="all">Happy Mall Order</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style type="text/css">
+        	.header img {height: 50px;}
+        	.header {margin-bottom: 50px;}
+        	.body {background-color: #054279; padding-top: 10%; padding-left: 10%; padding-right: 10%; margin-bottom: 58px;}
+        	
+        	.container {background-color: #ffffff; width: 80%; height: 80%; margin: auto; padding: 10% 10%;}
+        	.footer {padding: 60px auto; text-align: center; background-color: #05791b;  vertical-align: middle; color: #fff; font-weight: bold; margin: 0; position: absolute; bottom: 0; 
+    left: 0; width: 100%;}
+        	.footer img {}
+        </style>
     </head>
-    <body>
-        <p th:text="#{greeting(${name})}">
-            Hello, Peter Static!
-        </p>
-        <p th:if="${name.length() gt 10}">
-            Wow! You've got a long name (more than 10 chars)! <br />
-        </p>
-        <p>
-            You have been successfully subscribed to the <b>Fake newsletter</b> on
-            <span th:text="${#dates.format(subscriptionDate)}">28-12-2012</span>
-        </p>
-        <p>Your hobbies are:</p>
-        <ul th:remove="all-but-first">
-            <li th:each="hobby : ${hobbies}"
-                th:text="${hobby}">Reading</li>
-            <li>Writing</li>
-            <li>Bowling</li>
-        </ul>
-        <p>
-            You can find <b>your inlined image</b> just below this text.
-        </p>
-        <p>
-            <img src="../../../webapp/images/thymeleaf-banner.png" th:src="|cid:${imageResourceName}|" />
-        </p>
-        <p>
-            Regards, <br />
-            &emsp; <em>The Thymeleaf Team</em>
-        </p>
+    <body class="body">
+    
+    	<div class="container">
+	    	<div class="header">
+	    		<img alt="HappyMall Logo"  th:src="|cid:${imageResourceName}|" />
+	    	</div>
+    		
+    		<div class="content">
+    		
+    		
+    			<p th:text="#{greeting(${name})}">
+		            Hello, Peter Static!
+		        </p>
+		        <p th:if="${name.length() gt 10}">
+		            Wow! You've got a long name (more than 10 chars)! <br />
+		        </p>
+		        <p>
+		            You have been successfully subscribed to the <b>Fake newsletter</b> on
+		            <span th:text="${#dates.format(subscriptionDate)}">28-12-2012</span>
+		        </p>
+		        <p>Your hobbies are:</p>
+		        <ul th:remove="all-but-first">
+		            <li th:each="hobby : ${hobbies}"
+		                th:text="${hobby}">Reading</li>
+		            <li>Writing</li>
+		            <li>Bowling</li>
+		        </ul>
+		        <p>
+		            You can find <b>your inlined image</b> just below this text.
+		        </p>
+		        <p>
+		            Regards, <br />
+		            &emsp; <em>The Thymeleaf Team</em>
+		        </p>
+    		
+    		
+    		
+    		</div>
+    	
+    	</div>
+    	
+    	<div class="footer">
+    		<img alt="HappyMall Logo"  th:src="|cid:${imageFooterName}|" /> Copyright &copy; 2019
+    	</div>
+    
+    
+    
+    
+    
+    
+    
+    
+        
     </body>
 </html>
