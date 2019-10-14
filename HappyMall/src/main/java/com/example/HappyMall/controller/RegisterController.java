@@ -47,6 +47,7 @@ public class RegisterController {
         }
         if (bindingResult.hasErrors()) {
             //modelAndView.setViewName("register");
+        	System.out.println(bindingResult.getAllErrors().get(0).toString());
         	modelAndView.addObject("successMessage", "Please correct the errors in form! ");
         	modelMap.addAttribute("bindingResult",bindingResult);
         } else {
