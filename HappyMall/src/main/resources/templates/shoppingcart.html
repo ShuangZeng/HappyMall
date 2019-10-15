@@ -23,46 +23,31 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th scope="col" colspan="3">Total products:</th>
+						<th scope="col" >Total products:</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td scope="row" rowspan="4">Image</td>
-						<td colspan="2">Product's Name</td>
+					<tr th:each="item : ${cart}">
+						<tr>
+							<td scope="row" rowspan="4">Image</td>
+							<td colspan="2" th:text="${item.name}">Product's Name</td>
+						</tr>
+						<tr>
+							<td colspan="2" th:test="${item.description}">Product's Description</td>
+						</tr>
+						<tr>
+							<td colspan="2" th:test="${item.price}">2.00</td>
+						</tr>
+						<tr>
+							<td>
+								<input class="quantity" type="number" value="1" th:test="${item.quantity}"/>
+							</td>
+							<td>
+						      <a href="#" class="float-right">Remove</a>
+						    </td>
+						</tr>
 					</tr>
-					<tr>
-						<td colspan="2">Product's Description</td>
-					</tr>
-					<tr>
-						<td colspan="2">2.00</td>
-					</tr>
-					<tr>
-						<td>
-							<input class="quantity" type="number" value="1"/>
-						</td>
-						<td>
-					      <a href="#" class="float-right">Remove</a>
-					    </td>
-					</tr>
-					<tr>
-						<td scope="row" rowspan="4">Image</td>
-						<td colspan="2">Product's Name</td>
-					</tr>
-					<tr>
-						<td colspan="2">Product's Description</td>
-					</tr>
-					<tr>
-						<td colspan="2">3.00</td>
-					</tr>
-					<tr>
-						<td>
-							<input class="quantity" type="number" value="1"/>
-						</td>
-						<td>
-					      <a href="#" class="float-right">Remove</a>
-					    </td>
-					</tr>
+				
 				</tbody>
 			</table>
 		</div>
