@@ -1,7 +1,6 @@
 package com.example.HappyMall.controller;
 
 import com.example.HappyMall.domain.User;
-import com.example.HappyMall.service.RoleService;
 import com.example.HappyMall.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,7 @@ import javax.validation.Valid;
 public class RegisterController {
 	@Autowired
 	UserService userService;
-	@Autowired
-	RoleService roleService;
 	
-
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration(){

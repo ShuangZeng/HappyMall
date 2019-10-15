@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
+//import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -23,8 +23,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
-    @Autowired
-    private CustomerLoginSuccessHandler customerLoginSuccessHandler;
+//    @Autowired
+//    private CustomerLoginSuccessHandler customerLoginSuccessHandler;
 
     @Autowired
     private DataSource dataSource;
@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
 
     }
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -59,14 +59,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register").permitAll()
                 .antMatchers("/shoppingcart").permitAll()
                 .antMatchers("/admin/**").permitAll()
-//                .antMatchers("/vender/**").hasAuthority("VENDER_USER")
-//				.antMatchers("/endUser/**").hasAuthority("SITE_USER")
-                .antMatchers("/home/**").hasAnyAuthority("VENDER_USER","ADMIN","SITE_USER").anyRequest()
-//                .antMatchers("/admin/**").hasAnyAuthority("VENDER_USER","ADMIN").anyRequest()
-                .authenticated().and().csrf().disable()
-                .formLogin()
+                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+                .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
-                .successHandler(customerLoginSuccessHandler)
                 .defaultSuccessUrl("/home")
                 .usernameParameter("email")
                 .passwordParameter("password")
@@ -76,11 +71,39 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .accessDeniedPage("/access-denied");
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//
+//        http.
+//                authorizeRequests()
+//                .antMatchers("/h2-console").permitAll()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/login").permitAll()
+//                .antMatchers("/register").permitAll()
+//                .antMatchers("/shoppingcart").permitAll()
+//                .antMatchers("/admin/**").permitAll()
+////                .antMatchers("/vender/**").hasAuthority("VENDER_USER")
+////				.antMatchers("/endUser/**").hasAuthority("SITE_USER")
+//                .antMatchers("/home/**").hasAnyAuthority("VENDER_USER","ADMIN","SITE_USER").anyRequest()
+////                .antMatchers("/admin/**").hasAnyAuthority("VENDER_USER","ADMIN").anyRequest()
+//                .authenticated().and().csrf().disable()
+//                .formLogin()
+//                .loginPage("/login").failureUrl("/login?error=true")
+//                .successHandler(customerLoginSuccessHandler)
+//                .defaultSuccessUrl("/home")
+//                .usernameParameter("email")
+//                .passwordParameter("password")
+//                .and().logout()
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessUrl("/").and().exceptionHandling()
+//                .accessDeniedPage("/access-denied");
+//    }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+                .antMatchers("/resources/**", "/h2-console/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
 
 }

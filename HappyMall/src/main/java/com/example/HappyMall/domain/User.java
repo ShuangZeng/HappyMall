@@ -61,6 +61,8 @@ public class User {
 	@NotNull
 	private char active_Ind;
 	
+	private boolean enable = true;
+	
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
 	
@@ -80,6 +82,14 @@ public class User {
 	private List<CardDetail> listCardDetail;
 	
 	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public Role getRole() {
 		return role;
 	}
