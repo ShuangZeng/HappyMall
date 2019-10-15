@@ -2,10 +2,14 @@ package com.happymall.webservice.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.happymall.webservice.dao.OrderLineDao;
 import com.happymall.webservice.dao.OrdersDao;
+import com.happymall.webservice.dao.ProductDao;
 import com.happymall.webservice.domain.Orders;
 import com.happymall.webservice.service.OrderService;
 
@@ -13,6 +17,10 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrdersDao orderDao;
+	@Autowired
+	private OrderLineDao olDao;
+	@Autowired
+	private ProductDao productDao;
 	
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
@@ -43,9 +51,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Orders getOrderByOrderCode(int userId, String orderCode) {
+	public Orders getOrderByOrderCode(int userId, String orderCode, boolean forEnduser) {
 		// TODO Auto-generated method stub
-		return null;
+		Stream<Orders> list = this.getAllOrdersByUser(userId, forEnduser).stream()
+									.filter(o -> o.getOrderCode().equalsIgnoreCase(orderCode));
+		Orders order = list.findAny().get();
+		return order;
 	}
 	//END Region: Get specific order-----------------------------------------------------------
 	
@@ -58,21 +69,36 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEndUserOrVendor) {
+	public List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEnduser) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEndUserOrVendor) {
+	public List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEnduser) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Orders> getAllOrdersByUser(int userId) {
+	public List<Orders> getAllOrdersByUser(int userId, boolean forEnduser) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Orders> list;
+		
+		if (forEnduser) {
+			//Get all orders by enduser id
+			list = this.getAllOrders().stream()
+						.filter(o -> o.getUser().getId() == userId)
+						.collect(Collectors.toList());
+		} else {
+			//Get all orders by vendor id
+			list = olDao.findAll().stream()
+					.filter(o -> o.getProduct().getVendor().getId() == userId)
+					.map(o -> o.getOrders())
+					.collect(Collectors.toList());
+		}
+		
+		return list;
 	}
 	//END Region: Get list of orders-----------------------------------------------------------
 	
@@ -89,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Orders updateOrder(Orders order) {
 		// TODO Auto-generated method stub
-		return null;
+		return orderDao.update(order);
 	}
 
 	@Override
@@ -111,7 +137,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void deleteOrder(int id) {
 		// TODO Auto-generated method stub
-		orderDao.delete(id);
+		//orderDao.delete(id);
 	}
 	
  	//End Delete-------------------------------------------------------------------------------
