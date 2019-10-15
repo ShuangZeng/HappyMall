@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 
 import java.util.HashSet;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -81,5 +82,13 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userRepository.findByEmail(email);
 	}
+
+	@Override
+	public List<User> findAllUsers() {
+		// TODO Auto-generated method stub
+		return userRepository.findAll();
+	}
+
+	
 }
 

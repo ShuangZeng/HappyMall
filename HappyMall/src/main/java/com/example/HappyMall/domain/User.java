@@ -39,7 +39,7 @@ public class User {
 	private int Id;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Role role;
 	
 	@NotBlank(message="FullName field is mandatory")

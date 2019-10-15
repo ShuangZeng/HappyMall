@@ -17,12 +17,11 @@
 		<tr> 
 			<th> </th>
 			<th>Vendor Name</th>
-			<th>Validation</th>
-			<th>Approval</th>
+			<th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
+		<!--<tr>
 			<td><input type="radio" name="function" id="function1" value="option1"></td>
 			<td>Nike</td>
 			<td>N</td>
@@ -39,11 +38,14 @@
 			<td>Puma</td>
 			<td>N</td>
 			<td>N</td>
-		</tr>
+		</tr>-->	
+		<tr th:each="user:${userList}">
+		<td><input type="radio" name="function" id="function1" value="option3"></td>
+                <td th:text="${user.fullName}"></td>
+                <td th:text="${user.active_Ind}"></td>
 		<tr>
-			<td></td>
-			<td><button class="btn btn-default btn-xs" type="submit">EDIT</button></td>
-			<td><button class="btn btn-default btn-xs" type="submit">VALIDE</button></td>
+			<td><button class="btn btn-default btn-xs" type="submit">DELETE</button></td>
+			<td><button class="btn btn-default btn-xs" type="submit">BLOCK</button></td>
 			<td><button class="btn btn-default btn-xs" type="submit">APPROVE</button></td>
 		</tr>
 	</tbody>
@@ -77,9 +79,9 @@
 			<td>N</td>
 		</tr>
 		<tr>
-			<td></td>
-			<td><button class="btn btn-default btn-xs" type="submit">EDIT</button></td>
-			<td><button class="btn btn-default btn-xs" type="submit">VALIDE</button></td>
+						<td></td>
+			<td><button class="btn btn-default btn-xs" type="submit">DELETE</button></td>
+			<td><button class="btn btn-default btn-xs" type="submit">BLOCK</button></td>
 			<td><button class="btn btn-default btn-xs" type="submit">APPROVE</button></td>
 		</tr>
 	</tbody>
