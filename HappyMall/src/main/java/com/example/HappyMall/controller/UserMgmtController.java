@@ -25,12 +25,5 @@ public class UserMgmtController {
 		model.addAttribute("userList",users);
 		return "UserMgmt";
 	}
-	//TODO
-	@RequestMapping(value = "/admin/editUser")
-	public String editUser()
-	{
-		
-		return "editUser";
-	}
 	
 }
