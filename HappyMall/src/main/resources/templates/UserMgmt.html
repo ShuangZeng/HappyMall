@@ -21,25 +21,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<!--<tr>
-			<td><input type="radio" name="function" id="function1" value="option1"></td>
-			<td>Nike</td>
-			<td>N</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option2"></td>
-			<td>Addidas</td>
-			<td>Y</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option3"></td>
-			<td>Puma</td>
-			<td>N</td>
-			<td>N</td>
-		</tr>-->	
-		<tr th:each="user:${userList}">
+		<tr th:each="user:${userList}" th:unless=${user.role.id==2}>
 		<td><input type="radio" name="function" id="function1" value="option3"></td>
                 <td th:text="${user.fullName}"></td>
                 <td th:text="${user.active_Ind}"></td>
@@ -55,31 +37,15 @@
 		<tr> 
 			<th> </th>
 			<th>Client Name</th>
-			<th>Validation</th>
-			<th>Approval</th>
+			<th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
+		<tr th:each="user:${userList}" th:unless=${user.role.id==3}>
+		<td><input type="radio" name="function" id="function1" value="option3"></td>
+                <td th:text="${user.fullName}"></td>
+                <td th:text="${user.active_Ind}"></td>
 		<tr>
-			<td><input type="radio" name="function2" id="function2" value="option1"></td>
-			<td>Amy</td>
-			<td>N</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function2" id="function2" value="option2"></td>
-			<td>Sam</td>
-			<td>Y</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function2" id="function2" value="option3"></td>
-			<td>Lily</td>
-			<td>N</td>
-			<td>N</td>
-		</tr>
-		<tr>
-						<td></td>
 			<td><button class="btn btn-default btn-xs" type="submit">DELETE</button></td>
 			<td><button class="btn btn-default btn-xs" type="submit">BLOCK</button></td>
 			<td><button class="btn btn-default btn-xs" type="submit">APPROVE</button></td>
