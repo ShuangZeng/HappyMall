@@ -19,6 +19,7 @@
  */
 package com.happymall.webservice.service.impl;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
@@ -36,12 +37,13 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.happymall.webservice.domain.Orders;
 import com.happymall.webservice.service.EmailService;
 
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private static final String EMAIL_INLINEIMAGE_TEMPLATE_NAME = "html/email-inlineimage";
+    private static final String EMAIL_BUYER_PURCHASE_TEMPLATE_NAME = "html/buyer-purchase";
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -52,40 +54,43 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private TemplateEngine htmlTemplateEngine;
 
-    /* 
-     * Send HTML mail with inline image
-     */
-    public void sendMailWithInline(
-        final String recipientName, final String recipientEmail, final String imageResourceName,
-        final byte[] imageBytes, final String imageContentType, final Locale locale)
-        throws MessagingException {
+    
+    
+    public void notifyBuyerOfPurchase(Orders orders)
+            throws MessagingException {
+        	
+        	String imageFooterName = "/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo5.png";
+        	String imageHeaderName = "/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo1.png";
 
-        // Prepare the evaluation context
-        final Context ctx = new Context(locale);
-        ctx.setVariable("name", recipientName);
-        ctx.setVariable("subscriptionDate", new Date());
-        ctx.setVariable("hobbies", Arrays.asList("Cinema", "Sports", "Music"));
-        ctx.setVariable("imageResourceName", imageResourceName); // so that we can reference it from HTML
+            // Prepare the evaluation context
+        	Locale locale = new Locale("en");
+            final Context ctx = new Context(locale);
+            ctx.setVariable("name", orders.getUser().getFullName());
+            ctx.setVariable("orders", orders);
+            ctx.setVariable("imageResourceName", imageHeaderName); // so that we can reference it from HTML
+            ctx.setVariable("imageFooterName", imageFooterName);
 
-        // Prepare message using a Spring helper
-        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
-        final MimeMessageHelper message
-            = new MimeMessageHelper(mimeMessage, true /* multipart */, "UTF-8");
-        message.setSubject("Example HTML email with inline image");
-        message.setFrom("products@happymall.com");
-        message.setTo(recipientEmail);
+            // Prepare message using a Spring helper
+            final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+            final MimeMessageHelper message
+                = new MimeMessageHelper(mimeMessage, true /* multipart */, "UTF-8");
+            message.setSubject("Happy Mall Purchase");
+            message.setFrom("purchases@happymall.com");
+            message.setTo(orders.getUser().getEmail());
 
-        // Create the HTML body using Thymeleaf
-        final String htmlContent = this.htmlTemplateEngine.process(EMAIL_INLINEIMAGE_TEMPLATE_NAME, ctx);
-        message.setText(htmlContent, true /* isHtml */);
+            // Create the HTML body using Thymeleaf
+            final String htmlContent = this.htmlTemplateEngine.process(EMAIL_BUYER_PURCHASE_TEMPLATE_NAME, ctx);
+            message.setText(htmlContent, true /* isHtml */);
 
-        // Add the inline image, referenced from the HTML code as "cid:${imageResourceName}"
-        final InputStreamSource imageSource = new ByteArrayResource(imageBytes);
-        message.addInline(imageResourceName, imageSource, imageContentType);
+            // Add the inline image, referenced from the HTML code as "cid:${imageResourceName}"
+            message.addInline(imageHeaderName, new File("/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo1.png"));          
+            message.addInline(imageFooterName, new File("/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo5.png"));
 
-        // Send mail
-        this.mailSender.send(mimeMessage);
-    }
+            // Send mail
+            this.mailSender.send(mimeMessage);
+        }
+    
+    
 
 
 }

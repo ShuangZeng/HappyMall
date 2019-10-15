@@ -2,143 +2,267 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="ISO-8859-1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>SHOPPING CART</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	
+    <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/shoppingcart.js}"></script>
 </head>
 <body>
 	<div class="container">
-		<H1>SHOPPING CART</H1>
-		
+		<H2 align="center">SHOPPING CART</H2>
+
 		<div class="col-12">
 			<table class="table table-hover">
-			  <thead>
-			    <tr>
-			      <th scope="col" colspan="2">Total products: </th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <td scope="row">Image</td>
-			      <td>Product's information</td>
-			    </tr>
-			    <tr>
-			      <td scope="row">Image</td>
-			      <td>Product's information</td>
-			    </tr>
-			    <tr>
-			      <td scope="row">Image</td>
-			      <td>Product's information</td>
-			    </tr>
-			  </tbody>
+				<thead>
+					<tr>
+						<th scope="col" >Total products:</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${cart}">
+						<tr>
+							<td scope="row" rowspan="4">Image</td>
+							<td colspan="2" th:text="${item.name}">Product's Name</td>
+						</tr>
+						<tr>
+							<td colspan="2" th:test="${item.description}">Product's Description</td>
+						</tr>
+						<tr>
+							<td colspan="2" th:test="${item.price}">2.00</td>
+						</tr>
+						<tr>
+							<td>
+								<input class="quantity" type="number" value="1" th:test="${item.quantity}"/>
+							</td>
+							<td>
+						      <a href="#" class="float-right">Remove</a>
+						    </td>
+						</tr>
+					</tr>
+				
+				</tbody>
 			</table>
 		</div>
-		
-		<div class="col-6">
-			<div class="pull-right">
+
+		<div class="col-12">
+			<div class="col-6 float-right">
 				<table class="table">
-				  <tbody>
-				    <tr>
-				      <td scope="row">Total before Tax</td>
-				      <td>0.00</td>
-				    </tr>
-				    <tr>
-				      <td scope="row">Estimated Tax</td>
-				      <td>0.00</td>
-				    </tr>
-				    <tr>
-				      <td scope="row">Order total</td>
-				      <td>0.00</td>
-				    </tr>
-				  </tbody>
+					<tbody>
+						<tr>
+							<td class="row-titile" scope="row">Total before Tax</td>
+							<td>5.00</td>
+						</tr>
+						<tr>
+							<td class="row-titile" scope="row">Estimated Tax</td>
+							<td>0.35</td>
+						</tr>
+						<tr>
+							<td class="row-titile emphasize" scope="row">Order total</td>
+							<td class="emphasize">5.35</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>
-		
+
 		<div class="col-12">
 			<table class="table">
-			  <thead>
-			    <tr>
-			      <th scope="col">Shipping Information</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <td>Name		      
-			      	<div class="pull-right"> <a href="#" data-toggle="" data-target="#nameModal">Edit</a></div>
-			      </td>
-			    </tr>
-			    <tr>
-			      <td>Address		      
-			      	<div class="pull-right"> <a href="#" data-toggle="" data-target="#addressModal">Edit</a></div>
-			      </td>
-			    </tr>
-			  </tbody>
+				<thead>
+					<tr>
+						<th scope="col">Shipping Information
+							<div class="float-right">
+								<a href="#" data-toggle="modal" data-target="#addressModal">Edit</a>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Name: <span class="info" id="shippingName"></span> - Phone Number: <span class="info" id="shippingPhoneNo"></span>	</td>
+					</tr>
+					<tr>
+						<td>Address: <span class="info" id="shippingAddress"></span>	</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
-		
+
 		<div class="col-12">
 			<table class="table">
-			  <thead>
-			    <tr>
-			      <th scope="col">Payment Information</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <td>Payment Method: </td>
-			    </tr>
-			    <tr>
-			      <td>Billing Address: 
-			      	<div class="pull-right"> <a href="#" data-toggle="" data-target="#addressModal">Edit</a></div>
-			      </td>
-			    </tr>
-			  </tbody>
-			</table>					
+				<thead>
+					<tr>
+						<th scope="col">Payment Information</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Payment Method: <span class="info" id="paymentMethod"></span>
+							<div class="float-right">
+								<a href="#" data-toggle="modal" data-target="#paymentMethodModal">Edit</a>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Billing Address: <span class="info" id="billingAddress"></span>
+							<div class="float-right">
+								<a href="#" data-toggle="modal" data-target="#addressModal">Edit</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		
-			<div class="pull-right">
-				<a class="btn btn-primary">Check out</a>
+
+		<div class="float-right">
+			<button type="submit" class="btn btn-primary">Check out</button>
+		</div>
+
+		<div class="float-right">
+			<button type="button" class="btn btn-light">Continue Shopping</button>
+		</div>
+
+		<!--<form id="editAddress"> <!--  th:object="${editAddress}" method="post"> -->
+		<div class="modal fade" id="addressModal" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">Edit Address</div>
+					<div class="modal-body" id="addressBody">
+					<form role="form" id="addressModalForm">
+						<div class="form-group">
+							<label for="inputName">Name:</label>
+							<input type="text" class="form-control" placeholder="Full name" id="inputName" name="inputName" required>
+						</div>
+						<div class="form-group">
+							<label for="inputPhoneNo">Phone number:</label>
+							<!-- <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" th:errorclass="fieldError">Incorrect phone number</span> -->
+							<input type="text" class="form-control" placeholder="000-000-0000" id="inputPhoneNo" required pattern="^\d{3}-\d{3}-\d{4}$">
+						</div>
+						<div class="form-check">
+						  <label class="form-check-label">
+						    <input type="radio" class="form-check-input" name="optradio" th:checked="true" onfocus="disableAddressModal();">Address 1
+						  </label>
+						</div>
+						<div class="form-check">
+						  <label class="form-check-label">
+						    <input type="radio" class="form-check-input" name="optradio" onfocus="disableAddressModal();">Address 2
+						  </label>
+						</div>
+						<div class="form-check">
+						  <label class="form-check-label">
+						    <input type="radio" class="form-check-input" name="optradio" id="newAddress" onfocus="enableAddressModal();">New Address
+						  </label>
+						</div>
+						<div class="input-group mb-3" id="addressGroup">
+							<div class="form-group">
+								<label for="lineOne">Line 1:</label>
+								<input type="text" class="form-control infoText" placeholder="Line 1" id="lineOne" th:disabled="none">
+							</div>
+							<div class="form-group">
+								<label for="lineTwo">Line 2:</label>
+								<input type="text" class="form-control infoText" placeholder="Line 2" id="lineTwo" th:disabled="disabled">
+							</div>
+							<div class="form-group">
+								<label for="city">City:</label>
+								<input type="text" class="form-control infoText" placeholder="City" id="city" th:disabled="disabled">
+							</div>
+							<div class="form-group">
+								<label for="state">State:</label>
+								<input type="text" class="form-control infoText" placeholder="State" id="state" th:disabled="disabled">
+							</div>
+							<div class="form-group">
+								<label for="zipcode">Zipcode:</label>
+								<input type="text" class="form-control infoText" placeholder="Zipcode" id="zipcode" th:disabled="disabled">
+							</div>
+						</div>
+						
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+						<button type="submit" class="btn btn-primary" id="btnSaveAddress">Save</button>
+					</div>
+					</form>
+					</div>
+				
+				</div>
 			</div>
-			
-			<div class="modal fade" id="addressModal">
-				<div class="modal-dialog modal-sm">
-					<div class="modal-content">
-						<div class="modal-header">
-							Edit Address
+		</div>
+		<!-- </form> -->
+
+		<div class="modal fade" id="paymentMethodModal" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">Edit Payment Method</div>
+					<div class="modal-body" id="addressBody">
+						<div class="form-check">
+						  <label class="form-check-label">
+						    <input type="radio" class="form-check-input" name="optradio" th:checked="true" onfocus="disablePaymentMethodModal();">Payment Method 1
+						  </label>
 						</div>
-						<div class="modal-body">
-							Body
+						<div class="form-check">
+						  <label class="form-check-label">
+						    <input type="radio" class="form-check-input" name="optradio" onfocus="disablePaymentMethodModal();">Payment Method 2
+						  </label>
 						</div>
-						<div class="modal-footer">
-							<input class="btn btn-secondary" data-dismiss="modal" value="Close">
-							<input class="btn btn-primary" value="Save">
+						<div class="form-check">
+						  <label class="form-check-label">
+						    <input type="radio" class="form-check-input" name="optradio" id="newPayMentMethod" onfocus="enablePaymentMethodModal();">New Payment Method
+						  </label>
+						</div>						
+							<div class="form-group">
+								<label for="nameOnCard">Card Holder's Name:</label>
+								<input type="text" class="form-control infoText" placeholder="Name" id="nameOnCard" th:disabled="none">
+							</div>
+						<div class="input-group mb-3" id="paymentMethodGroup">
+							<div class="form-group">
+								<label for="cardNumber">Card Number:</label>
+								<input type="text" class="form-control infoText" placeholder="Card number" id="cardNumber" th:disabled="disabled">
+							</div>
+							<div class="form-group">
+								<label for="expiredDate">Expired date:</label>
+								<input type="text" class="form-control infoText" placeholder="MM/yyyy" id="expiredDate" th:disabled="disabled">
+							</div>
 						</div>
+						<div class="input-group mb-3">
+							<div class="form-group">
+								<label for="cardAddressLineOne">Line 1:</label>
+								<input type="text" class="form-control infoText" placeholder="Line 1" id="cardAddressLineOne" th:disabled="none">
+							</div>
+							<div class="form-group">
+								<label for="cardAddressLineTwo">Line 2:</label>
+								<input type="text" class="form-control infoText" placeholder="Line 2" id="cardAddressLineTwo" th:disabled="disabled">
+							</div>
+							<div class="form-group">
+								<label for="cardAddressCity">City:</label>
+								<input type="text" class="form-control infoText" placeholder="City" id="cardAddressCity" th:disabled="disabled">
+							</div>
+							<div class="form-group">
+								<label for="cardAddressState">State:</label>
+								<input type="text" class="form-control infoText" placeholder="State" id="cardAddressState" th:disabled="disabled">
+							</div>
+							<div class="form-group">
+								<label for="cardAddressZipcode">Zipcode:</label>
+								<input type="text" class="form-control infoText" placeholder="Zipcode" id="cardAddressZipcode" th:disabled="disabled">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+						<button type="button" class="btn btn-primary" id="btnSavePaymentMethod">Save</button>
 					</div>
 				</div>
 			</div>
-			
-			<div class="modal fade" id="nameModal">
-				<div class="modal-dialog modal-sm">
-					<div class="modal-content">
-						<div class="modal-header">
-							Edit Name
-						</div>
-						<div class="modal-body">
-							<input class="form-control">
-						</div>
-						<div class="modal-footer">
-							<input class="btn btn-secondary" data-dismiss="modal" value="Close">
-							<input class="btn btn-primary" value="Save">
-						</div>
-					</div>
-				</div>
-			</div>
+		</div>
+				
 	</div>
-	
-	
+
+	<script type="text/javascript">
+	</script>
 </body>
 </html>

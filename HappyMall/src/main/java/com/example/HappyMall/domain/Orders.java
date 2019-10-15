@@ -21,15 +21,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Orders {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int Id;
 	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+//	@Id
+//    @GeneratedValue(generator = "uuid2")
+//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+//    @Column(name = "id", columnDefinition = "BINARY(16)")
+//    private UUID id;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -37,6 +37,14 @@ public class Orders {
 	
 	@NotBlank
 	private String orderCode;
+	
+	@ManyToOne
+	@JoinColumn(name="shipping_address_id")
+	private Address shippingAddress;
+	
+	@ManyToOne
+	@JoinColumn(name="billing_address_id")
+	private Address billingAddress;
 	
 	private double subTotal;
 	

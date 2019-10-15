@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Happy Mall Order</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style type="text/css">
+        	.header img {height: 80px;}
+        	.header {margin-bottom: 50px;}
+        	.body {background-color: #054279; padding-top: 10%; padding-left: 10%; padding-right: 10%; margin-bottom: 58px; font-type: verdana; font-size: 14px}
+        	
+        	.container {background-color: #ffffff; width: 80%; height: 80%; margin: auto; padding: 10% 10%;}
+        	.footer {padding: 60px auto; text-align: center; background-color: #05791b;  vertical-align: middle; color: #fff; font-weight: bold; margin: 0; position: absolute; bottom: 0; 
+    left: 0; width: 100%;}
+        	.footer img {}
+        	
+        	.address {width: 33%; border: 1px #ccc solid; border-collapse: collapse;}
+        	.address th, .address td, .summary th, .summary td {border: 1px #ccc solid; padding: 5px; }
+        	.address th, .summary th {background-color: #eee;}
+        	
+        	.summary {width: 90%; border: 1px #ccc solid; border-collapse: collapse;}
+        	
+        </style>
+    </head>
+    <body class="body">
+    
+    	<div class="container">
+	    	<div class="header">
+	    		<img alt="HappyMall Logo"  th:src="|cid:${imageResourceName}|" />
+	    	</div>
+    		
+    		<div class="content">
+    		
+    		
+    			<p>
+		            Hello <span th:text="${name}" > Customer </span>,
+		        </p>
+		        <p>
+		            Thank you for shopping with us! Your order is currently being processed. Below, is a review of your order.
+		        </p>
+		        <div>
+		            <h2>Shipping Details:</h2>
+		            <table class="address" th:object="${orders.getUser().getListAddress().get(0)}">
+		            	<tr>
+		            		<th>Line 1</th><td th:text="${#object.getLineOne()}">  </td>
+		            	</tr>
+		            	<tr>
+		            		<th>Line 2</th><td th:text="${#object.getLineTwo()}"> </td>
+		            	</tr>
+		            	<tr>
+		            		<th>City</th><td th:text="${#object.getCity()}"> </td>
+		            	</tr>
+		            	<tr>
+		            		<th>State</th><td th:text="${#object.getState()}"> </td>
+		            	</tr>
+		            	<tr>
+		            		<th>Zip Code</th><td th:text="${#object.getZipcode()}"> </td>
+		            	</tr>
+		            </table>
+		        </div>
+		        
+		        <div>
+		        	<h2>Order Summary</h2>
+		        	<table class="summary" >
+		        		<thead>
+		        			<tr><th>Product</th><th>Unit Price</th><th>Quantity</th><th>SubTotal</th></tr>
+		        		</thead>
+		        		<tbody>
+		        			<tr th:each="orderLine : ${orders.getListOrderLine()}">
+		        				<td th:text="${orderLine.getProduct().getName()}"> </td>
+		        				<td th:text="${orderLine.getProduct().getPrice()}"> </td>
+		        				<td th:text="${orderLine.getQuantity()}"> </td>
+		        				<td th:text="${orderLine.getTotal()}"> </td>
+		        			</tr>
+		        			<tr><td colspan="2"></td><td>SUBTOTAL</td><td th:text="${orders.getSubTotal()}"></td></tr>
+		        			<tr><td colspan="2"></td><td>TAX</td><td th:text="${orders.getTax()}"></td></tr>
+		        			<tr><th colspan="2"></th><th>TOTAL</th><th th:text="${orders.getTotal()}"></th></tr>
+		        		</tbody>
+		        	</table>
+		        </div>
+		        
+		        
+		       
+		        <p>
+		            We will let you know when your order is being shipped! Come back soon...
+		        </p>
+		        <p>
+		            Best Regards, <br />
+		            &emsp; <em>The Happy Mall Customer Service</em>
+		        </p>
+    		
+    		
+    		
+    		</div>
+    	
+    	</div>
+    	
+    	<div class="footer">
+    		<img alt="HappyMall Logo"  th:src="|cid:${imageFooterName}|" /> Copyright &copy; 2019
+    	</div>
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    </body>
+</html>
