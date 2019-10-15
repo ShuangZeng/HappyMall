@@ -19,15 +19,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class OrderLine {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int Id;
 	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+//	@Id
+//    @GeneratedValue(generator = "uuid2")
+//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+//    @Column(name = "id", columnDefinition = "BINARY(16)")
+//    private UUID id;
 	
 	@ManyToOne
 	@JoinColumn(name="orders_Id")

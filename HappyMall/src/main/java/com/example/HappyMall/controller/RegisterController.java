@@ -1,7 +1,6 @@
 package com.example.HappyMall.controller;
 
 import com.example.HappyMall.domain.User;
-import com.example.HappyMall.service.RoleService;
 import com.example.HappyMall.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,7 @@ import javax.validation.Valid;
 public class RegisterController {
 	@Autowired
 	UserService userService;
-	@Autowired
-	RoleService roleService;
 	
-
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration(){
@@ -51,10 +47,15 @@ public class RegisterController {
         	modelAndView.addObject("successMessage", "Please correct the errors in form! ");
         	modelMap.addAttribute("bindingResult",bindingResult);
         } else {
+        	System.out.println(user);
+//        	user.setRole(role);
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("login");
+//            modelAndView.setViewName("login");
+//            return "re"
+            ModelAndView mv = new ModelAndView("redirect:/login");
+            return mv;
 
         }
         return modelAndView;

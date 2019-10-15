@@ -20,11 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Product {
 	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int Id;
 	
 	@ManyToOne
 	@JoinColumn(name="vendor_id")
@@ -55,11 +53,9 @@ public class Product {
 		super();
 	}
 	
-
-	public Product(UUID id, User vendor, @NotBlank String name, @NotBlank String description, double price,
+	public Product(User vendor, @NotBlank String name, @NotBlank String description, double price,
 			int quantity, String status, Date createDate, Date modifiedDate, List<Resource> listResouce) {
 		super();
-		this.id = id;
 		this.vendor = vendor;
 		this.name = name;
 		this.description = description;

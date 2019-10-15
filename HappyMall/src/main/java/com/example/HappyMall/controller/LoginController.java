@@ -1,10 +1,9 @@
 package com.example.HappyMall.controller;
 import java.security.Principal;
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +47,8 @@ public class LoginController {
 	public ModelAndView home(){ 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home"); 
-		return modelAndView; 
-		
+		return modelAndView;
+
 	}
 	
 	@RequestMapping(value="/admin", method = RequestMethod.GET) 
@@ -59,16 +58,4 @@ public class LoginController {
 		return modelAndView; 
 		
 	}
-
-
-	/*
-	 * @RequestMapping(value="/admin/home", method = RequestMethod.GET) public
-	 * ModelAndView home(){ ModelAndView modelAndView = new ModelAndView();
-	 * Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	 * User user = userService.findUserByEmail(auth.getName());
-	 * modelAndView.addObject("userName", "Welcome " + user.getName() + " " +
-	 * user.getLastName() + " (" + user.getEmail() + ")"); modelAndView.addObject(
-	 * "adminMessage","Content Available Only for Users with Admin Role");
-	 * modelAndView.setViewName("admin/home"); return modelAndView; }
-	 */
 }
