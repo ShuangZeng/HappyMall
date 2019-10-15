@@ -3,11 +3,17 @@ package com.happymall.webservice.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.happymall.webservice.dao.OrdersDao;
 import com.happymall.webservice.domain.Orders;
 import com.happymall.webservice.service.OrderService;
 
 public class OrderServiceImpl implements OrderService {
 
+	@Autowired
+	private OrdersDao orderDao;
+	
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
 	// All creating order functions will be declared here
@@ -16,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void addOrder(Orders order) {
 		// TODO Auto-generated method stub
-
+		orderDao.save(order);
 	}
 
 	// End Create-------------------------------------------------------------------------------
@@ -33,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Orders getOrder(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return orderDao.findOne(id);
 	}
 
 	@Override
@@ -48,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Orders> getAllOrders() {
 		// TODO Auto-generated method stub
-		return null;
+		return orderDao.findAll();
 	}
 
 	@Override
@@ -105,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void deleteOrder(int id) {
 		// TODO Auto-generated method stub
-
+		orderDao.delete(id);
 	}
 	
  	//End Delete-------------------------------------------------------------------------------
