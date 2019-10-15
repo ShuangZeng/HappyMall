@@ -39,7 +39,7 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
-	public User getVendor(UUID id) {
+	public User getVendor(int id) {
 		return userDao.findOne(id);
 	}
 
@@ -49,7 +49,7 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
-	public void deleteVendor(UUID id) {
+	public void deleteVendor(int id) {
 		userDao.delete(id);
 	}
 

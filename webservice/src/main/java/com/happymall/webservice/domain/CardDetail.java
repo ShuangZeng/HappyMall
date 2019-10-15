@@ -23,15 +23,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class CardDetail {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+    private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -70,11 +65,11 @@ public class CardDetail {
 	@OneToMany(mappedBy="cardDetail")
 	private List<Payment> listPayment;
 
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

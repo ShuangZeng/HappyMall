@@ -30,7 +30,7 @@ public class VendorController {
 	}
 	
 	@RequestMapping("/{id}")
-	public User getProductById( @PathVariable("id") UUID vendorId) {
+	public User getProductById( @PathVariable("id") int vendorId) {
 
 		return vendorService.getVendor(vendorId);
  	}
@@ -64,7 +64,7 @@ public class VendorController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteVendor(@PathVariable("id") UUID vendorId ) {
+	public void deleteVendor(@PathVariable("id") int vendorId ) {
 
 			vendorService.deleteVendor(vendorId);
 	}

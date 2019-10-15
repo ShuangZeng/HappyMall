@@ -1,7 +1,6 @@
 package com.happymall.webservice.dao;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface GenericDao<T> {
 	/**
@@ -14,9 +13,9 @@ public interface GenericDao<T> {
 
     void save(T t);
 
-    void delete(UUID id);
+    void delete(int id);
 
-    T findOne(UUID id);
+    T findOne(int id);
 
     T update(T t);   
     

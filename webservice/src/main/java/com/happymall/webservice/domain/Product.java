@@ -20,15 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Product {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
-	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="vendor_id")
@@ -55,11 +49,11 @@ public class Product {
 	@OneToMany(mappedBy="product")
 	private List<Resource> listResouce;
 
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

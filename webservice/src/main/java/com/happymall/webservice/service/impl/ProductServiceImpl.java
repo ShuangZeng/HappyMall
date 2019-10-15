@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProduct(UUID id) {
+	public Product getProduct(int id) {
 		
 		return productDao.findOne(id);
 	}
@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void deleteProduct(UUID id) {
+	public void deleteProduct(int id) {
 		
 		productDao.delete(id);
 	}

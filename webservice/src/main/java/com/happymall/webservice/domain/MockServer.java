@@ -18,16 +18,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Table
 public class MockServer {
 	
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
-//	@Column
-	
 	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
-	//private long id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column
+	private int id;
 	
 	@Column(length = 16)
 	private String cardNumber;
@@ -55,11 +49,11 @@ public class MockServer {
 	@Column(length = 1)
 	private String activeInd;
 
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

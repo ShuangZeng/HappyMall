@@ -1,12 +1,11 @@
-package com.happymall.webservice.service;
+package com.example.HappyMall.rest.service;
 
 import java.util.List;
-import java.util.UUID;
 
-import com.happymall.webservice.domain.Product;
+import com.example.HappyMall.domain.Product;
 
 
-public interface ProductService {
+public interface ProductRestService {
 	
 	List<Product> getAllProducts();
 
