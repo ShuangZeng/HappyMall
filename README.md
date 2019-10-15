@@ -1,1 +1,1 @@
-# HappyMall
+# HappyMall Store
