@@ -29,8 +29,11 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public void addOrder(Orders order) {
-		// TODO Auto-generated method stub
-		orderDao.save(order);
+		try {
+			orderDao.save(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// End Create-------------------------------------------------------------------------------
@@ -46,13 +49,16 @@ public class OrderServiceImpl implements OrderService {
  	//START Region: Get specific order---------------------------------------------------------
 	@Override
 	public Orders getOrder(int id) {
-		// TODO Auto-generated method stub
-		return orderDao.findOne(id);
+		try {
+			return orderDao.findOne(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public Orders getOrderByOrderCode(int userId, String orderCode, boolean forEnduser) {
-		// TODO Auto-generated method stub
 		Stream<Orders> list = this.getAllOrdersByUser(userId, forEnduser).stream()
 									.filter(o -> o.getOrderCode().equalsIgnoreCase(orderCode));
 		Orders order = list.findAny().get();
@@ -64,8 +70,12 @@ public class OrderServiceImpl implements OrderService {
 	//START Region: Get list of orders---------------------------------------------------------	
 	@Override
 	public List<Orders> getAllOrders() {
-		// TODO Auto-generated method stub
-		return orderDao.findAll();
+		try {
+			return orderDao.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -82,7 +92,6 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Orders> getAllOrdersByUser(int userId, boolean forEnduser) {
-		// TODO Auto-generated method stub
 		List<Orders> list;
 		
 		if (forEnduser) {
@@ -114,8 +123,12 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public Orders updateOrder(Orders order) {
-		// TODO Auto-generated method stub
-		return orderDao.update(order);
+		try {
+			return orderDao.update(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -137,6 +150,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void deleteOrder(int id) {
 		// TODO Auto-generated method stub
+		
+		//This code will physically remove the record. Commented out for now
 		//orderDao.delete(id);
 	}
 	
