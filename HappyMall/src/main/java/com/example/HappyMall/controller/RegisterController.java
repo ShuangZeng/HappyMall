@@ -1,5 +1,6 @@
 package com.example.HappyMall.controller;
 
+import com.example.HappyMall.domain.Role;
 import com.example.HappyMall.domain.User;
 import com.example.HappyMall.service.UserService;
 
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -27,7 +31,31 @@ public class RegisterController {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         user.setActive_Ind('P');
+        
+        
         modelAndView.addObject("user", user);
+        List<Role> roleList = new ArrayList<>();
+        
+        Role role = new Role();
+        role.setId(1);
+        role.setRole("End User");
+        System.out.println(role);
+        roleList.add(role);
+        
+        Role role1 = new Role();
+        role1.setId(2);
+        role1.setRole("Vendor");
+        roleList.add(role1);
+        System.out.println(roleList);
+        
+        Role role2 = new Role();
+        role1.setId(3);
+        role1.setRole("Customer");
+        roleList.add(role2);
+        System.out.println(roleList);
+        
+        modelAndView.addObject("roleList", roleList);
+        
         modelAndView.setViewName("register");
         return modelAndView;
     }
@@ -47,13 +75,18 @@ public class RegisterController {
         	modelAndView.addObject("successMessage", "Please correct the errors in form! ");
         	modelMap.addAttribute("bindingResult",bindingResult);
         } else {
-        	System.out.println(user);
+        	
 //        	user.setRole(role);
+//        
+//        	Role role = (Role)modelMap.get("roleList");
+//        	
+////        	Role role = new Role().setId(1);
+//        	user.setRole(role);
+        	System.out.println(user);
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
-//            modelAndView.setViewName("login");
-//            return "re"
+////
             ModelAndView mv = new ModelAndView("redirect:/login");
             return mv;
 

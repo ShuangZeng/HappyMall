@@ -18,11 +18,12 @@
         
         <div>
     		
-    		<select class="form-control">
-        	<option value="choose a rool">Choose a role,please</option>
-  			<option value="end user">End User</option>
-  			<option value="vender">Vender</option>
-  			<option value="client">Client</option>
+    		<select id="role" name="role" class="form-control">
+        
+        	<option value="">Choose a role,please</option>
+        	<option th:each="role:${roleList}" th:value="${role.id}"
+				                                th:text="${role.role}"></option>	
+  			
 			</select>
     	</div>
         <br/>
