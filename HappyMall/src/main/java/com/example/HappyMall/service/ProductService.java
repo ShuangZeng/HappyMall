@@ -4,17 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.HappyMall.domain.Product;
+import com.example.HappyMall.repository.ProductRepository;
 
 
-public interface ProductService {
+public interface ProductService extends ProductRepository{
 	
 	void addProduct(Product product);
 
-	Optional<Product> getProduct(Integer id);
+//	Optional<Product> getProduct(Integer id);
 
-	void deleteProduct(Integer id);
+//	void deleteProduct(Integer id);
 
-	List<Product> getAllProducts();
+	List<Product> findAllProducts();
 
 //	void setStock(String productNumber, int quantity, String locationCode);
 //
@@ -22,7 +23,7 @@ public interface ProductService {
 
 	List<Product> findProductsByProductName(String name);
 
-	Product getProductByProductNumber(String productNumber);
+//	Product getProductByProductNumber(String productNumber);
 
 	List<Product> findProductsByVendor(int vendorNumber);
 }

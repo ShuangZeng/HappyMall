@@ -38,7 +38,7 @@ public class ProductController {
 	@GetMapping(value = "/allproducts")
 	public String getAllProducts(Model model) {
 		System.out.println("Get All products for admin..");
-		model.addAttribute("productsList", productService.getAllProducts());
+		model.addAttribute("productsList", productService.findAllProducts());
 		return "product/allProducts";
 	}
 }
