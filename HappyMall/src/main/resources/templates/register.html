@@ -20,7 +20,7 @@
     		
     		<select id="role" name="role" class="form-control">
         
-        	<option value="">Choose a role,please</option>
+            <option value="">Choose a role,please</option>
         	<option th:each="role:${roleList}" th:value="${role.id}"
 				                                th:text="${role.role}"></option>	
   			
@@ -41,7 +41,7 @@
         <input type="text" id="phone" name="phone" th:placeholder="Phone"
                class="form-control"/> <br/>
         <input type="text" id="active_Ind" name="active_Ind" th:placeholder='P'
-               class="form-control"/> <br/>
+               class="form-control" disabled="disabled"/> <br/>
         <div align="center" th:if="${param.error}">
             <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
         </div>
