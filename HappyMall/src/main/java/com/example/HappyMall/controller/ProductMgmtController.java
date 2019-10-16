@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ProductMgmtController {
 	@RequestMapping(value = "/admin/productmgmt")
-	public String getShoppingCart()
+	public String getProductMgmt()
 	{
 		return "productMgmt";
 	}

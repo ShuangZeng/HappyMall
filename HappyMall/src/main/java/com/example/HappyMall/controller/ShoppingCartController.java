@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.example.HappyMall.domain.EditAddress;
-import com.example.HappyMall.domain.Item;
-import com.example.HappyMall.domain.Product;
+import com.example.HappyMall.domain.*;
 
 @Controller
 public class ShoppingCartController {
@@ -35,13 +33,19 @@ public class ShoppingCartController {
 		p3.setName("Product 3");
 		p3.setPrice(3);
 		p3.setDescription("description 3");
-		
+
+		List<Address> listAddress = new ArrayList<Address>();
+		List<CardDetail> listCardDetail = new ArrayList<CardDetail>();
 		List<Item> listItem = new ArrayList<Item>();
-		listItem.add(new Item("Product 1", 1.00, "Description 1", 1));
-		listItem.add(new Item("Product 1", 1.00, "Description 1", 1));
-		listItem.add(new Item("Product 1", 1.00, "Description 1", 1));
+		listItem.add(new Item(p1, 1));
+		listItem.add(new Item(p2, 2));
+		listItem.add(new Item(p3, 3));
 		session.setAttribute("listItem", listItem);
-		model.addAttribute("cart", listItem);
+		model.addAttribute("totalProduct", listItem.size());
+		model.addAttribute("orders", new Orders());
+		model.addAttribute("newAddress", new Address());
+		model.addAttribute("listAddress", listAddress);
+		model.addAttribute("listCardDetail", listCardDetail);
 		return "shoppingcart";
 	}
 	
