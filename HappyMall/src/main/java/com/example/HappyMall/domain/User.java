@@ -38,7 +38,7 @@ public class User {
 	@Column(name="id")
 	private int Id;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = {CascadeType.PERSIST})
 //	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Role role;
 	
@@ -137,5 +137,15 @@ public class User {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+	
+	
 	
 }

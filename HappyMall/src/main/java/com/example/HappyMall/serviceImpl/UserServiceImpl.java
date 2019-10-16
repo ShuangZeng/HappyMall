@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -88,6 +89,15 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userRepository.findAll();
 	}
+
+	@Override
+	public void deleteUserByUser(User user) {
+		// TODO Auto-generated method stub
+//		userRepository.delete(user);
+		userRepository.deleteById(user.getId());
+	}
+
+
 
 	
 }

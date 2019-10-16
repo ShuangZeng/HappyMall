@@ -21,17 +21,24 @@
 		</tr>
 	</thead>
 	<tbody>
+	
 		<tr th:each="user:${userList}" th:unless=${user.role.id==2}>
-		<td><input type="radio" name="function" id="function1" value="option3"></td>
+		<td><input type="radio" name="id" id="function1" th:value="${user.Id}"></td>
                 <td th:text="${user.fullName}"></td>
                 <td th:text="${user.active_Ind}"></td>
-		<tr>
-			<td><button class="btn btn-default btn-xs" type="submit">DELETE</button></td>
+                <td><form th:action="@{/admin/usermgmt/}" method = "POST">
+                	<input type="hidden" name="userId" th:value="${user.Id}" />
+                <input class="btn btn-default btn-xs" type="submit" value = "DELETE"></form></td>
 			<td><button class="btn btn-default btn-xs" type="submit">BLOCK</button></td>
 			<td><button class="btn btn-default btn-xs" type="submit">APPROVE</button></td>
+                </tr>
+         <tr>
+		
 		</tr>
+		</form>
 	</tbody>
 </table>
+
 <table class="table table-hover "   style="display:inline;margin:100px">
 	<thead>
 		<tr> 
@@ -46,7 +53,8 @@
                 <td th:text="${user.fullName}"></td>
                 <td th:text="${user.active_Ind}"></td>
 		<tr>
-			<td><button class="btn btn-default btn-xs" type="submit">DELETE</button></td>
+			<td>
+			<form th:action="@{/admin/usermgmt/}" method = "POST"><input class="btn btn-default btn-xs" type="submit" value = "DELETE"></form></td>
 			<td><button class="btn btn-default btn-xs" type="submit">BLOCK</button></td>
 			<td><button class="btn btn-default btn-xs" type="submit">APPROVE</button></td>
 		</tr>
