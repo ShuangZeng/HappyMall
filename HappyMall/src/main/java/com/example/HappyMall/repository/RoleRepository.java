@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.example.HappyMall.domain.Role;
 
 @Repository
-public interface RoleRepository extends CrudRepository<Role, Integer> {
+public interface RoleRepository extends  JpaRepository<Role, Integer> {
     Role findByRole(String role);
 
 }

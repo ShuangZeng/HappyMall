@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 		
 		user.setActive_Ind('P');
 		Role userRole = roleRepository.findByRole("ADMIN");
-        user.setRole(new Role());
+        //user.setRole(new Role());
         return userRepository.save(user);
 	}
 
