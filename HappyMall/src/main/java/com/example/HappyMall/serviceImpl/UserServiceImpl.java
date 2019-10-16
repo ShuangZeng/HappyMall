@@ -86,15 +86,32 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findAllUsers() {
-		// TODO Auto-generated method stub
 		return userRepository.findAll();
 	}
 
 	@Override
 	public void deleteUserByUser(User user) {
-		// TODO Auto-generated method stub
-//		userRepository.delete(user);
 		userRepository.deleteById(user.getId());
+	}
+
+	@Override
+	public User blockUser(User user) {
+		Optional<User> userRecordOptional = userRepository.findById(user.getId());
+		if(!userRecordOptional.isPresent()) return null;
+		User userRecord = userRecordOptional.get();
+		userRecord.setActive_Ind('D');
+		userRepository.save(userRecord);
+		return user;
+	}
+
+	@Override
+	public User approveUser(User user) {
+		Optional<User> userRecordOptional = userRepository.findById(user.getId());
+		if(!userRecordOptional.isPresent()) return null;
+		User userRecord = userRecordOptional.get();
+		userRecord.setActive_Ind('A');
+		userRepository.save(userRecord);
+		return user;
 	}
 
 

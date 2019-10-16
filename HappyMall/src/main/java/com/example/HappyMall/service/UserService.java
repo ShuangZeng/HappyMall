@@ -18,4 +18,6 @@ public interface UserService {
 	User findUserByEmail(String email);
 	List<User> findAllUsers();
 	void deleteUserByUser(User user);
+	User blockUser(User user);
+	User approveUser(User user);
 }
