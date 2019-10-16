@@ -7,7 +7,7 @@ import com.example.HappyMall.domain.User;
 
 
 @Repository("userRepository")
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
 	User findByFullName(String fullName);
 	User findByFullNameAndPassword(String fullName, String password);

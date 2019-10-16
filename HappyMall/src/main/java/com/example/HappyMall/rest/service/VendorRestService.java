@@ -1,11 +1,10 @@
-package com.happymall.webservice.service;
+package com.example.HappyMall.rest.service;
 
 import java.util.List;
-import java.util.UUID;
 
-import com.happymall.webservice.domain.User;
+import com.example.HappyMall.domain.User;
 
-public interface VendorService {
+public interface VendorRestService {
 	
 	List<User> getAllVendors();
 

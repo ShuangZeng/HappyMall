@@ -20,15 +20,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Payment {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
-	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
 	
 	@ManyToOne
 	@JoinColumn(name="card_detail_id")

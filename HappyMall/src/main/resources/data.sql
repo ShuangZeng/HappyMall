@@ -1,29 +1,26 @@
 INSERT INTO happymall.role (id, role) VALUES (1,'End User'),(2,'Vendor'),(3,'Customer'),(4,'Admin');
 
-INSERT INTO happymall.user (id, active_ind, create_date, email, full_name, modified_date, `password`, phone, user_name, `enable`) 
-VALUES (1000,'A','2019-10-12 00:00:00','fhirsch@aol.com','Gauge Tran','2019-10-11 00:00:00','12345678','(698) 891-5217','gauge_tran', 1),
-		(1001,'A','2019-10-12 00:00:00','sonnen@msn.com','Brooks Griffin','2019-10-12 00:00:00','12345678','(389) 255-2383','brooks_griffin', 1),
-		(1002,'A','2019-10-12 00:00:00','mlewan@aol.com','Camren Richmond','2019-10-09 00:00:00','12345678','(989) 993-7549','camren_richmond', 1),
-		(1003,'A','2019-10-12 00:00:00','cameron@icloud.com','Ciara Cooke','2019-10-09 00:00:00','12345678','(741) 971-2504','ciara_cooke', 1),
-		(1004,'A','2019-10-12 00:00:00','miltchev@me.com','Aleena Mclean',NULL,'12345678','(550) 824-9338','aleena_mclean', 1),
-		(1005,'A','2019-10-12 00:00:00','sonnen@hotmail.com','Mareli Rich','2019-10-09 00:00:00','12345678','(801) 421-2668','mareli_rich', 1),
-		(1006,'A','2019-10-12 00:00:00','phizntrg@yahoo.ca','Jennifer Kramer','2019-10-09 00:00:00','12345678','(951) 202-4374','jennifer_kramer', 1),
-		(1007,'A','2019-10-12 00:00:00','gastown@live.com','Aliya Clements','2019-10-11 00:00:00','12345678','(900) 609-4718','aliya_clements', 1),
-		(1008,'A','2019-10-12 00:00:00','wagnerch@optonline.net','Rubi Chavez','2019-10-12 00:00:00','12345678','(755) 894-7319','rubi_chavez', 1),
-		(1009,'A','2019-10-12 00:00:00','fviegas@comcast.net','Waylon Morse','2019-10-11 00:00:00','12345678','(763) 973-5980','waylon_morse', 1),
-		(1010,'D','2019-10-12 00:00:00','elmer@aol.com','Liliana Prince',NULL,'12345678','(958) 388-7951','liliana_prince', 1),
-		(1011,'D','2019-10-12 00:00:00','maradine@verizon.net','Armani Foley',NULL,'12345678','(234) 877-0838','armani_foley', 1),
-		(1012,'D','2019-10-12 00:00:00','vlefevre@yahoo.com','Giuliana Frazier','2019-10-09 00:00:00','12345678','(911) 910-2046','giuliana_frazier', 1),
-		(1013,'U','2019-10-12 00:00:00','calin@comcast.net','Jovanni Matthews','2019-10-05 00:00:00','12345678','(770) 736-4855','jovanni_matthews', 1),
-		(1014,'U','2019-10-12 00:00:00','pjacklam@hotmail.com','Parker Chan','2019-10-09 00:00:00','12345678','(862) 789-2475','parker_chan', 1),
-		(1015,'A','2019-10-12 00:00:00','raides@outlook.com','Rubi Wright','2019-10-09 00:00:00','12345678','(261) 329-2763','rubi_wright', 1),
-		(1016,'A','2019-10-12 00:00:00','jsbach@aol.com','Ayla Horne','2019-10-08 00:00:00','12345678','(618) 915-7240','ayla_horne', 1),
-		(1017,'A','2019-10-12 00:00:00','jyoliver@outlook.com','Lukas Morgan','2019-10-11 00:00:00','12345678','(433) 928-4806','lukas_morgan', 1),
-		(1018,'A','2019-10-12 00:00:00','dialworld@verizon.net','Terrance Carson','2019-10-12 00:00:00','12345678','(584) 436-9202','terrance_carson', 1),
-		(1019,'A','2019-10-12 00:00:00','research@verizon.net','Marcelo Owen','2019-10-12 00:00:00','12345678','(450) 543-1324','marcelo_owen', 1);
-
-INSERT INTO happymall.user_role (user_id, role_id)
-VALUES (1000, 1), (1001, 2), (1003, 1), (1004, 1), (1005, 2), (1006, 2), (1007, 2), (1008, 2), (1009, 3), (1010, 2), (1011, 4), (1012, 2), (1013, 4), (1014, 2), (1015, 2), (1016, 2), (1017, 2), (1018, 2), (1019, 2); 
+INSERT INTO happymall.user (id, active_ind, create_date, email, full_name, modified_date, `password`, phone, user_name, `enable`,`role_id`) 
+VALUES (1000,'A','2019-10-12 00:00:00','fhirsch@aol.com','Gauge Tran','2019-10-11 00:00:00','12345678','(698) 891-5217','gauge_tran', 1,1),
+		(1001,'A','2019-10-12 00:00:00','sonnen@msn.com','Brooks Griffin','2019-10-12 00:00:00','12345678','(389) 255-2383','brooks_griffin', 1,2),
+		(1002,'A','2019-10-12 00:00:00','mlewan@aol.com','Camren Richmond','2019-10-09 00:00:00','12345678','(989) 993-7549','camren_richmond', 1,1),
+		(1003,'A','2019-10-12 00:00:00','cameron@icloud.com','Ciara Cooke','2019-10-09 00:00:00','12345678','(741) 971-2504','ciara_cooke', 1,1),
+		(1004,'A','2019-10-12 00:00:00','miltchev@me.com','Aleena Mclean',NULL,'12345678','(550) 824-9338','aleena_mclean', 1,2),
+		(1005,'A','2019-10-12 00:00:00','sonnen@hotmail.com','Mareli Rich','2019-10-09 00:00:00','12345678','(801) 421-2668','mareli_rich', 1,2),
+		(1006,'A','2019-10-12 00:00:00','phizntrg@yahoo.ca','Jennifer Kramer','2019-10-09 00:00:00','12345678','(951) 202-4374','jennifer_kramer', 1,2),
+		(1007,'A','2019-10-12 00:00:00','gastown@live.com','Aliya Clements','2019-10-11 00:00:00','12345678','(900) 609-4718','aliya_clements', 1,2),
+		(1008,'A','2019-10-12 00:00:00','wagnerch@optonline.net','Rubi Chavez','2019-10-12 00:00:00','12345678','(755) 894-7319','rubi_chavez', 1,3),
+		(1009,'A','2019-10-12 00:00:00','fviegas@comcast.net','Waylon Morse','2019-10-11 00:00:00','12345678','(763) 973-5980','waylon_morse', 1,2),
+		(1010,'D','2019-10-12 00:00:00','elmer@aol.com','Liliana Prince',NULL,'12345678','(958) 388-7951','liliana_prince', 1,4),
+		(1011,'D','2019-10-12 00:00:00','maradine@verizon.net','Armani Foley',NULL,'12345678','(234) 877-0838','armani_foley', 1,2),
+		(1012,'D','2019-10-12 00:00:00','vlefevre@yahoo.com','Giuliana Frazier','2019-10-09 00:00:00','12345678','(911) 910-2046','giuliana_frazier', 1,4),
+		(1013,'U','2019-10-12 00:00:00','calin@comcast.net','Jovanni Matthews','2019-10-05 00:00:00','12345678','(770) 736-4855','jovanni_matthews', 1,2),
+		(1014,'U','2019-10-12 00:00:00','pjacklam@hotmail.com','Parker Chan','2019-10-09 00:00:00','12345678','(862) 789-2475','parker_chan', 1,2),
+		(1015,'A','2019-10-12 00:00:00','raides@outlook.com','Rubi Wright','2019-10-09 00:00:00','12345678','(261) 329-2763','rubi_wright', 1,2),
+		(1016,'A','2019-10-12 00:00:00','jsbach@aol.com','Ayla Horne','2019-10-08 00:00:00','12345678','(618) 915-7240','ayla_horne', 1,2),
+		(1017,'A','2019-10-12 00:00:00','jyoliver@outlook.com','Lukas Morgan','2019-10-11 00:00:00','12345678','(433) 928-4806','lukas_morgan', 1,2),
+		(1018,'A','2019-10-12 00:00:00','dialworld@verizon.net','Terrance Carson','2019-10-12 00:00:00','12345678','(584) 436-9202','terrance_carson', 1,2),
+		(1019,'A','2019-10-12 00:00:00','research@verizon.net','Marcelo Owen','2019-10-12 00:00:00','12345678','(450) 543-1324','marcelo_owen', 1,2);
 
 INSERT INTO happymall.user_authorization (id, active_ind, create_date, modified_date, `password`, user_name, user_id)
 VALUES (6000,'A','2019-10-12 00:00:00','2019-10-11 00:00:00','12345678','Gauge Tran',1000),

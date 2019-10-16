@@ -38,8 +38,8 @@ public class User {
 	@Column(name="id")
 	private int Id;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@OneToOne(cascade = {CascadeType.PERSIST})
+//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Role role;
 	
 	@NotBlank(message="FullName field is mandatory")
@@ -55,7 +55,7 @@ public class User {
 	@NotBlank	
 	private String password;
 	
-	@Pattern(regexp="(^$[0-9]{10})",message="Mobile number must be 10 digits")
+	//@Pattern(regexp="(^$[0-9]{10})",message="Mobile number must be 10 digits")
 	private String phone;
 	
 	@NotNull
@@ -137,5 +137,15 @@ public class User {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+	
+	
 	
 }

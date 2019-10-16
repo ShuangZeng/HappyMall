@@ -21,15 +21,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class User {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
-	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 	
 	@OneToOne
 	private Role role;
@@ -63,11 +57,11 @@ public class User {
 	@OneToMany(mappedBy="user")
 	private List<CardDetail> listCardDetail;
 
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -32,7 +32,7 @@ public class ProductController {
 	}
 	
  	@RequestMapping("/{id}")
-	public Product getProductById( @PathVariable("id") UUID productId) {
+	public Product getProductById( @PathVariable("id") int productId) {
 
 		return productService.getProduct(productId);
  	}
@@ -67,7 +67,7 @@ public class ProductController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteProduct(@PathVariable("id") UUID productId ) {
+	public void deleteProduct(@PathVariable("id") int productId ) {
 
 			productService.deleteProduct(productId);
 	}

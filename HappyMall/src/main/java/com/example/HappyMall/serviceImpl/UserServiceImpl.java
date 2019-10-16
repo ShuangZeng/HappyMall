@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -66,7 +68,7 @@ public class UserServiceImpl implements UserService {
 		
 		user.setActive_Ind('P');
 		Role userRole = roleRepository.findByRole("ADMIN");
-        user.setRole(new Role());
+        //user.setRole(new Role());
         return userRepository.save(user);
 	}
 
@@ -81,5 +83,39 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userRepository.findByEmail(email);
 	}
+
+	@Override
+	public List<User> findAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@Override
+	public void deleteUserByUser(User user) {
+		userRepository.deleteById(user.getId());
+	}
+
+	@Override
+	public User blockUser(User user) {
+		Optional<User> userRecordOptional = userRepository.findById(user.getId());
+		if(!userRecordOptional.isPresent()) return null;
+		User userRecord = userRecordOptional.get();
+		userRecord.setActive_Ind('D');
+		userRepository.save(userRecord);
+		return user;
+	}
+
+	@Override
+	public User approveUser(User user) {
+		Optional<User> userRecordOptional = userRepository.findById(user.getId());
+		if(!userRecordOptional.isPresent()) return null;
+		User userRecord = userRecordOptional.get();
+		userRecord.setActive_Ind('A');
+		userRepository.save(userRecord);
+		return user;
+	}
+
+
+
+	
 }
 

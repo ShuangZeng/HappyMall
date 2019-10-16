@@ -17,15 +17,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class UserAuthorization {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
 	
 	@OneToOne
 	private User user;

@@ -18,15 +18,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Address {
 
-//	@javax.persistence.Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private int Id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
 	
 	@ManyToOne
 	@JoinColumn(name="user_Id")
@@ -54,11 +49,11 @@ public class Address {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
