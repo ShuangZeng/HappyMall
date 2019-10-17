@@ -19,7 +19,8 @@ public class ProductMgmtController {
 	
 	@Autowired
 	private ProductService productService;
-	
+
+
 	@RequestMapping(value = "/admin/productmgmt")
 	public String getShoppingCart(Model model, Authentication authentication)
 	{
