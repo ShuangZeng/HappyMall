@@ -79,14 +79,14 @@ public class ShoppingCartController {
 	{
 		System.out.println("add to cart...");
 		List<Item> listItem = new ArrayList<Item>();
-		if (productService.getOne(id) != null) 
+		if (productService.getProduct(id) != null) 
 		{
 			if (session.getAttribute("listItem") == null)
 			{
 				System.out.println("create new cart...");
-				System.out.println(productService.getOne(id));
-				if (productService.getOne(id) != null)
-					listItem.add(new Item(productService.getOne(id), 1));
+				System.out.println(productService.getProduct(id));
+				if (productService.getProduct(id) != null)
+					listItem.add(new Item(productService.getProduct(id), 1));
 			}
 			else
 			{
@@ -95,7 +95,7 @@ public class ShoppingCartController {
 				int index = isExist(id, listItem);
 				if (index == -1)
 				{
-					listItem.add(new Item(productService.getOne(id), 1));
+					listItem.add(new Item(productService.getProduct(id), 1));
 				}
 				else
 				{

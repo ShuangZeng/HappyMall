@@ -140,12 +140,4 @@ public class Product {
 		this.listResouce = listResouce;
 	}
 
-	public int getId() {
-		return Id;
-	}
-
-	public void setId(int id) {
-		Id = id;
-	}
-
 }
