@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<base target="_blank" />
     <meta charset="ISO-8859-1">
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +12,7 @@
       <title>Admin</title>
       </head>
 <body style="text-align:center;">
-<div class="text-center"><h1>Welcome!  <button type="button" class="btn btn-link">LOG OUT</button></h1></div>
+<div class="text-center"><h1>Welcome!  <button type="button" class="btn btn-link" onclick="location.href=''		">LOG OUT</button></h1></div>
 <div class="text-center">
 	<h2></h2><br/>
 <table class="table table-hover " align="center" style="width:60%">
@@ -38,18 +39,16 @@
 	<br/>
 	<label> VIEW REPORT</label>
 	<div class="center-block" style="width:200px;">
-	<select class="form-control" >
-  <option>List of Products</option>
-  <option>List of Vendors</option>
-  <option>Overall: Vendors x Products</option>
-  <option>Total Good and Service Tax (GST)</option>
-  <option>Registration</option>
-  <option>Vendor x Product</option>
-  <option>Vendor x Total of products</option>
+<select class="report" onChange="location.replace(this.options[this.selectedIndex].getAttribute('data-href'))">
+     <option value="0" selected="selected">--Choose a Report--</option>
+     <option value="1" data-href='https://app.powerbi.com/groups/me/reports/7ea1f23c-19e6-46df-b64d-a2b23ba66297/ReportSection'>Registration</option>
+     <option value="2" data-href='https://app.powerbi.com/groups/me/reports/7ea1f23c-19e6-46df-b64d-a2b23ba66297/ReportSection106bc994a118d7594c76' >By Products</option>
+     <option value="3" data-href='https://app.powerbi.com/groups/me/reports/7ea1f23c-19e6-46df-b64d-a2b23ba66297/ReportSection2c32d68ad8b61dde347c' >By Vendors</option>
 </select>
+
 </div>
-	</br></br>
-<button class="btn btn-default btn-xs" type="submit">VIEW</button> <br/>
+	<!--</br></br>
+<button class="btn btn-default btn-xs" type="submit">VIEW</button> <br/>-->
 
   </div>
 </body>

@@ -27,17 +27,17 @@
                 <td th:text="${user.fullName}"></td>
                 <td th:text="${user.active_Ind}"></td>
                 <td><form th:action="@{/admin/usermgmt/}" method = "POST">
-                	<input type="hidden" name="userId" th:value="${user.Id}" />
+                	<input type="hidden" name="userId" th:value="${user.id}" />
                 	<input class="btn btn-default btn-xs" type="submit" value = "DELETE">
                 	</form>
                 </td>
 			    <td><form th:action="@{/admin/usermgmt/block}" method = "GET">
-                	<input type="hidden" name="userId" th:value="${user.Id}" />
+                	<input type="hidden" name="userId" th:value="${user.id}" />
                 	<input class="btn btn-default btn-xs" type="submit" value = "BLOCK">
                 	</form>
                 </td>
 			<td><form th:action="@{/admin/usermgmt/approve}" method = "GET">
-                	<input type="hidden" name="userId" th:value="${user.Id}" />
+                	<input type="hidden" name="userId" th:value="${user.id}" />
                 	<input class="btn btn-default btn-xs" type="submit" value = "APPROVE">
                 	</form></td>
                 </tr>
@@ -59,18 +59,18 @@
 	<tbody>
 		
 		<tr th:each="user:${userList}" th:unless=${user.role.id==3}>
-		<!--<td><input type="radio" name="id" id="function1" th:value="${user.Id}"></td>-->
+		<!--<td><input type="radio" name="id" id="function1" th:value="${user.id}"></td>-->
                 <td th:text="${user.fullName}"></td>
                 <td th:text="${user.active_Ind}"></td>
                 <td><form th:action="@{/admin/usermgmt/}" method = "POST">
-                	<input type="hidden" name="userId" th:value="${user.Id}" />
+                	<input type="hidden" name="userId" th:value="${user.id}" />
                 <input class="btn btn-default btn-xs" type="submit" value = "DELETE"></form></td>
 			<td><form th:action="@{/admin/usermgmt/block}" method = "GET">
-                	<input type="hidden" name="userId" th:value="${user.Id}" />
+                	<input type="hidden" name="userId" th:value="${user.id}" />
                 	<input class="btn btn-default btn-xs" type="submit" value = "BLOCK">
                 	</form></td>
 			<td><form th:action="@{/admin/usermgmt/approve}" method = "GET">
-                	<input type="hidden" name="userId" th:value="${user.Id}" />
+                	<input type="hidden" name="userId" th:value="${user.id}" />
                 	<input class="btn btn-default btn-xs" type="submit" value = "APPROVE">
                 	</form></td>
                 </tr>
