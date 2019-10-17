@@ -14,8 +14,22 @@
 <title>Update Product</title>
 </head>
 <body>
-	<h1 class="text-center">Update Product <span th:text="${product.name}"></span></h1>
-	
-
+	<h1 class="text-center">
+		Edit product <span th:text="${product.name}"></span> details
+	</h1>
+	<form th:action="@{/admin/productmgmt/block}" method = "GET">
+                	<input type="hidden" name="productId" th:value="${product.id}" />
+	<div>
+		<h3>Product Name</h3><input type="text" th:field="${product.name}" id="name"
+			placeholder="Name">
+		<h3>Description</h3><input type="text" th:field="${product.description}"
+			id="description" placeholder="Description">
+		<h3>Price</h3><input type="text" th:field="${product.price}" id="price"
+			placeholder="Price">
+		<h3>Quantity</h3><input type="text" th:field="${product.quantity}" id="quantity"
+			placeholder="Quantity">
+	</div>
+	<input type="submit" name = "Submit" value = "submit">
+</form>
 </body>
 </html>
