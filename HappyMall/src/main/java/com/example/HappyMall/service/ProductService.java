@@ -7,7 +7,7 @@ import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.repository.ProductRepository;
 
 
-public interface ProductService extends ProductRepository{
+public interface ProductService{
 	
 	void addProduct(Product product);
 
@@ -26,4 +26,6 @@ public interface ProductService extends ProductRepository{
 //	Product getProductByProductNumber(String productNumber);
 
 	List<Product> findProductsByVendor(int vendorNumber);
+
+	Product getProduct(Integer id);
 }
