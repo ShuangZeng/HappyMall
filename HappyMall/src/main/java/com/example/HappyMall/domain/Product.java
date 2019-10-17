@@ -128,6 +128,14 @@ public class Product {
 		return listResouce;
 	}
 
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+
 	public void setListResouce(List<Resource> listResouce) {
 		this.listResouce = listResouce;
 	}

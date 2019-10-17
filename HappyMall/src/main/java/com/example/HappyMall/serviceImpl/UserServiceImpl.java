@@ -1,8 +1,7 @@
 package com.example.HappyMall.serviceImpl;
 
 import java.util.Arrays;
-
-
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -60,27 +59,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User saveUser(User user) {
-		
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        //user.setActive(1);
-//        Role userRole = roleRepository.findByRoleName("admin");
-//        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-		
-		user.setActive_Ind('P');
-		Role userRole = roleRepository.findByRole("ADMIN");
-        //user.setRole(new Role());
+		user.setModifiedDate(new Date());
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));        
+
         return userRepository.save(user);
 	}
 
 	@Override
 	public User findUserByFullName(String fullName) {
-		// TODO Auto-generated method stub
 		return userRepository.findByFullName(fullName);
 	}
 
 	@Override
 	public User findUserByEmail(String email) {
-		// TODO Auto-generated method stub
 		return userRepository.findByEmail(email);
 	}
 
@@ -112,10 +103,6 @@ public class UserServiceImpl implements UserService {
 		userRecord.setActive_Ind('A');
 		userRepository.save(userRecord);
 		return user;
-	}
-
-
-
-	
+	}	
 }
 
