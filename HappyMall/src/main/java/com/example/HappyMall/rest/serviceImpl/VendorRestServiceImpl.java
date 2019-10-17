@@ -1,10 +1,19 @@
 package com.example.HappyMall.rest.serviceImpl;
 
+import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.domain.User;
+import com.example.HappyMall.rest.RestHttpHeader;
 import com.example.HappyMall.rest.service.VendorRestService;
 
 
@@ -13,10 +22,18 @@ import com.example.HappyMall.rest.service.VendorRestService;
 @Transactional
 public class VendorRestServiceImpl implements VendorRestService {
 	
-	
+	@Autowired
+	RestHttpHeader restHelper;
+
+	String baseUrl = "http://localhost:8000/products";
+	String baseUrlExtended = baseUrl + "/";	
 
 	@Override
 	public List<User> getAllVendors() {
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<User[]> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.GET, httpEntity, User[].class);	
+ 		List<User> vendorList = Arrays.asList(responseEntity.getBody());
 		return null;
 	}
 

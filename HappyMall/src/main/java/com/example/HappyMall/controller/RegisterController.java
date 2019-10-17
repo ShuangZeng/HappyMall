@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -49,10 +50,11 @@ public class RegisterController {
         System.out.println(roleList);
         
         Role role2 = new Role();
-        role1.setId(3);
-        role1.setRole("Customer");
+        role2.setId(3);
+        role2.setRole("Customer");
         roleList.add(role2);
         System.out.println(roleList);
+        
         
         modelAndView.addObject("roleList", roleList);
         
@@ -76,13 +78,16 @@ public class RegisterController {
         	modelMap.addAttribute("bindingResult",bindingResult);
         } else {
         	
-//        	user.setRole(role);
-//        
-//        	Role role = (Role)modelMap.get("roleList");
-//        	
-////        	Role role = new Role().setId(1);
-//        	user.setRole(role);
         	System.out.println(user);
+        	int roleId = user.getRole().getId();
+            
+            if(roleId == 1) {
+            	user.setActive_Ind('A');
+            }else if(roleId == 2 || roleId ==3) {
+            	user.setActive_Ind('U');
+            }
+            user.setCreateDate(new Date());
+
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
