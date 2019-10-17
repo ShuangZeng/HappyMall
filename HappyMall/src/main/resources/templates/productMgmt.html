@@ -15,40 +15,32 @@
 	<table class="table table-hover " align="center" style="width:80%">
 	<thead>
 		<tr> 
-			<th> </th>
 			<th>Product Name</th>
 			<th>Vendor</th>
 			<th>Description</th>
-			<th>Validation</th>
+			<th>Status</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td><input type="radio" name="function" id="function1" value="option1"></td>
-			<td>LeBron 17</td>
-			<td>Nike</td>
-			<td>Basketball Shoe</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option2"></td>
-			<td>Air Force 1 '07 "MTAA"</td>
-			<td>Nike</td>
-			<td>Men's Shoe</td>
-			<td>N</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option3"></td>
-			<td>Puma</td>
-			<td>PUMA RS-X Unexpected Mixes</td>
-			<td>Women's Shoe</td>
-			<td>Y</td>
-			
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><button class="btn btn-default btn-xs" type="submit">VALIDE</button></td>
-		</tr>
+		<tr th:each="product:${productList}" >
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.vendor.fullName}"></td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${product.status}"></td>
+			<td><form th:action="@{/admin/productmgmt/approve}" method = "GET">
+                	<input type="hidden" name="productId" th:value="${product.id}" />
+                	<input class="btn btn-default btn-xs" type="submit" value = "APPROVE">
+                	</form></td>
+             <td><form th:action="@{/admin/productmgmt/block}" method = "GET">
+                	<input type="hidden" name="productId" th:value="${product.id}" />
+             
+             <input class="btn btn-default btn-xs" type="submit" value = "BLOCK">
+                	</form></td>
+                </tr>
+         <tr>
+		
 	</tbody>
 </table>
 
