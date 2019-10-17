@@ -77,26 +77,27 @@ VALUES (5000,'2019-10-11 00:00:00',NULL,'2019-10-12 00:00:00',4000),
 		(5013,'2018-06-28 00:00:00',NULL,NULL,4013);
 
 INSERT INTO happymall.address 
-VALUES (2000,'Abington','2019-10-12 00:00:00',_binary '','777 Brockton Avenue',NULL,'2019-10-12 00:00:00','MA','2169',1000),
-		(2001,'Avon','2019-10-12 00:00:00',_binary '','30 Memorial Drive',NULL,NULL,'MA','2322',1001),
-		(2002,'Amsterdam','2019-10-12 00:00:00',_binary '','101 Sanford Farm Shpg Center',NULL,NULL,'NY','12010',1002),
-		(2003,'Batavia','2019-10-12 00:00:00',_binary '','4133 Veterans Memorial Drive',NULL,NULL,'NY','14020',1003),
-		(2004,'Catskill','2019-10-12 00:00:00',_binary '','30 Catskill',NULL,NULL,'NY','12414',1004),
-		(2005,'Foley','2019-10-12 00:00:00',_binary '','2200 South Mckenzie St',NULL,NULL,'AL','36535',1005),
-		(2006,'Gadsden','2019-10-12 00:00:00',_binary '','340 East Meighan Blvd',NULL,NULL,'AL','35903',1006),
-		(2007,'Vestavia Hills','2019-10-12 00:00:00',_binary '','1300 Montgomery Highway',NULL,NULL,'AL','35216',1007),
-		(2008,'Winfield','2019-10-12 00:00:00',_binary '','2575 Us Hwy 43',NULL,'2019-10-12 00:00:00','AL','35594',1008),
-		(2009,'Saraland','2019-10-12 00:00:00',_binary '','1095 Industrial Pkwy',NULL,NULL,'AL','36571',1009),
-		(2010,'Lisbon','2019-10-12 00:00:00',_binary '','180 River Rd',NULL,NULL,'CT','6351',1010),
-		(2011,'Manchester','2019-10-12 00:00:00',_binary '','420 Buckland Hills Dr',NULL,'2019-10-12 00:00:00','CT','6040',1011),
-		(2012,'Rocky Hill','2019-10-12 00:00:00',_binary '','80 Town Line Rd',NULL,NULL,'CT','6067',1012),
-		(2013,'Waterbury','2019-10-12 00:00:00',_binary '','910 Wolcott St',NULL,'2019-10-12 00:00:00','CT','6705',1013),
-		(2014,'East Windsor','2019-10-12 00:00:00',_binary '','69 Prospect Hill Road',NULL,NULL,'CT','6088',1014),
-		(2015,'Airmont','2019-10-12 00:00:00',_binary '','250 Rt 59',NULL,NULL,'NY','10901',1015),
-		(2016,'Batavia','2019-10-12 00:00:00',_binary '','4133 Veterans Memorial Drive',NULL,NULL,'NY','14020',1016),
-		(2017,'Walpole','2019-10-12 00:00:00',_binary '','550 Providence Hwy',NULL,NULL,'MA','2081',1017),
-		(2018,'Northhampton','2019-10-12 00:00:00',_binary '','180 North King Street',NULL,NULL,'MA','1060',1018),
-		(2019,'North Adams','2019-10-12 00:00:00',_binary '','830 Curran Memorial Hwy',NULL,NULL,'MA','1247',1019);
+VALUES (2000,'Abington','2019-10-12 00:00:00',1,'777 Brockton Avenue',NULL,'2019-10-12 00:00:00','MA','2169',1000),
+		(2001,'Avon','2019-10-12 00:00:00',1,'30 Memorial Drive',NULL,NULL,'MA','2322',1001),
+		(2002,'Amsterdam','2019-10-12 00:00:00',1,'101 Sanford Farm Shpg Center',NULL,NULL,'NY','12010',1002),
+		(2003,'Batavia','2019-10-12 00:00:00',1,'4133 Veterans Memorial Drive',NULL,NULL,'NY','14020',1003),
+		(2004,'Catskill','2019-10-12 00:00:00',1,'30 Catskill',NULL,NULL,'NY','12414',1004),
+		(2005,'Foley','2019-10-12 00:00:00',1,'2200 South Mckenzie St',NULL,NULL,'AL','36535',1005),
+		(2006,'Gadsden','2019-10-12 00:00:00',1,'340 East Meighan Blvd',NULL,NULL,'AL','35903',1006),
+		(2007,'Vestavia Hills','2019-10-12 00:00:00',1,'1300 Montgomery Highway',NULL,NULL,'AL','35216',1007),
+		(2008,'Winfield','2019-10-12 00:00:00',1,'2575 Us Hwy 43',NULL,'2019-10-12 00:00:00','AL','35594',1008),
+		(2009,'Saraland','2019-10-12 00:00:00',1,'1095 Industrial Pkwy',NULL,NULL,'AL','36571',1009),
+		(2010,'Lisbon','2019-10-12 00:00:00',1,'180 River Rd',NULL,NULL,'CT','6351',1010),
+		(2011,'Manchester','2019-10-12 00:00:00',1,'420 Buckland Hills Dr',NULL,'2019-10-12 00:00:00','CT','6040',1011),
+		(2012,'Rocky Hill','2019-10-12 00:00:00',1,'80 Town Line Rd',NULL,NULL,'CT','6067',1012),
+		(2013,'Waterbury','2019-10-12 00:00:00',1,'910 Wolcott St',NULL,'2019-10-12 00:00:00','CT','6705',1013),
+		(2014,'East Windsor','2019-10-12 00:00:00',1,'69 Prospect Hill Road',NULL,NULL,'CT','6088',1014),
+		(2015,'Airmont','2019-10-12 00:00:00',1,'250 Rt 59',NULL,NULL,'NY','10901',1015),
+		(2016,'Batavia','2019-10-12 00:00:00',1,'4133 Veterans Memorial Drive',NULL,NULL,'NY','14020',1016),
+		(2017,'Walpole','2019-10-12 00:00:00',1,'550 Providence Hwy',NULL,NULL,'MA','2081',1017),
+		(2018,'Northhampton','2019-10-12 00:00:00',1,'180 North King Street',NULL,NULL,'MA','1060',1018),
+		(2019,'North Adams','2019-10-12 00:00:00',1,'830 Curran Memorial Hwy',NULL,NULL,'MA','1247',1019),
+		 (2020,'Fairfield','2019-10-12 00:00:00',0,'2000 N Court',NULL,'2019-10-12 00:00:00','IA','52556',1004);
 
 INSERT INTO happymall.card_detail 
 VALUES (3000,'A','4532904476883190','2019-10-11 00:00:00','2025-06-15 00:00:00','2019-10-10 00:00:00','2019-10-12 00:00:00','Gauge Tran',1000,'VISA',500,2000,1000),
@@ -111,7 +112,7 @@ VALUES (9000,'2019-10-11 00:00:00',NULL,'od01',500.74,'Returned',2002.99,140.2,2
 		(9001,'2019-10-11 00:00:00',NULL,'od01',228.45,'Delivering',913.83,63.96,977.79,2001, 2001,1001),
 		(9002,'2019-10-12 00:00:00',NULL,'od01',37.5,'Delivering',150,10.5,160.5,2002,2002,1002),
 		(9003,'2019-10-12 00:00:00',NULL,'od01',289.5,'Finished',1158,81.06,1239.06,2003,2003,1003),
-		(9004,'2019-10-13 00:00:00',NULL,'od01',19.97,'New Packaging',79.9,5.59,85.49,2004,2004,1004),
+		(9004,'2019-10-13 00:00:00',NULL,'od01',19.97,'New',79.9,5.59,85.49,2004,2004,1004),
 		(9005,'2019-10-13 00:00:00',NULL,'od01',24.99,'Delivering',99.98,6.99,106.97,2005,2005,1005);
 
 INSERT INTO happymall.order_line 

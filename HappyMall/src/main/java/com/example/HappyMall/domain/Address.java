@@ -164,8 +164,12 @@ public class Address {
 
 	@Override
 	public String toString() {
-		return "Address [lineOne=" + lineOne + ", lineTwo=" + lineTwo + ", city=" + city + ", state=" + state
-				+ ", zipcode=" + zipcode + "]";
+		StringBuilder result = new StringBuilder();
+		result.append(lineOne);
+		if (lineTwo != null && lineTwo != "")
+			result.append(lineTwo + ", ");
+		result.append(city + ", " + state + ", " + zipcode);
+		return result.toString();
 	}
 	
 	

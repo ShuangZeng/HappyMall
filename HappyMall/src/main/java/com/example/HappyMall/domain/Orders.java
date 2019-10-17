@@ -53,6 +53,17 @@ public class Orders {
 	private double serviceFee;
 	
 	private double total;
+
+	private String status;
+
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	private Date createDate;
+	
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	private Date modifiedDate;
+	
+	@OneToMany(mappedBy="orders", cascade=CascadeType.ALL)
+	private List<OrderLine> listOrderLine;
 	
 	public Orders() {
 		// TODO Auto-generated constructor stub
@@ -161,16 +172,5 @@ public class Orders {
 	public void setListOrderLine(List<OrderLine> listOrderLine) {
 		this.listOrderLine = listOrderLine;
 	}
-
-	private String status;
-
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date createDate;
-	
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date modifiedDate;
-	
-	@OneToMany(mappedBy="orders", cascade=CascadeType.ALL)
-	private List<OrderLine> listOrderLine;
 	
 }

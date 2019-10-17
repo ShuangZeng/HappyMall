@@ -63,3 +63,7 @@ thead, .modal-header  {
 .form-check {
 	margin: 10px 0px;
 }
+
+.form-check-label {
+	margin-right: 50px
+}
