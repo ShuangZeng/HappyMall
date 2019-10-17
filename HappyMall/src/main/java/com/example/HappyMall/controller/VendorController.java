@@ -7,15 +7,34 @@
 
 package com.example.HappyMall.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.HappyMall.domain.Product;
+import com.example.HappyMall.domain.User;
+import com.example.HappyMall.service.ProductService;
+import com.example.HappyMall.service.UserService;
+
 @Controller
+
 public class VendorController {
-	@RequestMapping(value = "/vendor")
-	public String getShoppingCart()
-	{
-		return "vendor";
+
+	@Autowired
+	ProductService productService;
+	
+	@RequestMapping(value = "/admin/vendor")
+	public String listVendors(Model model, HttpSession session) {		
+		//List<Product> products = productService.findProductsByVendor(session.getAttribute("id").toString());
+		List<Product> products = productService.findProductsByVendor(1005);
+		model.addAttribute("productList",products);
+		return "vendor"; 
 	}
 
 }

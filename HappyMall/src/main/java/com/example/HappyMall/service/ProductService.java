@@ -27,4 +27,5 @@ public interface ProductService extends ProductRepository{
 //	Product getProductByProductNumber(String productNumber);
 
 	List<Product> findProductsByVendor(int vendorNumber);
+	
 }

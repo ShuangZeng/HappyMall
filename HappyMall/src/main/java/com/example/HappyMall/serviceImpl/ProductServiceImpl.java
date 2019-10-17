@@ -207,11 +207,11 @@ public class ProductServiceImpl implements ProductService{
 		return null;
 	}
 
+
 	@Override
 	public List<Product> findProductsByVendor(int vendorNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return productRepository.findProductsByvendor_id(vendorNumber);
+	} 
 
 	@Override
 	public Product approveProduct(Product product) {
@@ -231,6 +231,12 @@ public class ProductServiceImpl implements ProductService{
 		productRecord.setStatus("D");
 		productRepository.save(productRecord);
 		return product;
+	}
+
+	@Override
+	public List<Product> findProductsByvendor_id(int vendorId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

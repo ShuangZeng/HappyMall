@@ -36,7 +36,7 @@ public class User {
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private int Id;
+	private int id;
 	
 	@OneToOne(cascade = {CascadeType.PERSIST})
 //	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -139,11 +139,11 @@ public class User {
 	}
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 	
 	
