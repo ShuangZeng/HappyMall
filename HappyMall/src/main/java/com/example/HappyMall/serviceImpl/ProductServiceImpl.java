@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.example.HappyMall.domain.Product;
-
+import com.example.HappyMall.domain.User;
 import com.example.HappyMall.repository.ProductRepository;
 import com.example.HappyMall.service.ProductService;
 
@@ -57,6 +57,26 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> findProductsByVendor(int vendorNumber) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Product approveProduct(Product product) {
+		Optional<Product> productRecordOptional = productRepository.findById(product.getId());
+		if(!productRecordOptional.isPresent()) return null;
+		Product productRecord = productRecordOptional.get();
+		productRecord.setStatus("A");
+		productRepository.save(productRecord);
+		return product;
+	}
+
+	@Override
+	public Product blockProduct(Product product) {
+		Optional<Product> productRecordOptional = productRepository.findById(product.getId());
+		if(!productRecordOptional.isPresent()) return null;
+		Product productRecord = productRecordOptional.get();
+		productRecord.setStatus("D");
+		productRepository.save(productRecord);
+		return product;
 	}
 	
 	
