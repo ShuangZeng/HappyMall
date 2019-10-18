@@ -67,3 +67,12 @@ thead, .modal-header  {
 .form-check-label {
 	margin-right: 50px
 }
+
+.productImg {
+	height: 100px;
+	weight: 100px;
+}
+
+.productImgContainer {
+	text-align: center;
+}

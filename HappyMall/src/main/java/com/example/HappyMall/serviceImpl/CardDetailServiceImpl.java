@@ -21,4 +21,10 @@ public class CardDetailServiceImpl implements CardDetailService{
 		return cardDetailRepository.findByUserId(userId);
 	}
 
+	@Override
+	public CardDetail getCardDefaultByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return cardDetailRepository.getCardDefaultByUserId(userId);
+	}
+
 }

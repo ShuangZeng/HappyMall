@@ -21,9 +21,10 @@
 
 		<form th:object="${orders}">
 			<div class="col-12">
-				<div class="row table-head col-12">Total product: <span th:text="${totalProduct}">0</span></div>
-				<div class="row col-12 itemBlock item" th:each="item : ${session.listItem}">
-					<div class="col-3">image</div>
+				<div class="row table-head col-12">Total product: <span th:text="${totalProduct}"> 0 </span></div>
+				<div class="row col-12 itemBlock item" th:each="item : ${listItem}">
+					<div class="col-3 productImgContainer">
+						<img class="productImg" th:attr="src=@{${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
 					<div class="col-9">
 						<div class="row itemRow emphasize"><span th:text="${item.product.name}">Product's Name</span></div>
 						<div class="row itemRow"><span th:text="${item.product.description}">Product's Description</span></div>
@@ -42,15 +43,15 @@
 						<tbody>
 							<tr>
 								<td class="row-titile" scope="row">Total before Tax</td>
-								<td class="format-money" id="totalBeforeTax" th:field="*{total}">0.00</td>
+								<td class="format-money" id="totalBeforeTax"> <span th:text="*{subTotal}">0.00</span></td>
 							</tr>
 							<tr>
 								<td class="row-titile" scope="row" >Estimated Tax</td>
-								<td class="format-money" id="estimatedTax" th:field="*{tax}">0.00</td>
+								<td class="format-money" id="estimatedTax" th:text="*{tax}">0.00</td>
 							</tr>
 							<tr>
 								<td class="row-titile emphasize" scope="row" >Order total</td>
-								<td class="emphasize format-money" id="orderTotal" th:field="*{total} + *{tax}">0.00</td>
+								<td class="emphasize format-money" id="orderTotal" th:text="*{total}">0.00</td>
 							</tr>
 						</tbody>
 					</table>
@@ -71,12 +72,12 @@
 					<tbody>
 						<tr>
 							<td>
-								Name: <span class="info" id="shippingName" ></span> 
-								- Phone Number: <span class="info" id="shippingPhoneNo" ></span>	
+								Name: <span class="info" id="shippingName" th:text="*{user.fullName}"></span> 
+								- Phone Number: <span class="info" id="shippingPhoneNo" th:text="*{user.phone}"></span>	
 							</td>
 						</tr>
 						<tr>
-							<td>Address: <span class="info" id="shippingAddress" th:field="*{shippingAddress}"></span>	</td>
+							<td>Address: <span class="info" id="shippingAddress" th:text="*{shippingAddress}"></span>	</td>
 						</tr>
 					</tbody>
 				</table>
@@ -91,16 +92,16 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>Payment Method: <span class="info" id="paymentMethod"></span>
+							<td>Payment Method: <span class="info" id="paymentMethod" th:text="${cardDefault}"></span>
 								<div class="float-right">
 									<a href="#" data-toggle="modal" data-target="#editPaymentMethodModal" data-backdrop="static">Edit</a>
 								</div>
 							</td>
 						</tr>
 						<tr>
-							<td>Billing Address: <span class="info" id="billingAddress" th:field="*{billingAddress}"></span>
+							<td>Billing Address: <span class="info" id="billingAddress" th:text="*{billingAddress}"></span>
 								<div class="float-right">
-									<a href="#" data-toggle="modal" data-target="#addressModal" data-backdrop="static">Edit</a>
+									<a href="#" data-toggle="modal" data-target="#editAddressModal" data-backdrop="static">Edit</a>
 								</div>
 							</td>
 						</tr>
@@ -112,10 +113,13 @@
 				<button type="submit" class="btn btn-primary">Check out</button>
 			</div>
 	
-			<div class="float-right">
+			<!-- <div class="float-right">
 				<button type="button" class="btn btn-light">Continue Shopping</button>
-			</div>
-		</form>
+			</div> -->
+		</form>			
+			<form th:action="@{/products/allproducts}" method="get" class="float-right"> 
+				<button class="btn btn-light" type="Submit">Continue Shopping</button>
+			</form>
 
 		<div class="modal fade" id="editAddressModal" role="dialog">
 			<div class="modal-dialog modal-dialog-centered" role="document">

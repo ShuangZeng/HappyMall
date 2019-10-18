@@ -12,4 +12,6 @@ public interface OrdersService {
 	Orders findByStatus(String status);
 	
 	List<Orders> findByStatusAndUserId(String status, int userId);
+	
+	void updateMoneyByOrdersId(int orderId);
 }

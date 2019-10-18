@@ -172,5 +172,17 @@ public class Orders {
 	public void setListOrderLine(List<OrderLine> listOrderLine) {
 		this.listOrderLine = listOrderLine;
 	}
+
+	public Orders(User user, @NotBlank String orderCode, Address shippingAddress, Address billingAddress,
+			String status) {
+		super();
+		this.user = user;
+		this.orderCode = orderCode;
+		this.shippingAddress = shippingAddress;
+		this.billingAddress = billingAddress;
+		this.status = status;
+		this.createDate = new Date();
+	}
+	
 	
 }

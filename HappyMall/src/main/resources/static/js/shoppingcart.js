@@ -4,7 +4,7 @@
 
 $(document).ready(function() {
 	formatMoney();
-	calPrice();	
+	//calPrice();	
 });
 
 // format money

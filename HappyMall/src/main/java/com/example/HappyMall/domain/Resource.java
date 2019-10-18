@@ -33,12 +33,52 @@ public class Resource {
 	private Product product;
 	
 	@NotBlank
-	private String imgageUrl;
+	private String imageUrl;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
 	
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 	
 }

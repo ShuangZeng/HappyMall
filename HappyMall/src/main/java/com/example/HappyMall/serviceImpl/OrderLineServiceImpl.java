@@ -21,4 +21,10 @@ public class OrderLineServiceImpl implements OrderLineService {
 		return orderLineRepository.findByOrdersId(ordersId);
 	}
 
+	@Override
+	public OrderLine save(OrderLine orderline) {
+		// TODO Auto-generated method stub
+		return orderLineRepository.save(orderline);
+	}
+
 }

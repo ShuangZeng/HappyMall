@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.example.HappyMall.domain.CardDetail;
 import com.example.HappyMall.domain.OrderLine;
 
 @Repository
-public interface OrderLineRepository extends  JpaRepository<CardDetail, Integer>  {
+public interface OrderLineRepository extends  JpaRepository<OrderLine, Integer>  {
 
 	@Query(value="select * from happymall.order_line where orders_id = :ordersId", nativeQuery=true)
 	List<OrderLine> findByOrdersId (int ordersId);
