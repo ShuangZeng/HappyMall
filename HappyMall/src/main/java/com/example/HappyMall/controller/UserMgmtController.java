@@ -44,7 +44,7 @@ public class UserMgmtController {
 		User u = new User();
 		u.setId(Integer.valueOf(userId));
 		userService.blockUser(u);
-//		System.out.print(userId);
+		System.out.print(userId);
 		return "redirect:/admin/usermgmt";
 	}
 	@GetMapping(value = "admin/usermgmt/approve")

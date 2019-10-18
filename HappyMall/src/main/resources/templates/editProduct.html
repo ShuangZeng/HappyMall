@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<title>Update Product</title>
+</head>
+<body>
+	<h1 class="text-center">
+		Edit product <span th:text="${product.name}"></span> details
+	</h1>
+	<form th:action="@{/admin/productmgmt/block}" method = "GET">
+                	<input type="hidden" name="productId" th:value="${product.id}" />
+	<div>
+		<h3>Product Name</h3><input type="text" th:field="${product.name}" id="name"
+			placeholder="Name">
+		<h3>Description</h3><input type="text" th:field="${product.description}"
+			id="description" placeholder="Description">
+		<h3>Price</h3><input type="text" th:field="${product.price}" id="price"
+			placeholder="Price">
+		<h3>Quantity</h3><input type="text" th:field="${product.quantity}" id="quantity"
+			placeholder="Quantity">
+	</div>
+	<input type="submit" name = "Submit" value = "submit">
+</form>
+</body>
+</html>

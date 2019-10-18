@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +29,23 @@ public class LoginController {
 	@Autowired
 	UserService userService;
 
-	 @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
-	 public ModelAndView login(){
-	        ModelAndView modelAndView = new ModelAndView();
-	        modelAndView.setViewName("login");
-	        return modelAndView;
-	    }	     
+//	 @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+//	 public ModelAndView login(){
+//	        ModelAndView modelAndView = new ModelAndView();
+//	        modelAndView.setViewName("login");
+//	        return modelAndView;
+//	    }
+	
+	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+    public String login(Model model, Principal principal) {
+    	if (principal == null)
+    	{
+	    	model.addAttribute("hidden", "true");
+	    	return "login";
+    	}
+    	return "redirect:/home";
+    }
+
     
         
     @GetMapping("/access-denied")
