@@ -31,7 +31,7 @@
 						<div class="row itemRow"><span class="format-money price" th:text="${item.product.price}">0.00</span></div>
 						<div class="row itemRow">
 							<div class="col-9"><input class="quantity" type="number" th:value="${item.quantity}"/></div>
-							<div><a href="#" class="float-right">Remove</a></div>
+							<div><a href="#" class="float-right" th:href="${'/shoppingcart/remove/' + item.product.id}">Remove</a></div>
 						</div>
 					</div>
 				</div>

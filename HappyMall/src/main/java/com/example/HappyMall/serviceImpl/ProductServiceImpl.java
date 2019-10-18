@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Product getProduct(Integer id) {
+	public Product getProduct(int id) {
 		// TODO Auto-generated method stub
 		return productRepository.getOne(id);
 	}
@@ -99,12 +99,6 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> getProductsByVendorName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Product getProduct(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

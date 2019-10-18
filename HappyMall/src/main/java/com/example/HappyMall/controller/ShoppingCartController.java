@@ -15,7 +15,7 @@ import com.example.HappyMall.domain.*;
 import com.example.HappyMall.service.*;
 
 @Controller
-@SessionAttributes({"user", "listItem"})
+@SessionAttributes({"user", "listItem", "orders"})
 public class ShoppingCartController {
 	
 	@Autowired
@@ -50,8 +50,9 @@ public class ShoppingCartController {
 			System.out.println("User: " + user.getEmail() );
 			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
 			System.out.println("Orders: " + orders);
-			System.out.println("Total: " + orders.getTotal());
+			System.out.println("Sub total: " + orders.getSubTotal());
 			System.out.println("Tax: " + orders.getTax());
+			System.out.println("Total: " + orders.getTotal());
 			//List<OrderLine> orderLine = new ArrayList<OrderLine>();
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
 			System.out.println("orderLine size: " + listOrderLine.size());
@@ -83,14 +84,14 @@ public class ShoppingCartController {
 	}
 	
 	@GetMapping("/shoppingcart/{id}")
-	public String addCart(@PathVariable int id, Model model, HttpSession session)
+	public String addToCart(@PathVariable int id, Model model, HttpSession session)
 	{
-		System.out.println("add to cart...");
-		
+		System.out.println("add to cart...");		
 
 		User user = (User) model.asMap().get("user");
 		if(user == null)
 		{
+			System.out.println("Not log in yet..." );
 			List<Item> listItem = addToCartByGuest(id, model);
 			model.addAttribute("listItem", listItem);
 			System.out.println(listItem.size());
@@ -98,14 +99,18 @@ public class ShoppingCartController {
 		}
 		else
 		{
+			System.out.println("User: " + user.getEmail());	
 			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			
 			if (orders == null)
 			{
 				Address address = addressService.getAddressDefaultByUserId(user.getId());
 				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
 			}
-			
+
 			List<OrderLine> listOrderLine = addToCartByEndUser(id, user, orders);
+
+			System.out.println("Complete addToCartByEndUser");	
 			
 			model.addAttribute("orders", orders);
 			model.addAttribute("listItem", listOrderLine);
@@ -119,7 +124,7 @@ public class ShoppingCartController {
 		model.addAttribute("newAddress", new Address());
 		model.addAttribute("newCard", new CardDetail());
 		System.out.println("finish...");
-		return "redirect:/products/allproducts";
+		return "redirect:/admin/products";
 	}	
 	
 	private List<Item> addToCartByGuest(int id, Model model)
@@ -165,26 +170,31 @@ public class ShoppingCartController {
 
 	private List<OrderLine> addToCartByEndUser(int id, User user, Orders orders)
 	{
+		System.out.println("addToCartByEndUser...");	
 		List<OrderLine> listItem = orderLineService.findByOrdersId(orders.getId());
 		OrderLine orderLine;
 		if(listItem == null)
 			listItem = new ArrayList<OrderLine>();
-		
+
 		int index = isExistOrderLine (id, listItem);
 		if(index == -1)
 		{
+			System.out.println("create new orderLine...");	
 			Product product = productService.getProduct(id);
 			orderLine = new OrderLine(orders, product, product.getPrice(), 1);
 		}
 		else
 		{
+			System.out.println("update quantity for orderLine...");	
 			orderLine = listItem.get(index);
 			int quantity = orderLine.getQuantity();
 			orderLine.setQuantity(quantity + 1);
 			orderLine.setTotal((quantity + 1) * orderLine.getPrice()); 
 		}
-		
+
+		System.out.println("save orderLine...");	
 		orderLineService.save(orderLine);
+		System.out.println("updateMoneyByOrdersId...");	
 		ordersService.updateMoneyByOrdersId(orders.getId());
 		listItem.add(orderLine);
 		
@@ -199,5 +209,27 @@ public class ShoppingCartController {
 				return i;
 		}
 		return -1;
+	}
+	
+	@GetMapping("/shoppingcart/remove/{id}")
+	public String removeFromCart(@PathVariable int id, Model model, HttpSession session)
+	{
+		System.out.println("remove from cart...");
+		User user = (User) model.asMap().get("user");
+		if(user == null)
+		{
+			System.out.println("Not log in yet..." );
+		}
+		else
+		{
+			System.out.println("User: " + user.getEmail());
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			orderLineService.deleteByOrdersIdAndProductId(orders.getId(), id);
+
+			ordersService.updateMoneyByOrdersId(orders.getId());
+			orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+		}
+		
+		return "redirect:/shoppingcart";
 	}
 }

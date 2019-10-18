@@ -27,4 +27,16 @@ public class OrderLineServiceImpl implements OrderLineService {
 		return orderLineRepository.save(orderline);
 	}
 
+	@Override
+	public OrderLine getByOrderIdAndProductId(int ordersId, int productId) {
+		// TODO Auto-generated method stub
+		return orderLineRepository.getByOrderIdAndProductId(ordersId, productId);
+	}
+
+	@Override
+	public void deleteByOrdersIdAndProductId(int ordersId, int productId) {
+		// TODO Auto-generated method stub
+		orderLineRepository.deleteByOrdersIdAndProductId(ordersId, productId);
+	}
+
 }
