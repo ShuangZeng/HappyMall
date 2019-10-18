@@ -32,12 +32,7 @@
 				<td th:text="${product.vendor.fullName}"></td>
 				<td th:text="${product.description}"></td>
 				<td th:text="${product.quantity}"></td>
-				<td><form th:action="@{/product/productsList/addtocart}"
-						method="GET">
-						<input type="hidden" name="productId" th:value="${product.id}" />
-						<input class="btn btn-default btn-xs" type="submit"
-							value="Add To Cart">
-					</form></td>
+				<td><a href="#" class="btn btn-default btn-xs" th:href="${'/shoppingcart/' + product.id}">Add to cart</a></td>
 			</tr>
 			<tr>
 		</tbody>

@@ -22,4 +22,10 @@ public class AddressServiceImpl implements AddressService {
 		return addressRepository.findByUserId(userId);
 	}
 
+	@Override
+	public Address getAddressDefaultByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return addressRepository.getAddressDefaultByUserId(userId);
+	}
+
 }

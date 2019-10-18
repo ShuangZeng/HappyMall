@@ -10,4 +10,6 @@ import com.example.HappyMall.domain.CardDetail;
 public interface CardDetailService {
 
 	List<CardDetail> findByUserId(int userId);
+	
+	CardDetail getCardDefaultByUserId(int userId);
 }

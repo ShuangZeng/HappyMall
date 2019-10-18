@@ -11,7 +11,6 @@ public interface ProductService{
 	List<Product> findAllProducts();
 	List<Product> findProductsByProductName(String name);
 	List<Product> findProductsByVendor(int vendorNumber);
-	Product getProduct(Integer id);
 	List<Product> findProductsByvendor_id(int vendorId);
 	List<Product> getAllProducts();
 	List<Product> getProductsByName(String name);

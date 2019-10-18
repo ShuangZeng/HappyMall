@@ -47,4 +47,82 @@ public class OrderLine {
 	
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+
+	public Orders getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Orders orders) {
+		this.orders = orders;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public OrderLine(Orders orders, Product product, double price, int quantity) {
+		super();
+		this.orders = orders;
+		this.product = product;
+		this.price = price;
+		this.quantity = quantity;
+		this.total = price * quantity;
+		this.createDate = new Date();
+	}
+	
+	public OrderLine() {
+		// TODO Auto-generated constructor stub
+	}
 }
