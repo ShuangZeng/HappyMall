@@ -14,13 +14,24 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Account</title>
+
+ <script>  
+            function check2pwd() {  
+                    if(input1.value != input2.value) {  
+                        alert("Your Passwords Do Not Match ")  
+                        input1.value = "";  
+                        input2.value = "";  
+                    }  
+            }  
+        </script> 
+
 </head>
 <body style="text-align:center;">
 <header th:insert="header :: navbar"> </header>
 <h3 style="font-weight:bold">Edit Profile</h3>
 <br><br>
 <form th:action="@{/account/edit}" th:object = "${user}" method="POST" >
-<div class="row" >
+	<div class="row" >
     <div class="col-md-6 col-md-offset-4">
 
  		<div class="col-md-3 " >
@@ -29,49 +40,49 @@
         <div class="col-md-3" >
          <label th:text="${user.fullName}">
         </div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-6 col-md-offset-4">
+	</div>
+	</div>
+	<div class="row">
+	<div class="col-md-6 col-md-offset-4">
  		<div class="col-md-3" >
          <label for="Email">Email:</label>
         </div>
         <div class="col-md-3" >
          <label th:text="${user.email}">
         </div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-6 col-md-offset-4">
+	</div>
+	</div>
+	<div class="row">
+	<div class="col-md-6 col-md-offset-4">
  		<div class="col-md-3" >
          <label for="phoneNumber">Phone number:</label>
         </div>
         <div class="col-md-3" >
-         <input type="text" id="phoneNumber" placeholder="" th:value="${user.phone}" style="margin-bottom: 3px">
+         <input type="text" name="phone" id="phoneNumber" placeholder="" th:value="${user.phone}" style="margin-bottom: 3px">
         </div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-6 col-md-offset-4">
+	</div>
+	</div>
+	<div class="row">
+	<div class="col-md-6 col-md-offset-4">
  		<div class="col-md-3" >
         <label for="psw">Password:</label>
         </div>
         <div class="col-md-3" >
-        <input type="text" id="psw" placeholder="" th:value="${user.password}"style="margin-bottom: 3px">
+        <input type="password" id="input1" th:value="${user.password}"style="margin-bottom: 3px">
         </div>
-</div>  
-</div>          
-<div class="row">
-<div class="col-md-6 col-md-offset-4">
+	</div>  
+	</div>          
+	<div class="row">
+	<div class="col-md-6 col-md-offset-4">
  		<div class="col-md-3" >
         <label for="passwordc">Conform Password:</label>
         </div>
         <div class="col-md-3" >
-        <input type="text" name="password" placeholder="" th:value="${user.password}">
+        <input type="password" id="input2" name="password" onblur="check2pwd()" th:value="${user.password}">
         </div>
-</div> 
-</div>          
-<br><br> 
+	</div> 
+	</div>          
+	<br><br> 
 
     <button class="btn btn-default btn-xs" type="submit">SUBMIT</button>
 </form>
