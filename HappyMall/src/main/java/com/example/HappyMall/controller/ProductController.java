@@ -1,7 +1,6 @@
-package com.happymall.webservice.controller;
+package com.example.HappyMall.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.happymall.webservice.domain.Product;
-import com.happymall.webservice.service.ProductService;
+import com.example.HappyMall.domain.Product;
+import com.example.HappyMall.service.ProductService;
 
 
 
@@ -32,13 +31,13 @@ public class ProductController {
 		return  productService.getAllProducts();
  
 	}
-	
+ 	
  	@GetMapping("/{id}")
 	public @ResponseBody Product getProductById( @PathVariable("id") int productId) {
 
 		return productService.getProduct(productId);
  	}
-
+ 	
  	@RequestMapping("/name/{name}")
 	public List<Product> getProductWithName( @PathVariable("name") String name) {
 
@@ -53,7 +52,6 @@ public class ProductController {
 
 	   
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void processAddNewProductForm(@RequestBody Product productToBeAdded ) {
 
 			productService.addProduct(productToBeAdded);
@@ -61,20 +59,16 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.OK)
 	public Product processUpdateProductForm(@RequestBody Product productToBeUpdated ) {
 
 			return productService.updateProduct(productToBeUpdated);
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	@ResponseStatus(value = HttpStatus.OK)
 	public void deleteProduct(@RequestBody Product productToBeDeleted) {
 
 			productToBeDeleted.setStatus("D");
 			productService.updateProduct(productToBeDeleted);
 	}
-	
-	
 
 }

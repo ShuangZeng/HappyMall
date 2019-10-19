@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class OrderLine {
 
@@ -23,7 +26,7 @@ public class OrderLine {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="orders_id")
 	private Orders orders;

@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.happymall.webservice.dao.UserDao;
+import com.happymall.webservice.domain.Role;
 import com.happymall.webservice.domain.User;
 
 @Repository
@@ -20,8 +21,8 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 	@Override
 	public List<User> findAllVendors() {
 		
-		Query query = entityManager.createQuery("select v from User v  where v.role = (select r from Role r where r.roleName =: name)");
-		return (List<User>) query.setParameter("name", "vendor").getResultList();
+		Query query = entityManager.createQuery("select v from User v join v.role r where r.role =: role");
+		return (List<User>) query.setParameter("role", "Vendor").getResultList();
 	}
 
 	@Override

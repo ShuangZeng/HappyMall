@@ -1,11 +1,7 @@
 package com.example.HappyMall.domain;
 
-import java.util.ArrayList;
-
-
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -13,52 +9,45 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "user")
 public class User {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int Id;
+    private int id;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
-//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@OneToOne
 	private Role role;
 	
-	@NotBlank(message="FullName field is mandatory")
+	@NotBlank
 	private String fullName;
 	
 	@NotBlank
 	private String userName;
-
 	
-	@Email(message="Email is not valid")
+	@Email
 	private String email;
 	
 	@NotBlank	
 	private String password;
 	
-	@Pattern(regexp="(^$[0-9]{10})",message="Mobile number must be 10 digits")
 	private String phone;
 	
-	@NotNull
+	@NotBlank
 	private char active_Ind;
 	
 	private boolean enable = true;
@@ -69,25 +58,28 @@ public class User {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
+	@JsonIgnoreProperties("listAddress")
 	@OneToMany(mappedBy="user")
 	private List<Address> listAddress;
 	
-	@OneToMany(mappedBy="user")
+	@JsonIgnoreProperties("listOrders")
+	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
 	private List<Orders> listOrders;
 	
-	@OneToMany(mappedBy="vendor")
+	@JsonIgnoreProperties("listProduct")
+	@OneToMany(mappedBy="vendor", cascade = CascadeType.PERSIST)
 	private List<Product> listProduct;
 	
-	@OneToMany(mappedBy="user")
+	@JsonIgnoreProperties("listCardDetail")
+	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
 	private List<CardDetail> listCardDetail;
-	
-	
-	public String getPhone() {
-		return phone;
+
+	public int getId() {
+		return id;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Role getRole() {
@@ -98,6 +90,14 @@ public class User {
 		this.role = role;
 	}
 
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -105,13 +105,22 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getFullName() {
-		return fullName;
+	
+	public String getPassword() {
+		return password;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public char getActive_Ind() {
@@ -122,12 +131,56 @@ public class User {
 		this.active_Ind = active_Ind;
 	}
 
-	public String getPassword() {
-		return password;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public List<Address> getListAddress() {
+		return listAddress;
+	}
+
+	public void setListAddress(List<Address> listAddress) {
+		this.listAddress = listAddress;
+	}
+
+	public List<Orders> getListOrders() {
+		return listOrders;
+	}
+
+	public void setListOrders(List<Orders> listOrders) {
+		this.listOrders = listOrders;
+	}
+
+	public List<Product> getListProduct() {
+		return listProduct;
+	}
+
+	public void setListProduct(List<Product> listProduct) {
+		this.listProduct = listProduct;
+	}
+
+	public List<CardDetail> getListCardDetail() {
+		return listCardDetail;
+	}
+
+	public void setListCardDetail(List<CardDetail> listCardDetail) {
+		this.listCardDetail = listCardDetail;
+	}
+	
+	public String toString() {
+		return getFullName();
 	}
 
 	public String getUserName() {
@@ -137,5 +190,14 @@ public class User {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+	
 	
 }

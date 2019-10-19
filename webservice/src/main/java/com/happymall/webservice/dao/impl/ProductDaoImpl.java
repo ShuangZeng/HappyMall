@@ -19,15 +19,15 @@ public class ProductDaoImpl extends GenericDaoImpl<Product> implements ProductDa
 	@SuppressWarnings("unchecked")
 	public List<Product> findByName(String name){
 		
-		Query query = entityManager.createQuery("select p from Product p  where p.name =:name");
-		return (List<Product>) query.setParameter("name", name).getResultList();
+		Query query = entityManager.createQuery("select p from Product p  where p.name like :name");
+		return (List<Product>) query.setParameter("name", "%"+name+"%").getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Product> findByVendorName(String name){
 		
-		Query query = entityManager.createQuery("select p from Product p  where p.vendor =:name");
-		return (List<Product>) query.setParameter("name", name).getResultList();
+		Query query = entityManager.createQuery("select p from Product p join p.vendor v  where v.fullName like :name");
+		return (List<Product>) query.setParameter("name", "%"+name+"%").getResultList();
 	}
 	
 

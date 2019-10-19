@@ -1,11 +1,10 @@
-package com.example.HappyMall.rest.service;
+package com.example.HappyMall.service;
 
 import java.util.List;
 
 import com.example.HappyMall.domain.Product;
 
-
-public interface ProductRestService {
+public interface ProductService {
 	
 	List<Product> getAllProducts();
 

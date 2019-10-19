@@ -1,10 +1,10 @@
-package com.example.HappyMall.rest.service;
+package com.example.HappyMall.service;
 
 import java.util.List;
 
 import com.example.HappyMall.domain.User;
 
-public interface VendorRestService {
+public interface VendorService {
 	
 	List<User> getAllVendors();
 
@@ -19,5 +19,6 @@ public interface VendorRestService {
 	User updateVendor(User vendor);
 	
 	void deleteVendor(User vendor);
+
 
 }

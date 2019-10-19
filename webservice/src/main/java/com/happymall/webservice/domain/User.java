@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,13 @@ import javax.validation.constraints.Past;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.happymall.webservice.domain.Address;
+import com.happymall.webservice.domain.CardDetail;
+import com.happymall.webservice.domain.Orders;
+import com.happymall.webservice.domain.Product;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class User {
@@ -45,16 +53,20 @@ public class User {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
+	@JsonBackReference(value = "ownerOfAddress")
 	@OneToMany(mappedBy="user")
 	private List<Address> listAddress;
 	
-	@OneToMany(mappedBy="user")
+	@JsonBackReference(value = "ownerOfOrder")
+	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
 	private List<Orders> listOrders;
 	
-	@OneToMany(mappedBy="vendor")
+	@JsonBackReference(value = "ownerOfProduct")
+	@OneToMany(mappedBy="vendor", cascade = CascadeType.PERSIST)
 	private List<Product> listProduct;
 	
-	@OneToMany(mappedBy="user")
+	@JsonBackReference(value = "ownerOfCard")
+	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
 	private List<CardDetail> listCardDetail;
 
 	public int getId() {

@@ -17,12 +17,16 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Product {
-	
+
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="vendor_id")
@@ -46,27 +50,17 @@ public class Product {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
+	@JsonIgnoreProperties("listResources")
 	@OneToMany(mappedBy="product")
 	private List<Resource> listResouce;
 
-	public Product() {
-		super();
-	}
-	
-	public Product(User vendor, @NotBlank String name, @NotBlank String description, double price,
-			int quantity, String status, Date createDate, Date modifiedDate, List<Resource> listResouce) {
-		super();
-		this.vendor = vendor;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.quantity = quantity;
-		this.status = status;
-		this.createDate = createDate;
-		this.modifiedDate = modifiedDate;
-		this.listResouce = listResouce;
+	public int getId() {
+		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public User getVendor() {
 		return vendor;
@@ -116,6 +110,14 @@ public class Product {
 		this.status = status;
 	}
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
 	public Date getModifiedDate() {
 		return modifiedDate;
 	}
@@ -131,5 +133,7 @@ public class Product {
 	public void setListResouce(List<Resource> listResouce) {
 		this.listResouce = listResouce;
 	}
-
+	
+	
+	
 }

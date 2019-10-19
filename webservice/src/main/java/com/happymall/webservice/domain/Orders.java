@@ -18,6 +18,9 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Orders {
 
@@ -25,6 +28,7 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
@@ -48,7 +52,8 @@ public class Orders {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
-	@OneToMany(mappedBy="orders", cascade=CascadeType.ALL)
+	@JsonBackReference
+	@OneToMany(mappedBy="orders", cascade=CascadeType.PERSIST)
 	private List<OrderLine> listOrderLine;
 
 	public int getId() {

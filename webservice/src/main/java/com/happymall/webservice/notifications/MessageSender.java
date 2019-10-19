@@ -25,11 +25,11 @@ public class MessageSender {
 	public void run(ContextRefreshedEvent event) {
 
 		
-		try {
-			this.emailService.notifyBuyerOfPurchase(OrderMock.create());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			this.emailService.notifyBuyerOfPurchase(OrderMock.create());
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		//productDao.save(ProductMock.createAndPersist());
 		

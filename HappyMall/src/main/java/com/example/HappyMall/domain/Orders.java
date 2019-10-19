@@ -18,18 +18,16 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Orders {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
-	
-//	@Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(name = "id", columnDefinition = "BINARY(16)")
-//    private UUID id;
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -62,7 +60,109 @@ public class Orders {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
-	@OneToMany(mappedBy="orders", cascade=CascadeType.ALL)
+	@JsonIgnoreProperties("listOrderLine")
+	@OneToMany(mappedBy="orders", cascade=CascadeType.PERSIST)
 	private List<OrderLine> listOrderLine;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
+
+	public double getSubTotal() {
+		if(subTotal == 0) {
+			for(OrderLine L : listOrderLine){
+				subTotal += L.getTotal();
+			}
+		}
+		return subTotal;
+	}
+
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
+	}
+
+	public double getTax() {
+		if(tax == 0) {
+			tax = 0.07 * getSubTotal();
+		}
+		return tax;
+	}
+
+	public void setTax(double tax) {
+		this.tax = tax;
+	}
+
+	public double getServiceFee() {
+		return serviceFee;
+	}
+
+	public void setServiceFee(double serviceFee) {
+		this.serviceFee = serviceFee;
+	}
+
+	public double getTotal() {
+		if(total == 0) {
+			total = getTax() + getSubTotal();
+		}
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public List<OrderLine> getListOrderLine() {
+		return listOrderLine;
+	}
+
+	public void setListOrderLine(List<OrderLine> listOrderLine) {
+		this.listOrderLine = listOrderLine;
+	}
+	
+	
 	
 }

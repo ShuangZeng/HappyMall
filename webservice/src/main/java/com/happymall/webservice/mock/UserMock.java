@@ -37,7 +37,7 @@ public class UserMock {
 		U.setEmail("buba.bbojang@gmail.com");
 		U.setActive_Ind('A');
 		Address A = AddressMock.createAndPersist();
-		A.setUser(U);
+		//A.setUser(U);
 		
 		U.setListAddress(Arrays.asList(A));
 		CardDetail C = CardDetailMock.createAndPersist();

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,53 +24,79 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Autowired
 	RestHttpHeader restHelper;
 
-	String baseUrl = "http://localhost:8000/products";
-	String baseUrlExtended = baseUrl + "/";
+	@Value( "${base.url}" )
+	private String baseUrl;
+	String serviceUrl = "http://localhost:8000/products";
+	String serviceUrlExtended = serviceUrl + "/";
+	
 	
 
 	@Override
 	public List<Product> getAllProducts() {
+		
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
-		ResponseEntity<Product[]> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.GET, httpEntity, Product[].class);	
+		ResponseEntity<Product[]> responseEntity = restTemplate.exchange(serviceUrl, HttpMethod.GET, httpEntity, Product[].class);	
  		List<Product> productList = Arrays.asList(responseEntity.getBody());
-		return null;
+		return productList;
 	}
 
 	@Override
 	public List<Product> getProductsByName(String name) {
 		
-		return null;
+		String url = serviceUrlExtended + "name/" + name;
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<Product[]> responseEntity = restTemplate.exchange(url , HttpMethod.GET, httpEntity, Product[].class);	
+ 		List<Product> productList = Arrays.asList(responseEntity.getBody());
+		return productList;
 	}
 
 	@Override
 	public List<Product> getProductsByVendorName(String name) {
 		
-		return null;
+		String url = serviceUrlExtended + "vendor/" + name;
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<Product[]> responseEntity = restTemplate.exchange(url , HttpMethod.GET, httpEntity, Product[].class);	
+ 		List<Product> productList = Arrays.asList(responseEntity.getBody());
+		return productList;
 	}
 
 	@Override
-	public void addProduct(Product product) {
+	public Product addProduct(Product product) {
 		
-		
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity<Product> httpEntity = new HttpEntity<Product>(product, restHelper.getHttpHeaders());
+		product = restTemplate.postForObject(serviceUrl, httpEntity, Product.class);
+		return product;
 	}
 
 	@Override
 	public Product getProduct(int id) {
 		
-		return null;
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<Product> responseEntity = restTemplate.exchange(serviceUrlExtended + id, HttpMethod.GET, httpEntity, Product.class);	
+ 		Product product = responseEntity.getBody();
+		return product;
 	}
 
 	@Override
 	public Product updateProduct(Product product) {
 		
-		return null;
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity<Product> httpEntity = new HttpEntity<Product>(product, restHelper.getHttpHeaders());
+		product = restTemplate.patchForObject(serviceUrlExtended + "update", httpEntity, Product.class);
+		return product;
 	}
 
 	@Override
-	public void deleteProduct(int id) {
+	public void deleteProduct(Product product) {
 		
-		
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity<Product> httpEntity = new HttpEntity<Product>(product, restHelper.getHttpHeaders());
+		product = restTemplate.patchForObject(serviceUrlExtended + "update", httpEntity, Product.class);
 	}
 
 
