@@ -50,7 +50,7 @@ public class CustomerLoginSuccessHandler extends SimpleUrlAuthenticationSuccessH
 		}else if(roles.contains("END_USER")) {
 			url = "/home";
 		}else if(roles.contains("VENDER_USER")) {
-			url = "/vender";
+			url = "/vendor";
 		}else if(roles.contains("CUSTOMER_USER")) {
 			url = "/customer";
 		}
