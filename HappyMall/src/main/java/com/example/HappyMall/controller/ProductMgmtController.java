@@ -38,7 +38,6 @@ public class ProductMgmtController {
 		Product p = new Product();
 		p.setId(Integer.valueOf(productId));
 		productService.approveProduct(p);
-//		System.out.print(productId);
 		return "redirect:/admin/productmgmt";
 	}
 	@GetMapping(value = "admin/productmgmt/block")
@@ -46,7 +45,6 @@ public class ProductMgmtController {
 		Product p = new Product();
 		p.setId(Integer.valueOf(productId));
 		productService.blockProduct(p);
-		System.out.print(productId);
 		return "redirect:/admin/productmgmt";
 	}
 	

@@ -33,7 +33,6 @@ public class VendorController {
 	@RequestMapping(value = "/admin/vendor")
 	public String listVendors(Model model, HttpSession session) {
 		User user = (User)model.asMap().get("user");
-		System.out.print(user);
 		List<Product> products = productService.findProductsByVendor(user.getId());
 		//List<Product> products = productService.findProductsByVendor(1005);
 		model.addAttribute("productList",products);

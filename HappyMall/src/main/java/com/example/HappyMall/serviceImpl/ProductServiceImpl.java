@@ -67,7 +67,6 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> findProductsByVendor(int vendorNumber) {
-		System.out.println("********************************************************************************");
 		return prs.findProductsByVendor(vendorNumber);
 	} 
 
