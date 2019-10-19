@@ -67,11 +67,12 @@
 			<td th:text="${product.price}"></td>
 			<td th:text="${product.quantity}"></td>
 			<td>
-			<form th:action="@{/admin/editProduct/}"
+			<form th:action="@{/products/admin/editProduct}"
 						method="GET">
-						<input type="hidden" name="productId" th:value="${product.id}" />
+					<input type="hidden" name="productId" th:value="${product.id}" />
 						<input class="btn btn-default btn-xs" type="submit"
 							value="Edit">
+				
 			</form>
 			</td>
 		</tr>
