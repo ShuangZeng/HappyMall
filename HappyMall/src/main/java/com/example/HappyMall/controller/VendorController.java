@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.domain.User;
@@ -23,19 +24,21 @@ import com.example.HappyMall.service.ProductService;
 import com.example.HappyMall.service.UserService;
 
 @Controller
-
+@SessionAttributes ({"user"})
 public class VendorController {
 
 	@Autowired
 	ProductService productService;
 	
 	@RequestMapping(value = "/admin/vendor")
-	public String listVendors(Model model, HttpSession session) {		
-		//List<Product> products = productService.findProductsByVendor(session.getAttribute("id").toString());
-		List<Product> products = productService.findProductsByVendor(1005);
+	public String listVendors(Model model, HttpSession session) {
+		User user = (User)model.asMap().get("user");
+		List<Product> products = productService.findProductsByVendor(user.getId());
+		//List<Product> products = productService.findProductsByVendor(1005);
 		model.addAttribute("productList",products);
 		return "vendor"; 
 	}
+	
 
 }
 
