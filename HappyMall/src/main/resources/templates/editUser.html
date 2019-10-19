@@ -19,9 +19,10 @@
 <header th:insert="header :: navbar"> </header>
 <h3 style="font-weight:bold">Edit Profile</h3>
 <br><br>
+<form th:action="@{/account/edit}" th:object = "${user}" method="POST" >
 <div class="row" >
     <div class="col-md-6 col-md-offset-4">
-<!--<form th:action="@{/account/edit}" th:object = "${user}" method="POST" >-->
+
  		<div class="col-md-3 " >
          <label for="fullName">Full Name:</label>
         </div>
@@ -66,14 +67,14 @@
         <label for="passwordc">Conform Password:</label>
         </div>
         <div class="col-md-3" >
-        <input type="text" id="pswc" placeholder="" th:value="${user.password}">
+        <input type="text" name="password" placeholder="" th:value="${user.password}">
         </div>
 </div> 
 </div>          
 <br><br> 
 
     <button class="btn btn-default btn-xs" type="submit">SUBMIT</button>
-
+</form>
 </br></br></br></br>
  <footer footer th:insert="footer :: navbar"> </footer>
 </body>
