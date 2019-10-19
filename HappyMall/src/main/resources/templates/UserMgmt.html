@@ -11,84 +11,81 @@
       <title>User Management</title>
       </head>
 <body style="text-align:center;">
-<h1 class="text-center">User Management</h1>
+<header th:insert="header :: navbar"> </header>
+<h3 class="text-center" style="font-weight:bold">User Management</h3>
+<br><br>
 	<table class="table table-hover "   style="display:inline;margin:100px">
 	<thead>
 		<tr> 
-			<th> </th>
+			
 			<th>Vendor Name</th>
 			<th>Status</th>
+			<th> </th>
+			<th> </th>
+			<th> </th>
 		</tr>
 	</thead>
 	<tbody>
-		<!--<tr>
-			<td><input type="radio" name="function" id="function1" value="option1"></td>
-			<td>Nike</td>
-			<td>N</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option2"></td>
-			<td>Addidas</td>
-			<td>Y</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option3"></td>
-			<td>Puma</td>
-			<td>N</td>
-			<td>N</td>
-		</tr>-->	
-		<tr th:each="user:${userList}">
-		<td><input type="radio" name="function" id="function1" value="option3"></td>
+		<tr th:each="user:${userList}" th:if=${user.role.id==2}>
                 <td th:text="${user.fullName}"></td>
                 <td th:text="${user.active_Ind}"></td>
-		<tr>
-			<td><button class="btn btn-default btn-xs" type="submit">DELETE</button></td>
-			<td><button class="btn btn-default btn-xs" type="submit">BLOCK</button></td>
-			<td><button class="btn btn-default btn-xs" type="submit">APPROVE</button></td>
-		</tr>
+                <td><form th:action="@{/admin/usermgmt/}" method = "POST">
+                	<input type="hidden" name="userId" th:value="${user.id}" />
+                	<input class="btn btn-default btn-xs" type="submit" value = "DELETE"/>
+                	</form>
+                </td>
+			    <td><form th:action="@{/admin/usermgmt/block}" method = "GET">
+                	<input type="hidden" name="userId" th:value="${user.id}" />
+                	<input class="btn btn-default btn-xs" type="submit" value = "BLOCK"/>
+                	</form>
+                </td>
+				<td><form th:action="@{/admin/usermgmt/approve}" method = "GET">
+                	<input type="hidden" name="userId" th:value="${user.id}" />
+                	<input class="btn btn-default btn-xs" type="submit" value = "APPROVE"/>
+                	</form>
+                </td>
+          </tr>
 	</tbody>
 </table>
+
 <table class="table table-hover "   style="display:inline;margin:100px">
 	<thead>
 		<tr> 
-			<th> </th>
+			
 			<th>Client Name</th>
-			<th>Validation</th>
-			<th>Approval</th>
+			<th>Status</th>
+			<th> </th>
+			<th> </th>
+			<th> </th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td><input type="radio" name="function2" id="function2" value="option1"></td>
-			<td>Amy</td>
-			<td>N</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function2" id="function2" value="option2"></td>
-			<td>Sam</td>
-			<td>Y</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function2" id="function2" value="option3"></td>
-			<td>Lily</td>
-			<td>N</td>
-			<td>N</td>
-		</tr>
-		<tr>
-						<td></td>
-			<td><button class="btn btn-default btn-xs" type="submit">DELETE</button></td>
-			<td><button class="btn btn-default btn-xs" type="submit">BLOCK</button></td>
-			<td><button class="btn btn-default btn-xs" type="submit">APPROVE</button></td>
-		</tr>
+		
+		<tr th:each="user:${userList}" th:if=${user.role.id==3}>
+                <td th:text="${user.fullName}"></td>
+                <td th:text="${user.active_Ind}"></td>
+                <td><form th:action="@{/admin/usermgmt/}" method = "POST">
+                	<input type="hidden" name="userId" th:value="${user.id}" />
+                	<input class="btn btn-default btn-xs" type="submit" value = "DELETE"/>
+                	</form>
+				</td>
+				<td><form th:action="@{/admin/usermgmt/block}" method = "GET">
+                	<input type="hidden" name="userId" th:value="${user.id}" />
+                	<input class="btn btn-default btn-xs" type="submit" value = "BLOCK"/>
+                	</form>
+                </td>
+				<td><form th:action="@{/admin/usermgmt/approve}" method = "GET">
+                	<input type="hidden" name="userId" th:value="${user.id}" />
+                	<input class="btn btn-default btn-xs" type="submit" value = "APPROVE"/>
+                	</form>
+                </td>
+         </tr>
 	</tbody>
 </table>
 <br/><br/>
 <div style="margin:0 auto;width:200px;">
 <button class="btn btn-default btn-sm"  onclick="location.href='http://localhost:8080/admin'" type="submit">GO BACK</button></div>
-
+ </br></br>
+ <footer footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>

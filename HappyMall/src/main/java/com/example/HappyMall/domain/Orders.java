@@ -51,7 +51,7 @@ public class Orders {
 	private double serviceFee;
 	
 	private double total;
-	
+
 	private String status;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -163,6 +163,41 @@ public class Orders {
 		this.listOrderLine = listOrderLine;
 	}
 	
+	
+	
+	public Orders() {
+		// TODO Auto-generated constructor stub
+	}
+	
+
+	public Address getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(Address shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+	public Address getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	
+
+	public Orders(User user, @NotBlank String orderCode, Address shippingAddress, Address billingAddress,
+			String status) {
+		super();
+		this.user = user;
+		this.orderCode = orderCode;
+		this.shippingAddress = shippingAddress;
+		this.billingAddress = billingAddress;
+		this.status = status;
+		this.createDate = new Date();
+	}
 	
 	
 }

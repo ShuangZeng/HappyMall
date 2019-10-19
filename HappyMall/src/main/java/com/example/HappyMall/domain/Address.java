@@ -62,6 +62,21 @@ public class Address {
 	@OneToMany(mappedBy="billingAddress")
 	private List<Orders> listOrdersBilling;
 
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(lineOne);
+		if (lineTwo != null && lineTwo != "")
+			result.append(lineTwo + ", ");
+		result.append(city + ", " + state + ", " + zipcode);
+		return result.toString();
+	}
+	
+	public Address() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -141,6 +156,23 @@ public class Address {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
+	public List<Orders> getListOrdersShipping() {
+		return listOrdersShipping;
+	}
+
+	public void setListOrdersShipping(List<Orders> listOrdersShipping) {
+		this.listOrdersShipping = listOrdersShipping;
+	}
+
+	public List<Orders> getListOrdersBilling() {
+		return listOrdersBilling;
+	}
+
+	public void setListOrdersBilling(List<Orders> listOrdersBilling) {
+		this.listOrdersBilling = listOrdersBilling;
+	}
+
 	
 	
 }

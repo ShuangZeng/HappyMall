@@ -28,18 +28,18 @@ public interface OrderService {
  	//START Region: Get specific order---------------------------------------------------------
  	Orders getOrder(int id);
  	
-	Orders getOrderByOrderCode(int userId, String orderCode);
+	Orders getOrderByOrderCode(int userId, String orderCode, boolean forEnduser);
 	//END Region: Get specific order-----------------------------------------------------------
 	
 	
 	//START Region: Get list of orders---------------------------------------------------------	
 	List<Orders> getAllOrders();
 	
-	List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEndUserOrVendor);
+	List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEnduser);
 	
-	List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEndUserOrVendor);
+	List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEnduser);
 	
-	List<Orders> getAllOrdersByUser(int userId);
+	List<Orders> getAllOrdersByUser(int userId, boolean forEnduser);
 	//END Region: Get list of orders-----------------------------------------------------------
 	
  	//End Retrieve-----------------------------------------------------------------------------

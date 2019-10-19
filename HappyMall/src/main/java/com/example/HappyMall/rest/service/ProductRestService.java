@@ -20,5 +20,9 @@ public interface ProductRestService {
 	Product updateProduct(Product product);
 	
 	void deleteProduct(Product product);
+	
+	Product approveProduct(Product product);
+	Product blockProduct(Product product);
+	List<Product> findProductsByVendor(int vendorNumber);
 
 }

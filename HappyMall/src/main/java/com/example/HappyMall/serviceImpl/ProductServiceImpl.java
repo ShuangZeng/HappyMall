@@ -10,9 +10,15 @@ import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.rest.service.ProductRestService;
 import com.example.HappyMall.service.ProductService;
 
+import java.util.Optional;
+
+import com.example.HappyMall.repository.ProductRepository;
+
 @Service
 @Transactional
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService{
+	@Autowired
+	ProductRepository productRepository;
 	
 	@Autowired
 	ProductRestService prs;
@@ -46,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		return prs.getProduct(id);
 	}
-
+	
 	@Override
 	public Product updateProduct(Product product) {
 		
@@ -59,4 +65,33 @@ public class ProductServiceImpl implements ProductService {
 		prs.deleteProduct(product);
 	}
 
+	@Override
+	public List<Product> findProductsByVendor(int vendorNumber) {
+		return productRepository.findProductsByvendor_id(vendorNumber);
+	} 
+
+	@Override
+	public Product approveProduct(Product product) {
+		Optional<Product> productRecordOptional = productRepository.findById(product.getId());
+		if(!productRecordOptional.isPresent()) return null;
+		Product productRecord = productRecordOptional.get();
+		productRecord.setStatus("A");
+		productRepository.save(productRecord);
+		return product;
+	}
+
+	@Override
+	public Product blockProduct(Product product) {
+		Optional<Product> productRecordOptional = productRepository.findById(product.getId());
+		if(!productRecordOptional.isPresent()) return null;
+		Product productRecord = productRecordOptional.get();
+		productRecord.setStatus("D");
+		productRepository.save(productRecord);
+		return product;
+	}
+
+
+	
+	
 }
+

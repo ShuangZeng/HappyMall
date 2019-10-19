@@ -130,6 +130,7 @@ public class Product {
 		return listResouce;
 	}
 
+
 	public void setListResouce(List<Resource> listResouce) {
 		this.listResouce = listResouce;
 	}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<title>Product List</title>
+</head>
+<body>
+	<h1 class="text-center">Product List</h1>
+	<table class="table table-hover " align="center" style="width: 80%">
+		<thead>
+			<tr>
+				<th>Product Name</th>
+				<th>Vendor</th>
+				<th>Description</th>
+				<th>Stock</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<tr th:each="product:${productList}">
+				<td th:text="${product.name}"></td>
+				<td th:text="${product.vendor.fullName}"></td>
+				<td th:text="${product.description}"></td>
+				<td th:text="${product.quantity}"></td>
+				<td><a href="#" class="btn btn-default btn-xs" th:href="${'/shoppingcart/' + product.id}">Add to cart</a></td>
+			</tr>
+			<tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

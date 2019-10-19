@@ -30,6 +30,7 @@ public class VendorRestServiceImpl implements VendorRestService {
 	String serviceUrl = "http://localhost:8000/vendors";
 	String serviceUrlExtended = serviceUrl + "/";
 
+
 	@Override
 	public List<User> getAllVendors() {
 		RestTemplate restTemplate = restHelper.getRestTemplate();

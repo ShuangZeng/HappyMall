@@ -108,8 +108,19 @@ public class OrderLine {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
+
+	public OrderLine(Orders orders, Product product, double price, int quantity) {
+		super();
+		this.orders = orders;
+		this.product = product;
+		this.price = price;
+		this.quantity = quantity;
+		this.total = price * quantity;
+		this.createDate = new Date();
+	}
 	
-	
-	
-	
+	public OrderLine() {
+		// TODO Auto-generated constructor stub
+	}
 }

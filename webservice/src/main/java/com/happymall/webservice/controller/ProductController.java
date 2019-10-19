@@ -67,13 +67,35 @@ public class ProductController {
 			return productService.updateProduct(productToBeUpdated);
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void deleteProduct(@RequestBody Product productToBeDeleted) {
 
 			productToBeDeleted.setStatus("D");
 			productService.updateProduct(productToBeDeleted);
 	}
+	
+	@RequestMapping(value = "/approve", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Product approveProduct(@RequestBody Product product) {
+		
+		return productService.approveProduct(product);
+	}
+	
+	@RequestMapping(value = "/block", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Product blockProduct(@RequestBody Product product) {
+		
+		return productService.blockProduct(product);
+	}
+	
+	@RequestMapping("/by/vendor/{id}")
+	public List<Product> getProductsByVendorId(@PathVariable("id") int id){
+		
+		return productService.getProductsByVendorId(id);
+	}
+	
+	
 	
 	
 

@@ -1,5 +1,6 @@
 package com.example.HappyMall.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +58,8 @@ public class CardDetail {
 	
 	@NotBlank
 	private char active_Ind;
+	
+	private boolean default_card;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
@@ -73,6 +76,7 @@ public class CardDetail {
 
 	public void setId(int id) {
 		this.id = id;
+
 	}
 
 	public User getUser() {
@@ -178,7 +182,33 @@ public class CardDetail {
 	public void setListPayment(List<Payment> listPayment) {
 		this.listPayment = listPayment;
 	}
-	
-	
 		
+	public boolean isDefault_card() {
+		return default_card;
+	}
+
+	public void setDefault_card(boolean default_card) {
+		this.default_card = default_card;
+	}
+
+	public CardDetail() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		StringBuilder result = new StringBuilder();
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+		result.append(nameOnCard + " - ");
+		if (type == "visa")
+			result.append("Visa: ");
+		else 
+			result.append("Master: ");
+		
+		result.append("***" + cardNumber.substring(12));
+		result.append(" - Expired date: " + formatter.format(expiredDate));
+		
+		return result.toString();
+	}
 }

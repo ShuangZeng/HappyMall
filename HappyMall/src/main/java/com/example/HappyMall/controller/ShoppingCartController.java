@@ -4,71 +4,232 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.example.HappyMall.domain.EditAddress;
-import com.example.HappyMall.domain.Item;
-import com.example.HappyMall.domain.Product;
+import com.example.HappyMall.domain.*;
+import com.example.HappyMall.service.*;
 
 @Controller
+@SessionAttributes({"user", "listItem", "orders"})
 public class ShoppingCartController {
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private AddressService addressService;
+	
+	@Autowired
+	private CardDetailService cardDetailService;
+	
+	@Autowired
+	private OrdersService ordersService;
+
+	@Autowired
+	private OrderLineService orderLineService;
 
 	@GetMapping("/shoppingcart")
 	public String getShoppingCart(Model model, HttpSession session)
 	{
-		model.addAttribute("editAddress", new EditAddress());
-		Product p1 = new Product();
-		p1.setName("Product 1");
-		p1.setPrice(1);
-		p1.setDescription("description 1");
-		
-		Product p2 = new Product();
-		p2.setName("Product 2");
-		p2.setPrice(2);
-		p2.setDescription("description 2");
-		Product p3 = new Product();
-		p3.setName("Product 3");
-		p3.setPrice(3);
-		p3.setDescription("description 3");
-		
-		List<Item> listItem = new ArrayList<Item>();
-		listItem.add(new Item("Product 1", 1.00, "Description 1", 1));
-		listItem.add(new Item("Product 1", 1.00, "Description 1", 1));
-		listItem.add(new Item("Product 1", 1.00, "Description 1", 1));
-		session.setAttribute("listItem", listItem);
-		model.addAttribute("cart", listItem);
-		return "shoppingcart";
-	}
-	
-	@GetMapping("/cart/{id}")
-	public String addCart(@PathVariable int id, Model model, HttpSession session)
-	{
-		if (session.getAttribute("listItem") == null)
+		System.out.println("Load shopping cart..." );
+		User user = (User) model.asMap().get("user");
+		if(user == null)
 		{
-			List<Item> listItem = new ArrayList<Item>();
-			listItem.add(new Item());
-			session.setAttribute("listItem", listItem);
+			System.out.println("Not log in yet..." );
+//			List<Item> listItem = getListItemForGuest(model);
+//			model.addAttribute("totalProduct", listItem.size());
+//			model.addAttribute("listItem", listItem);
 		}
 		else
 		{
+			System.out.println("User: " + user.getEmail() );
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			System.out.println("Orders: " + orders);
+			System.out.println("Sub total: " + orders.getSubTotal());
+			System.out.println("Tax: " + orders.getTax());
+			System.out.println("Total: " + orders.getTotal());
+			//List<OrderLine> orderLine = new ArrayList<OrderLine>();
+			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
+			System.out.println("orderLine size: " + listOrderLine.size());
 			
+			model.addAttribute("orders", orders);
+			model.addAttribute("listItem", listOrderLine);
+			model.addAttribute("listAddress", addressService.findByUserId(user.getId()));//listAddress);
+			model.addAttribute("listCardDetail", cardDetailService.findByUserId(user.getId()));//listCardDetail);
+			model.addAttribute("totalProduct", listOrderLine == null ? 0 : listOrderLine.size());
+			model.addAttribute("cardDefault", cardDetailService.getCardDefaultByUserId(user.getId()));
+		}
+		model.addAttribute("newAddress", new Address());
+		model.addAttribute("newCard", new CardDetail());
+		return "shoppingcart";
+	}
+	
+	private List<Item> getListItemForGuest(Model model)
+	{
+		System.out.println("getListItemForGuest...");
+		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
+		for(Item item : listItem)
+		{
+			System.out.println(item.getProduct().toString());
+		}
+		if (listItem == null)
+			listItem = new ArrayList<Item>();
+		System.out.println("Finish getListItemForGuest...");
+		return listItem;
+	}
+	
+	@GetMapping("/shoppingcart/{id}")
+	public String addToCart(@PathVariable int id, Model model, HttpSession session)
+	{
+		System.out.println("add to cart...");		
+
+		User user = (User) model.asMap().get("user");
+		if(user == null)
+		{
+			System.out.println("Not log in yet..." );
+			List<Item> listItem = addToCartByGuest(id, model);
+			model.addAttribute("listItem", listItem);
+			System.out.println(listItem.size());
+			model.addAttribute("totalProduct", listItem.size());
+		}
+		else
+		{
+			System.out.println("User: " + user.getEmail());	
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			
+			if (orders == null)
+			{
+				Address address = addressService.getAddressDefaultByUserId(user.getId());
+				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+			}
+
+			List<OrderLine> listOrderLine = addToCartByEndUser(id, user, orders);
+
+			System.out.println("Complete addToCartByEndUser");	
+			
+			model.addAttribute("orders", orders);
+			model.addAttribute("listItem", listOrderLine);
+			model.addAttribute("listAddress", addressService.findByUserId(user.getId()));//listAddress);
+			model.addAttribute("listCardDetail", cardDetailService.findByUserId(user.getId()));//listCardDetail);
+			model.addAttribute("totalProduct", listOrderLine == null ? 0 : listOrderLine.size());
+			model.addAttribute("cardDefault", cardDetailService.getCardDefaultByUserId(user.getId()));
+			
+		}
+
+		model.addAttribute("newAddress", new Address());
+		model.addAttribute("newCard", new CardDetail());
+		System.out.println("finish...");
+		return "redirect:/admin/products";
+	}	
+	
+	private List<Item> addToCartByGuest(int id, Model model)
+	{
+		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
+		if (productService.getProduct(id) != null) 
+		{
+			if (listItem == null)
+			{
+				System.out.println("create new cart...");
+				System.out.println(productService.getProduct(id));
+				listItem = new ArrayList<Item>();
+				if (productService.getProduct(id) != null)
+					listItem.add(new Item(productService.getProduct(id), 1));
+			}
+			else
+			{
+				System.out.println("has cart in session...");
+				int index = isExistItem(id, listItem);
+				if (index == -1)
+				{
+					listItem.add(new Item(productService.getProduct(id), 1));
+				}
+				else
+				{
+					int quantity = listItem.get(index).getProduct().getQuantity();
+					listItem.get(index).getProduct().setQuantity(quantity + 1);
+				}
+			}
+		}
+		return listItem;
+	}
+	
+	private int isExistItem (int id, List<Item> listItem)
+	{
+		for (int i = 0; i < listItem.size(); i++)
+		{
+			if (listItem.get(i).getProduct().getId() == id)
+				return i;
+		}
+		return -1;
+	}
+
+	private List<OrderLine> addToCartByEndUser(int id, User user, Orders orders)
+	{
+		System.out.println("addToCartByEndUser...");	
+		List<OrderLine> listItem = orderLineService.findByOrdersId(orders.getId());
+		OrderLine orderLine;
+		if(listItem == null)
+			listItem = new ArrayList<OrderLine>();
+
+		int index = isExistOrderLine (id, listItem);
+		if(index == -1)
+		{
+			System.out.println("create new orderLine...");	
+			Product product = productService.getProduct(id);
+			orderLine = new OrderLine(orders, product, product.getPrice(), 1);
+		}
+		else
+		{
+			System.out.println("update quantity for orderLine...");	
+			orderLine = listItem.get(index);
+			int quantity = orderLine.getQuantity();
+			orderLine.setQuantity(quantity + 1);
+			orderLine.setTotal((quantity + 1) * orderLine.getPrice()); 
+		}
+
+		System.out.println("save orderLine...");	
+		orderLineService.save(orderLine);
+		System.out.println("updateMoneyByOrdersId...");	
+		ordersService.updateMoneyByOrdersId(orders.getId());
+		listItem.add(orderLine);
+		
+		return listItem;
+	}
+	
+	private int isExistOrderLine (int id, List<OrderLine> listItem)
+	{
+		for (int i = 0; i < listItem.size(); i++)
+		{
+			if (listItem.get(i).getProduct().getId() == id)
+				return i;
+		}
+		return -1;
+	}
+	
+	@GetMapping("/shoppingcart/remove/{id}")
+	public String removeFromCart(@PathVariable int id, Model model, HttpSession session)
+	{
+		System.out.println("remove from cart...");
+		User user = (User) model.asMap().get("user");
+		if(user == null)
+		{
+			System.out.println("Not log in yet..." );
+		}
+		else
+		{
+			System.out.println("User: " + user.getEmail());
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			orderLineService.deleteByOrdersIdAndProductId(orders.getId(), id);
+
+			ordersService.updateMoneyByOrdersId(orders.getId());
+			orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
 		}
 		
 		return "redirect:/shoppingcart";
 	}
-	
-//	@PostMapping("/")
-//	public String saveNewAddress(@ModelAttribute @Valid EditAddress editAddress, BindingResult rs, RedirectAttributes ra, Model model)
-//	{
-//		if (rs.hasErrors()) {
-//			return "shoppingcart";
-//		} else {
-//			return "shoppingcart";
-//		}
-//	}
 }

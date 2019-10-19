@@ -21,5 +21,13 @@ public interface ProductService {
 	Product updateProduct(Product product);
 	
 	void deleteProduct(int id);
+	
+	Product approveProduct(Product product);
+	
+	Product blockProduct(Product product);
+	
+	List<Product> getProductsByVendorId(int id);
+	
+	
 
 }

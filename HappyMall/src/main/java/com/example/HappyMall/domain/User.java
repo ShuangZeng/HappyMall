@@ -45,6 +45,7 @@ public class User {
 	@NotBlank	
 	private String password;
 	
+	//@Pattern(regexp="(^$[0-9]{10})",message="Mobile number must be 10 digits")
 	private String phone;
 	
 	@NotBlank

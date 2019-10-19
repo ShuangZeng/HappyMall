@@ -96,7 +96,33 @@ public class ProductRestServiceImpl implements ProductRestService {
 		
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Product> httpEntity = new HttpEntity<Product>(product, restHelper.getHttpHeaders());
-		product = restTemplate.patchForObject(serviceUrlExtended + "update", httpEntity, Product.class);
+		product = restTemplate.patchForObject(serviceUrlExtended + "delete", httpEntity, Product.class);
+	}
+
+	@Override
+	public Product approveProduct(Product product) {
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity<Product> httpEntity = new HttpEntity<Product>(product, restHelper.getHttpHeaders());
+		product = restTemplate.patchForObject(serviceUrlExtended + "approve", httpEntity, Product.class);
+		return product;
+	}
+
+	@Override
+	public Product blockProduct(Product product) {
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity<Product> httpEntity = new HttpEntity<Product>(product, restHelper.getHttpHeaders());
+		product = restTemplate.patchForObject(serviceUrlExtended + "block", httpEntity, Product.class);
+		return product;
+	}
+
+	@Override
+	public List<Product> findProductsByVendor(int vendorNumber) {
+		String url = serviceUrlExtended + "by/vendor/" + vendorNumber;
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<Product[]> responseEntity = restTemplate.exchange(url , HttpMethod.GET, httpEntity, Product[].class);	
+ 		List<Product> productList = Arrays.asList(responseEntity.getBody());
+		return productList;
 	}
 
 
