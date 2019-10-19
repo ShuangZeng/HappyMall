@@ -10,8 +10,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
       <title>Product Management</title>
       </head>
-<body>
-<h1 class="text-center">Product Validation</h1>
+<body style="text-align:center;">
+<header th:insert="header :: navbar"> </header>
+<h3 class="text-center" style="font-weight:bold">Product Validation</h3>
+<br><br>
 	<table class="table table-hover " align="center" style="width:80%">
 	<thead>
 		<tr> 
@@ -46,6 +48,7 @@
 
 <div style="margin:0 auto;width:200px;">
 <button class="btn btn-default btn-sm"  onclick="location.href='http://localhost:8080/admin'" type="submit">GO BACK</button></div>
-
+ </br></br>
+ <footer footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>

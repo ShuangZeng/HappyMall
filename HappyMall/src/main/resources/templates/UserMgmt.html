@@ -11,7 +11,9 @@
       <title>User Management</title>
       </head>
 <body style="text-align:center;">
-<h1 class="text-center">User Management</h1>
+<header th:insert="header :: navbar"> </header>
+<h3 class="text-center" style="font-weight:bold">User Management</h3>
+<br><br>
 	<table class="table table-hover "   style="display:inline;margin:100px">
 	<thead>
 		<tr> 
@@ -83,6 +85,7 @@
 <br/><br/>
 <div style="margin:0 auto;width:200px;">
 <button class="btn btn-default btn-sm"  onclick="location.href='http://localhost:8080/admin'" type="submit">GO BACK</button></div>
-
+ </br></br>
+ <footer footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>

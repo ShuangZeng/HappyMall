@@ -14,7 +14,6 @@
 
   <body>
     <nav style="background-color:#87CEEB;" class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar">
-      <!--<img src="/resources/happy.png"  alt="xxxxxxxxx" width = "1200px" height = "150px">-->
 	<div>
 	<label style = "
             padding:20px;
@@ -34,7 +33,9 @@
 	      <span  style="margin-right: 30px" disabled type="text"  id="firstName" placeholder="" th:text="${user.fullName}"/>
 	      <label  for="email">Email:</label>
 			<span style="margin-right: 30px" disabled type="text"  id="lastName" placeholder="" th:text="${user.email}"/>
+	      <button class="btn btn-default btn-sm " onclick="location.href='/account'" type="submit">My Account</button>
 	      <button class="btn btn-link" onclick="location.href='/logout'"type="submit">LOG OUT</button>
+	      
 	     </div>
     </nav>
 

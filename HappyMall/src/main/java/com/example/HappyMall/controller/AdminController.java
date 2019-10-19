@@ -12,7 +12,7 @@ import com.example.HappyMall.domain.User;
 public class AdminController {
 
 	@RequestMapping(value = "/admin")
-	public String getShoppingCart(Model model)
+	public String getAdmin(Model model)
 	{
 		User user = (User)model.asMap().get("user");
 		model.addAttribute("user", user);
