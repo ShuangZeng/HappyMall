@@ -57,7 +57,7 @@ public class UserMgmtController {
 		User u = new User();
 		u.setId(Integer.valueOf(userId));
 		userService.approveUser(u);
-		System.out.print(userId);
+//		System.out.print(userId);
 		return "redirect:/admin/usermgmt";
 	}
 }
