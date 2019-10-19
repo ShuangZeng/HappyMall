@@ -23,6 +23,16 @@
                         input2.value = "";  
                     }  
             }  
+            
+            function checkPhone(){ 
+    var phone = document.getElementById('phoneNumber').value;
+    if(!(/^[\\(]{0,1}([0-9]){3}[\\)]{0,1}[ ]?([^0-1]){1}([0-9]){2}[ ]?[-]?[ ]?([0-9]){4}[ ]*((x){0,1}([0-9]){1,5}){0,1}$/.test(phone))){ 
+        alert("Phone number is wrong, please check it again.");  
+        return false; 
+    } 
+    
+}
+            
         </script> 
 
 </head>
@@ -58,8 +68,8 @@
          <label for="phoneNumber">Phone number:</label>
         </div>
         <div class="col-md-3" >
-         <input type="text" name="phone" id="phoneNumber" placeholder="" th:value="${user.phone}" style="margin-bottom: 3px">
-        </div>
+         <input type="text" name="phone" id="phoneNumber" onblur="checkPhone()" th:value="${user.phone}" style="margin-bottom: 3px">
+        </div><span style="color:red">Formatter: (910)456-7890. </spam>
 	</div>
 	</div>
 	<div class="row">

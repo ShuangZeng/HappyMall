@@ -34,7 +34,7 @@ public class EditAcountController {
 		
 		userService.saveUser(user);
 		System.out.print(user.getPassword());
-		return "/login";
+		return "redirect:/login?logout";
 	}
 	
 }
