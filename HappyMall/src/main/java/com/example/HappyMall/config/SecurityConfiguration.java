@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
+
 //import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
 
 import javax.sql.DataSource;
@@ -23,8 +25,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
-//    @Autowired
-//    private CustomerLoginSuccessHandler customerLoginSuccessHandler;
+    @Autowired
+    private CustomerLoginSuccessHandler customerLoginSuccessHandler;
 
     @Autowired
     private DataSource dataSource;
@@ -63,16 +65,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/vendor").permitAll()
                 .antMatchers("/vendors").permitAll()
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                .antMatchers("/vendor/**").hasAuthority("VENDOR_USER")
-//			    .antMatchers("/endUser/**").hasAuthority("END_USER")
-//			    .antMatchers("/customer/**").hasAuthority("CUSTOMER_USER")
+//                .antMatchers("/admin/**").hasAuthority("4")
+//                .antMatchers("/vendor/**").hasAuthority("2")
+//			    .antMatchers("/endUser/**").hasAuthority("1")
+//			    .antMatchers("/customer/**").hasAuthority("3")
 			    //.antMatchers("/home/**").hasAnyAuthority("VENDOR_USER","ADMIN","END_USER","CUSTOMER_USER")
                 //.antMatchers("/admin/**").hasAnyAuthority("VENDER_USER","ADMIN")
                 .anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/home")
+                .successHandler(customerLoginSuccessHandler)
+                //.defaultSuccessUrl("/home")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and().logout()

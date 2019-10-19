@@ -16,6 +16,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -47,6 +48,7 @@ public class User {
 	private String password;
 	
 	//@Pattern(regexp="(^$[0-9]{10})",message="Mobile number must be 10 digits")
+	@Pattern(regexp="(^$|[0-9]{10})",message="Mobile number must be 10 digits")
 	private String phone;
 	
 	@NotNull
