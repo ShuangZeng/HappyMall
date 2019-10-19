@@ -26,14 +26,15 @@ public class EditAcountController {
 	public String getAccount(Model model,HttpSession session){
 		User user = (User)model.asMap().get("user");
 //		model.addAttribute("user", user);
-		System.out.print(user);
+//		System.out.print(user);
 		return "editUser";		
 	}
 	@PostMapping(value = "/account/edit")
 	public String editAccount(@Valid User user, BindingResult bindingResult, ModelMap modelMap) {
 		
 		userService.saveUser(user);
-		return "redirect: /account";
+		System.out.print(user.getPassword());
+		return "/login";
 	}
 	
 }
