@@ -21,18 +21,14 @@ import javax.validation.constraints.Past;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class CardDetail {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	
-//	@Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(name = "id", columnDefinition = "BINARY(16)")
-//    private UUID id;
+    private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")

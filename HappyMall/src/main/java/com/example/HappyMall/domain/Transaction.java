@@ -19,13 +19,8 @@ public class Transaction {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private int id;
 	
-//	@Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(name = "id", columnDefinition = "BINARY(16)")
-//    private UUID id;
 	
 	@ManyToOne
 	@JoinColumn(name="payment_id")

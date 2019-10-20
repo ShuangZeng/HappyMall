@@ -15,12 +15,13 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Vendor</title>
 </head>
-<body>
+<body style="text-align:center;">
+<header th:insert="header :: navbar"> </header>
 <div class="container">
 		<h1 class="text-center">Vendor Inventory</h1>
 
 
-		<div class="row">
+<!--		<div class="row">
     <div class="col-sm">
       <h3>Vendor Information:</h3>
     </div>
@@ -41,7 +42,7 @@
             <input disabled type="text" class="form-control" id="phoneNumber" placeholder="" th:value="${productList[0].vendor.phone}">
           </div> 
     </div>
-        
+-->        
       		 
         
   <div class="row">
@@ -65,7 +66,15 @@
 			<td th:text="${product.name}"></td>
 			<td th:text="${product.price}"></td>
 			<td th:text="${product.quantity}"></td>
-			<td><button class="btn btn-default btn-xs" type="submit">EDIT</button></td>
+			<td>
+			<form th:action="@{/products/admin/editProduct}"
+						method="GET">
+					<input type="hidden" name="productId" th:value="${product.id}" />
+						<input class="btn btn-default btn-xs" type="submit"
+							value="Edit">
+				
+			</form>
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -74,9 +83,13 @@
   <div class="row">
     <div class="col-sm">
       <h3>Reports:</h3>
-      <a href="https://app.powerbi.com/groups/me/reports/dd76c804-4f96-41e9-8513-0a3d8fa5f3eb/ReportSection106bc994a118d7594c76" target="_blank">Power BI - Vendor Report</a>
+
+      <a th:href="@{'https://app.powerbi.com/groups/me/reports/dd76c804-4f96-41e9-8513-0a3d8fa5f3eb/ReportSection106bc994a118d7594c76?filter=Transaction/full_name eq %27'+ ${productList[0].vendor.fullName}+'%27'}" target="_blank">Power BI - Vendor Report</a>
+  
     </div>
   </div>
 	</div>
+		</br></br></br></br>
+	  <footer footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>

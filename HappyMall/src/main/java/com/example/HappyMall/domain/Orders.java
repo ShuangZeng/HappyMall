@@ -18,18 +18,16 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Orders {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
-	
-//	@Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(name = "id", columnDefinition = "BINARY(16)")
-//    private UUID id;
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -62,19 +60,16 @@ public class Orders {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
-	@OneToMany(mappedBy="orders", cascade=CascadeType.ALL)
+	@JsonIgnoreProperties("listOrderLine")
+	@OneToMany(mappedBy="orders", cascade=CascadeType.PERSIST)
 	private List<OrderLine> listOrderLine;
-	
-	public Orders() {
-		// TODO Auto-generated constructor stub
-	}
-	
+
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public User getUser() {
@@ -93,23 +88,12 @@ public class Orders {
 		this.orderCode = orderCode;
 	}
 
-	public Address getShippingAddress() {
-		return shippingAddress;
-	}
-
-	public void setShippingAddress(Address shippingAddress) {
-		this.shippingAddress = shippingAddress;
-	}
-
-	public Address getBillingAddress() {
-		return billingAddress;
-	}
-
-	public void setBillingAddress(Address billingAddress) {
-		this.billingAddress = billingAddress;
-	}
-
 	public double getSubTotal() {
+		if(subTotal == 0) {
+			for(OrderLine L : listOrderLine){
+				subTotal += L.getTotal();
+			}
+		}
 		return subTotal;
 	}
 
@@ -118,6 +102,9 @@ public class Orders {
 	}
 
 	public double getTax() {
+		if(tax == 0) {
+			tax = 0.07 * getSubTotal();
+		}
 		return tax;
 	}
 
@@ -134,6 +121,9 @@ public class Orders {
 	}
 
 	public double getTotal() {
+		if(total == 0) {
+			total = getTax() + getSubTotal();
+		}
 		return total;
 	}
 
@@ -172,6 +162,31 @@ public class Orders {
 	public void setListOrderLine(List<OrderLine> listOrderLine) {
 		this.listOrderLine = listOrderLine;
 	}
+	
+	
+	
+	public Orders() {
+		// TODO Auto-generated constructor stub
+	}
+	
+
+	public Address getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(Address shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+	public Address getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	
 
 	public Orders(User user, @NotBlank String orderCode, Address shippingAddress, Address billingAddress,
 			String status) {

@@ -17,18 +17,16 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Address {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
-	
-//	@Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(name = "id", columnDefinition = "BINARY(16)")
-//    private UUID id;
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="user_Id")
@@ -48,16 +46,43 @@ public class Address {
 	@NotBlank
 	private String zipcode;
 	
+	private boolean default_addr;
+
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	private Date createDate;
+	
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	private Date modifiedDate;
+	
+	@JsonIgnoreProperties("listOrdersShipping")
+	@OneToMany(mappedBy="shippingAddress")
+	private List<Orders> listOrdersShipping;
+	
+	@JsonIgnoreProperties("listOrdersBilling")
+	@OneToMany(mappedBy="billingAddress")
+	private List<Orders> listOrdersBilling;
+
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(lineOne);
+		if (lineTwo != null && lineTwo != "")
+			result.append(lineTwo + ", ");
+		result.append(city + ", " + state + ", " + zipcode);
+		return result.toString();
+	}
+	
 	public Address() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public User getUser() {
@@ -148,29 +173,6 @@ public class Address {
 		this.listOrdersBilling = listOrdersBilling;
 	}
 
-	private boolean default_addr;
-
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date createDate;
-	
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date modifiedDate;
-	
-	@OneToMany(mappedBy="shippingAddress")
-	private List<Orders> listOrdersShipping;
-	
-	@OneToMany(mappedBy="billingAddress")
-	private List<Orders> listOrdersBilling;
-
-	@Override
-	public String toString() {
-		StringBuilder result = new StringBuilder();
-		result.append(lineOne);
-		if (lineTwo != null && lineTwo != "")
-			result.append(lineTwo + ", ");
-		result.append(city + ", " + state + ", " + zipcode);
-		return result.toString();
-	}
 	
 	
 }

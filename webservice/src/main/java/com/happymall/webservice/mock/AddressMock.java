@@ -12,7 +12,7 @@ public class AddressMock {
 		A.setCity("Fairfield");
 		A.setState("IA");
 		A.setZipcode("52557");
-		A.setUser(null);
+		//A.setUser(null);
 		return A;
 	}
 	

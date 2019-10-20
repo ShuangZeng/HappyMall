@@ -6,10 +6,12 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +21,7 @@ import com.happymall.webservice.service.ProductService;
 
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping({"/products"})
 public class ProductController {
 	
 	@Autowired
@@ -31,8 +33,8 @@ public class ProductController {
  
 	}
 	
- 	@RequestMapping("/{id}")
-	public Product getProductById( @PathVariable("id") int productId) {
+ 	@GetMapping("/{id}")
+	public @ResponseBody Product getProductById( @PathVariable("id") int productId) {
 
 		return productService.getProduct(productId);
  	}
@@ -65,12 +67,35 @@ public class ProductController {
 			return productService.updateProduct(productToBeUpdated);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteProduct(@PathVariable("id") int productId ) {
+	public void deleteProduct(@RequestBody Product productToBeDeleted) {
 
-			productService.deleteProduct(productId);
+			productToBeDeleted.setStatus("D");
+			productService.updateProduct(productToBeDeleted);
 	}
+	
+	@RequestMapping(value = "/approve", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Product approveProduct(@RequestBody Product product) {
+		
+		return productService.approveProduct(product);
+	}
+	
+	@RequestMapping(value = "/block", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Product blockProduct(@RequestBody Product product) {
+		
+		return productService.blockProduct(product);
+	}
+	
+	@RequestMapping("/by/vendor/{id}")
+	public List<Product> getProductsByVendorId(@PathVariable("id") int id){
+		
+		return productService.getProductsByVendorId(id);
+	}
+	
+	
 	
 	
 

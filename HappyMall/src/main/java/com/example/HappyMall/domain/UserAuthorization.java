@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,13 +19,8 @@ public class UserAuthorization {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private int id;
 	
-//	@Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(name = "id", columnDefinition = "BINARY(16)")
-//    private UUID id;
 	
 	@OneToOne
 	private User user;
@@ -37,7 +31,7 @@ public class UserAuthorization {
 	@NotBlank	
 	private String password;
 	
-	@NotNull
+	@NotBlank
 	private char active_Ind;
 	
 	@DateTimeFormat(pattern = "MM/dd/yyyy")

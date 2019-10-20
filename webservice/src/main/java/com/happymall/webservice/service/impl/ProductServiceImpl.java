@@ -60,5 +60,23 @@ public class ProductServiceImpl implements ProductService {
 		productDao.delete(id);
 	}
 
+	@Override
+	public Product approveProduct(Product product) {
+		
+		return productDao.approveProduct(product);
+	}
+
+	@Override
+	public Product blockProduct(Product product) {
+
+		return productDao.blockProduct(product);
+	}
+
+	@Override
+	public List<Product> getProductsByVendorId(int id) {
+		// TODO Auto-generated method stub
+		return productDao.getProductsByVendorId(id);
+	}
+
 
 }

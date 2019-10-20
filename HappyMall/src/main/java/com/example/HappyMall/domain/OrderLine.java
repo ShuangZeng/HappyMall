@@ -16,21 +16,18 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class OrderLine {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
-	
-//	@Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(name = "id", columnDefinition = "BINARY(16)")
-//    private UUID id;
+	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="orders_Id")
+	@JoinColumn(name="orders_id")
 	private Orders orders;
 	
 	@OneToOne
@@ -49,11 +46,11 @@ public class OrderLine {
 	private Date modifiedDate;
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public Orders getOrders() {
@@ -111,6 +108,7 @@ public class OrderLine {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
 
 	public OrderLine(Orders orders, Product product, double price, int quantity) {
 		super();

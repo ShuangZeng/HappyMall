@@ -13,12 +13,16 @@ public interface ProductRestService {
 	
 	List<Product> getProductsByVendorName(String name);
 
- 	void addProduct(Product product);
+ 	Product addProduct(Product product);
 
 	Product getProduct(int id);
  
 	Product updateProduct(Product product);
 	
-	void deleteProduct(int id);
+	void deleteProduct(Product product);
+	
+	Product approveProduct(Product product);
+	Product blockProduct(Product product);
+	List<Product> findProductsByVendor(int vendorNumber);
 
 }

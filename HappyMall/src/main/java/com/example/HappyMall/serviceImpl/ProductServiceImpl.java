@@ -1,62 +1,73 @@
 package com.example.HappyMall.serviceImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.HappyMall.domain.Product;
-import com.example.HappyMall.domain.User;
-import com.example.HappyMall.repository.ProductRepository;
+import com.example.HappyMall.rest.service.ProductRestService;
 import com.example.HappyMall.service.ProductService;
 
-@Service("ProductService")
+import java.util.Optional;
+
+import com.example.HappyMall.repository.ProductRepository;
+
+@Service
+@Transactional
 public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	ProductRestService prs;
 
 	@Override
-	public List<Product> findAllProducts() {
+	public List<Product> getAllProducts() {
 		
-		return productRepository.findAll();
+		return prs.getAllProducts();
 	}
 
 	@Override
-	public void addProduct(Product product) {
-		// TODO Auto-generated method stub
+	public List<Product> getProductsByName(String name) {
 		
+		return prs.getProductsByName(name);
+	}
+
+	@Override
+	public List<Product> getProductsByVendorName(String name) {
+		
+		return prs.getProductsByVendorName(name);
+	}
+
+	@Override
+	public Product addProduct(Product product) {
+		
+		return prs.addProduct(product);
 	}
 
 	@Override
 	public Product getProduct(int id) {
-		// TODO Auto-generated method stub
-		return productRepository.getOne(id);
+		
+		return prs.getProduct(id);
 	}
-
 	
-
-//	@Override
-//	public void deleteProduct(Integer id) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	@Override
+	public Product updateProduct(Product product) {
+		
+		return prs.updateProduct(product);
+	}
 
 	@Override
-	public List<Product> findProductsByProductName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteProduct(Product product) {
+		
+		prs.deleteProduct(product);
 	}
-
 
 	@Override
 	public List<Product> findProductsByVendor(int vendorNumber) {
-		return productRepository.findProductsByvendor_id(vendorNumber);
+		return prs.findProductsByVendor(vendorNumber);
 	} 
 
 	@Override
@@ -79,41 +90,7 @@ public class ProductServiceImpl implements ProductService{
 		return product;
 	}
 
-	@Override
-	public List<Product> findProductsByvendor_id(int vendorId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public List<Product> getAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Product> getProductsByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Product> getProductsByVendorName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Product updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteProduct(int id) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }
