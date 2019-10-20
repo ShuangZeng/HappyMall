@@ -21,10 +21,10 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 		// TODO Auto-generated method stub
 		//ordersRepository.updateMoneyByOrdersId(orderId);
 		String queryStr = String.format("update Orders a " + 
-				" set subTotal = (select sum(b.price * b.quantity) from OrderLine b where b.orders = a.id)," + 
-				"	tax = (select sum(b.price * b.quantity) * 0.07 from OrderLine b where b.orders = a.id)," + 
-				"    a.total = (select sum(b.price * b.quantity) * 1.07 from OrderLine b where b.orders = a.id)," + 
-				"    serviceFee = (select sum(b.price * b.quantity) * 0.25 from OrderLine b where b.orders = a.id) " + 
+				" set subTotal = IFNULL((select sum(b.price * b.quantity) from OrderLine b where b.orders = a.id), 0)," + 
+				"	tax = IFNULL((select sum(b.price * b.quantity) * 0.07 from OrderLine b where b.orders = a.id), 0)," + 
+				"    a.total = IFNULL((select sum(b.price * b.quantity) * 1.07 from OrderLine b where b.orders = a.id), 0)," + 
+				"    serviceFee = IFNULL((select sum(b.price * b.quantity) * 0.25 from OrderLine b where b.orders = a.id), 0) " + 
 				" where a.id = %d",orderId);
 		
         Query query = em.createQuery(queryStr);

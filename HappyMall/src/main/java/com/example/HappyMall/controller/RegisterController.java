@@ -1,7 +1,11 @@
 package com.example.HappyMall.controller;
 
+import com.example.HappyMall.domain.Address;
+import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.domain.Role;
 import com.example.HappyMall.domain.User;
+import com.example.HappyMall.service.AddressService;
+import com.example.HappyMall.service.OrdersService;
 import com.example.HappyMall.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +29,12 @@ import javax.validation.Valid;
 public class RegisterController {
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	private AddressService addressService;
 	
+	@Autowired
+	private OrdersService ordersService;
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration(){
@@ -91,6 +100,11 @@ public class RegisterController {
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
+            
+            //Create a new order
+			Address address = addressService.getAddressDefaultByUserId(user.getId());
+			Orders orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+			ordersService.save(orders);
 ////
             ModelAndView mv = new ModelAndView("redirect:/login");
             return mv;

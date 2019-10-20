@@ -1,5 +1,7 @@
 @charset "ISO-8859-1";
 
+
+
 .row-titile{
 	background-color: lightgrey;
 }
@@ -75,4 +77,8 @@ thead, .modal-header  {
 
 .productImgContainer {
 	text-align: center;
+}
+
+span {
+	margin-left: 5px;
 }

@@ -14,4 +14,6 @@ public interface OrdersService {
 	List<Orders> findByStatusAndUserId(String status, int userId);
 	
 	void updateMoneyByOrdersId(int orderId);
+	
+	void save(Orders orders);
 }

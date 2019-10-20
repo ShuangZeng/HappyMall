@@ -40,4 +40,10 @@ public class OrderServiceImpl implements OrdersService {
 		ordersRepository.updateMoneyByOrdersId(orderId);
 	}
 
+	@Override
+	public void save(Orders orders) {
+		// TODO Auto-generated method stub
+		ordersRepository.save(orders);
+	}
+
 }

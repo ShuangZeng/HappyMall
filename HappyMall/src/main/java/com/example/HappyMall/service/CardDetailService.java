@@ -9,7 +9,11 @@ import com.example.HappyMall.domain.CardDetail;
 
 public interface CardDetailService {
 
-	List<CardDetail> findByUserId(int userId);
+	List<CardDetail> findByUserIdAndActiveInd(int userId, char active_ind);
 	
 	CardDetail getCardDefaultByUserId(int userId);
+	
+	CardDetail getCardDetail(int id);
+	
+	void save (CardDetail cardDetail);
 }

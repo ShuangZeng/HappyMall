@@ -10,4 +10,5 @@ import com.example.HappyMall.domain.*;
 public interface AddressService {
 	List<Address> findByUserId(int userId);
 	Address getAddressDefaultByUserId(int userId);
+	Address getAddress(int id);
 }

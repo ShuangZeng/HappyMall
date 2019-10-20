@@ -28,4 +28,10 @@ public class AddressServiceImpl implements AddressService {
 		return addressRepository.getAddressDefaultByUserId(userId);
 	}
 
+	@Override
+	public Address getAddress(int id) {
+		// TODO Auto-generated method stub
+		return addressRepository.getOne(id);
+	}
+
 }

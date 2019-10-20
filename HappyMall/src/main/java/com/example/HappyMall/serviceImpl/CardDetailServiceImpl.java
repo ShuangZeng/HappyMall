@@ -16,15 +16,27 @@ public class CardDetailServiceImpl implements CardDetailService{
 	private CardDetailRepository cardDetailRepository;
 	
 	@Override
-	public List<CardDetail> findByUserId(int userId) {
+	public List<CardDetail> findByUserIdAndActiveInd(int userId, char active_ind) {
 		// TODO Auto-generated method stub
-		return cardDetailRepository.findByUserId(userId);
+		return cardDetailRepository.findByUserIdAndActiveInd(userId, active_ind);
 	}
 
 	@Override
 	public CardDetail getCardDefaultByUserId(int userId) {
 		// TODO Auto-generated method stub
 		return cardDetailRepository.getCardDefaultByUserId(userId);
+	}
+
+	@Override
+	public CardDetail getCardDetail(int id) {
+		// TODO Auto-generated method stub
+		return cardDetailRepository.getOne(id);
+	}
+
+	@Override
+	public void save(CardDetail cardDetail) {
+		// TODO Auto-generated method stub
+		cardDetailRepository.save(cardDetail);
 	}
 
 }

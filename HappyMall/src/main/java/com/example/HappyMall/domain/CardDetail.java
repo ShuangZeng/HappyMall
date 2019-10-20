@@ -26,7 +26,7 @@ public class CardDetail {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private int id;
 	
 //	@Id
 //    @GeneratedValue(generator = "uuid2")
@@ -59,7 +59,7 @@ public class CardDetail {
 	
 	private String type;
 	
-	@NotBlank
+	//@NotBlank
 	private char active_Ind;
 	
 	private boolean default_card;
@@ -74,11 +74,11 @@ public class CardDetail {
 	private List<Payment> listPayment;
 
 	public int getId() {
-		return Id;
+		return this.id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public User getUser() {
@@ -203,10 +203,10 @@ public class CardDetail {
 		StringBuilder result = new StringBuilder();
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
 		result.append(nameOnCard + " - ");
-		if (type == "visa")
-			result.append("Visa: ");
+		if (type.equals("VISA"))
+			result.append("VISA: ");
 		else 
-			result.append("Master: ");
+			result.append("MASTER: ");
 		
 		result.append("***" + cardNumber.substring(12));
 		result.append(" - Expired date: " + formatter.format(expiredDate));
