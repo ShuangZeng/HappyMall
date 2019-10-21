@@ -1,9 +1,9 @@
+
 package com.example.HappyMall.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,8 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,10 +38,7 @@ public class LoginController {
 	private AddressService addressService;
 
 	@Autowired
-	private OrderLineService orderLineService;  
-	
-//	@Autowired
-//    private SessionRegistry sessionRegistry;
+	private OrderLineService orderLineService;
 
 //	 @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
 //	 public ModelAndView login(){
@@ -75,7 +70,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/home", method = RequestMethod.GET) 
-	public ModelAndView home(Model model){ 
+	public ModelAndView home(Model model, WebRequest request, SessionStatus status, HttpSession session){ 
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
@@ -86,30 +81,27 @@ public class LoginController {
 		System.out.println(model.asMap().keySet().toString());
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
 		List<OrderLine> listOrderLine;
-
-		//Get orders by user. If does not exist, create new orders for user
-		List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
 		Orders orders = null;
-		if (listOrdersNew != null && listOrdersNew.size() > 0)
+		if (listItem != null && user != null)
 		{
-			System.out.println("CHECK error1...");
-			orders = listOrdersNew.get(0);
-		}
-
-		System.out.println("CHECK error2...");
-        //Create a new order
-		if (orders == null)
-		{
-			System.out.println("CHECK error3 create orders...");
-			Address address = addressService.getAddressDefaultByUserId(user.getId());
-			orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
-			ordersService.save(orders);
-			System.out.println("CHECK error3 complete creating orders...");
-		}
-		
-		if (listItem != null && listItem.size() > 0 && user != null)
-		{
-			if(orders != null)
+			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
+			if (listOrdersNew != null)
+				orders = listOrdersNew.get(0);
+			if (orders == null)
+			{
+				System.out.println("orders is null...");
+				Address address = addressService.getAddressDefaultByUserId(user.getId());
+				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+				ordersService.save(orders);
+				listOrderLine = new ArrayList<OrderLine>();
+				for(Item item : listItem)
+				{
+					OrderLine orderLine = new OrderLine(orders, item.getProduct(), item.getProduct().getPrice(), item.getQuantity());
+					orderLineService.save(orderLine);
+					listOrderLine.add(orderLine);
+				}
+			}
+			else
 			{
 				System.out.println("user has orders...");
 				listOrderLine = orderLineService.findByOrdersId(orders.getId());
@@ -137,8 +129,7 @@ public class LoginController {
 		{
 			System.out.println("listItem is null");
 		}
-		//Finish	
-		model.addAttribute("listItem", new ArrayList<Item>());
+		//Finish
 
 		modelAndView.setViewName("home"); 
 		return modelAndView;
@@ -149,5 +140,6 @@ public class LoginController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("admin"); 
 		return modelAndView; 
+		
 	}
 }

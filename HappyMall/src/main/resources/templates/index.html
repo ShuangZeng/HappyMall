@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<base target="_blank" />
+    <meta charset="ISO-8859-1">
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <title>Happy Mall</title>
+      
+      </head>
+<body style="text-align:center;">
+<header th:insert="header :: navbar"> </header>
+
+ <div class="row">
+
+<div class="form-inline">
+  <input type="text" class="form-control" placeholder="Input product name" aria-describedby="basic-addon2">
+  <button class="btn btn-default" >SEARCH</button>
+</div>
+</div>
+
+
+
+
+<div class="row col-12" th:each="product : ${productList}">
+					<div class="col-3 productImgContainer">
+						<span>---Image---</span></div>
+					<div class="col-9">
+						<div ><span th:text="${product.name}">Product's Name</span></div>
+						<div><span th:text="${product.description}">Product's Description</span></div>
+						<div><span th:text="${product.price}">0.00</span></div>
+						<div >
+							<div><button class="btn btn-xs" >ADD TO CARD</button></div>
+						</div>
+					</div>
+				</div>        
+                
+                
+           
+	
+
+
+
+
+
+
+
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+
+ <footer footer th:insert="footer :: navbar"> </footer>
+</body>
+</html>
