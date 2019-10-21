@@ -1,6 +1,5 @@
 package com.happymall.webservice.service.impl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -82,17 +81,15 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
-	@Override
-	public List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEnduser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEnduser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/*
+	 * @Override public List<Orders> getAllOrdersByDateRange(int userId, Date from,
+	 * Date to, boolean forEnduser) { // TODO Auto-generated method stub return
+	 * null; }
+	 * 
+	 * @Override public List<Orders> getAllOrdersByOrderStatus(int userId, String
+	 * orderStatus, boolean forEnduser) { // TODO Auto-generated method stub return
+	 * null; }
+	 */
 
 	@Override
 	public List<Orders> getAllOrdersByUser(int userId, boolean forEnduser) {
@@ -126,19 +123,22 @@ public class OrderServiceImpl implements OrderService {
 	//-----------------------------------------------------------------------------------------
 	
 	@Override
-	public Orders updateOrder(Orders order) {
+	public void updateOrder(Orders order) {
 		try {
-			return orderDao.update(order);
+			orderDao.update(order);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
 	}
 
 	@Override
-	public Orders refundOrder(Orders order, int userId) {
+	public void refundOrder(Orders order, int userId) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			orderDao.update(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
  	//End Update-------------------------------------------------------------------------------
@@ -152,9 +152,7 @@ public class OrderServiceImpl implements OrderService {
  	//-----------------------------------------------------------------------------------------
  	
 	@Override
-	public void deleteOrder(int id) {
-		// TODO Auto-generated method stub
-		
+	public void deleteOrder(int id) {		
 		//This code will physically remove the record. Commented out for now
 		//orderDao.delete(id);
 	}

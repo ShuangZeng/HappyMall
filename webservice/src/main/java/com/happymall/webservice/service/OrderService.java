@@ -1,10 +1,8 @@
 package com.happymall.webservice.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.happymall.webservice.domain.Orders;
-import com.happymall.webservice.domain.Product;
 
 public interface OrderService {
 	
@@ -35,9 +33,13 @@ public interface OrderService {
 	//START Region: Get list of orders---------------------------------------------------------	
 	List<Orders> getAllOrders();
 	
-	List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEnduser);
-	
-	List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEnduser);
+	/*
+	 * List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean
+	 * forEnduser);
+	 * 
+	 * List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus,
+	 * boolean forEnduser);
+	 */
 	
 	List<Orders> getAllOrdersByUser(int userId, boolean forEnduser);
 	//END Region: Get list of orders-----------------------------------------------------------
@@ -52,9 +54,9 @@ public interface OrderService {
 	//All updating/modifying order functions will be declared here
 	//-----------------------------------------------------------------------------------------
 	
- 	Orders updateOrder(Orders order);
+ 	void updateOrder(Orders order);
  	
- 	Orders refundOrder(Orders order, int userId);
+ 	void refundOrder(Orders order, int userId);
 
  	//End Update-------------------------------------------------------------------------------
  	//-----------------------------------------------------------------------------------------

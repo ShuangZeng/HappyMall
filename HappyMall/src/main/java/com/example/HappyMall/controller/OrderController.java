@@ -105,7 +105,7 @@ public class OrderController {
 		try {
 			User user = (User)model.asMap().get("user");
 			//model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
-			//model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), false));
+			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), false));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -118,7 +118,7 @@ public class OrderController {
 		try {
 			User user = (User)model.asMap().get("user");
 			//model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
-			//model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), true));
+			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), true));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
