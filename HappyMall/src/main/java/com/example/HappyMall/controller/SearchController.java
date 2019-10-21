@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.service.ProductService;
 
 @Controller
@@ -20,6 +21,7 @@ public class SearchController {
 
 	@GetMapping(value = "/searchProducts")
 	public String searchProduct(Model model) {
+		model.addAttribute("product", new Product());
 		return "searchProducts";
 	}
 

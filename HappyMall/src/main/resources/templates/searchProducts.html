@@ -6,23 +6,15 @@
 <title>Search For Product</title>
 </head>
 <body>
-    <div align="center">
-        <h1>Search For Product</h1>
+        <h1 align="center">Search For Product</h1>
         <br />
-        <form action="#" th:action="@{/search/searchResult}" th:object="${product}"
-            method="post">
-            <input type="hidden" name="productName" th:value="${product.name}" />
- 
-            <table border="0" cellpadding="10">
-                <tr>
-                    <td>Product Name:</td>
-                    <td><input type="text" th:field="*{name}" /></td>
-                </tr>                      
-                <tr>
-                    <td colspan="2" align="center" ><button type="submit">Search</button> </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+        
+        <form align="center" th:action="@{/search/searchResult}" th:object="${product}"
+						method="GET">
+						<input type="text" name="productName" th:value="${product.name}" />
+						<input class="btn btn-default btn-xs" type="submit"
+							value="Search Product">
+					</form>
+        
 </body>
 </html>
