@@ -28,7 +28,6 @@ import com.example.HappyMall.service.OrderLineService;
 
 @Controller
 @SessionAttributes ({"user"})
-@RequestMapping({ "/orders" })
 public class OrderController {
 
 	@Autowired
@@ -41,7 +40,7 @@ public class OrderController {
  	
  	//START Region: Get specific order---------------------------------------------------------
  	
- 	@GetMapping(value = "/vendor/orderDetail")
+ 	@GetMapping(value = "admin/vendor/orderDetail")
  	String getOrderDetailForVendor(Model model, Authentication authentication, @RequestParam int orderId) {
 		try {
 			//Retrieve data
@@ -101,11 +100,11 @@ public class OrderController {
 		}
 	}
 
-	@GetMapping(value = "/vendor/orders")
+	@GetMapping(value = "admin/vendor/orders")
 	public String getOrdersListForVendor(Model model, Authentication authentication) {
 		try {
 			User user = (User)model.asMap().get("user");
-			model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
+			//model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
 			//model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), false));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -118,7 +117,7 @@ public class OrderController {
 	public String getOrdersListForEnduser(Model model, Authentication authentication) {
 		try {
 			User user = (User)model.asMap().get("user");
-			model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
+			//model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
 			//model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), true));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
