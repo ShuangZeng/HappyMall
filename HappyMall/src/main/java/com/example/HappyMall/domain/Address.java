@@ -29,7 +29,6 @@ public class Address {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="user_Id")
 	private User user;
 	
 	@NotBlank

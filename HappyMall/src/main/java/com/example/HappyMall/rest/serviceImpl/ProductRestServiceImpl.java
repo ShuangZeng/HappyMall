@@ -125,5 +125,4 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return productList;
 	}
 
-
 }

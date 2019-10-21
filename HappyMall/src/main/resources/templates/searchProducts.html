@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Search For Product</title>
+</head>
+<body>
+        <h1 align="center">Search For Product</h1>
+        <br />
+        
+        <form align="center" th:action="@{/search/searchResult}" th:object="${product}"
+						method="GET">
+						<input type="text" name="productName" th:value="${product.name}" />
+						<input class="btn btn-default btn-xs" type="submit"
+							value="Search Product">
+					</form>
+        
+</body>
+</html>
