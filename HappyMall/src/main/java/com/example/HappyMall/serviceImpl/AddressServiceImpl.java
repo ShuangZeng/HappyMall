@@ -39,5 +39,10 @@ public class AddressServiceImpl implements AddressService {
 		// TODO Auto-generated method stub
 		addressRepository.save(address);
 	}
+	
+	public Address saveAddress(Address address) {
+		// TODO Auto-generated method stub
+		return addressRepository.save(address);
+	}
 
 }

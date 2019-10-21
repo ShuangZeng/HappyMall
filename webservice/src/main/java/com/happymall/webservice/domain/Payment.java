@@ -39,6 +39,78 @@ public class Payment {
 	
 	private String Status;
 
+	public int getId() {
+		return id;
+	}
+
+	public String getStatus() {
+		return Status;
+	}
+
+	public void setStatus(String status) {
+		Status = status;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public CardDetail getCardDetail() {
+		return cardDetail;
+	}
+
+	public void setCardDetail(CardDetail cardDetail) {
+		this.cardDetail = cardDetail;
+	}
+
+	public Orders getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Orders orders) {
+		this.orders = orders;
+	}
+
+	public double getPaymentTotal() {
+		return paymentTotal;
+	}
+
+	public void setPaymentTotal(double paymentTotal) {
+		this.paymentTotal = paymentTotal;
+	}
+
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public List<Transaction> getListTransaction() {
+		return listTransaction;
+	}
+
+	public void setListTransaction(List<Transaction> listTransaction) {
+		this.listTransaction = listTransaction;
+	}
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
 	

@@ -35,4 +35,54 @@ public class Transaction {
 	
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	public double getPaymentTotal() {
+		return paymentTotal;
+	}
+
+	public void setPaymentTotal(double paymentTotal) {
+		this.paymentTotal = paymentTotal;
+	}
+
+	public String getIsApproved() {
+		return isApproved;
+	}
+
+	public void setIsApproved(String isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+	
+	
 }

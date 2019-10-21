@@ -15,6 +15,7 @@
 </head>
 <body>
 	<h1 class="text-center">Product List</h1>
+	<a href="/products/admin/newProduct/" align="center"><h3>Create New Product</h3></a>
 	<table class="table table-hover " align="center" style="width: 80%">
 		<thead>
 			<tr>
@@ -32,11 +33,17 @@
 				<td th:text="${product.vendor.fullName}"></td>
 				<td th:text="${product.description}"></td>
 				<td th:text="${product.quantity}"></td>
-				<td><form th:action="@{/admin/editProduct/}"
+				<td><form th:action="@{/products/admin/editProduct/}"
 						method="GET">
 						<input type="hidden" name="productId" th:value="${product.id}" />
 						<input class="btn btn-default btn-xs" type="submit"
 							value="Edit Product">
+					</form></td>
+				<td><form th:action="@{/products/admin/deleteProduct/}"
+						method="GET">
+						<input type="hidden" name="productId" th:value="${product.id}" />
+						<input class="btn btn-default btn-xs" type="submit"
+							value="Delete Product">
 					</form></td>
 			</tr>
 			<tr>

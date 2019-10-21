@@ -12,4 +12,5 @@ public interface AddressService {
 	Address getAddressDefaultByUserId(int userId);
 	Address getAddress(int id);
 	void save(Address address);
+	Address saveAddress(Address address);
 }
