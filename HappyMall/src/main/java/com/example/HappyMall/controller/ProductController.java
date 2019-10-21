@@ -109,11 +109,4 @@ public class ProductController {
 		return "editProduct";
 	}
 
-//	@PostMapping(value = "/admin/Edited")
-//	public String edited(Model model, Authentication authentication) {
-//		Product product = new Product();
-//		productService.updateProduct(product);
-//		return "redirect:/";
-//	}
-
 }
