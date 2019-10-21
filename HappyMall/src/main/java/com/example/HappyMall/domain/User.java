@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
@@ -48,7 +49,7 @@ public class User {
 	private String password;
 	
 	//@Pattern(regexp="(^$[0-9]{10})",message="Mobile number must be 10 digits")
-	@Pattern(regexp="(^$|[0-9]{10})",message="Mobile number must be 10 digits")
+//	@Pattern(regexp="(^$|[0-9]{10})",message="Mobile number must be 10 digits")
 	private String phone;
 	
 	@NotNull
@@ -62,8 +63,9 @@ public class User {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
-	@JsonIgnoreProperties("listAddress")
-	@OneToMany(mappedBy="user")
+//	@JsonIgnoreProperties("listAddress")
+	@OneToMany
+	@JoinColumn(name = "user_id")
 	private List<Address> listAddress;
 	
 	@JsonIgnoreProperties("listOrders")

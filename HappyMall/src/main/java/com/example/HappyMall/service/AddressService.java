@@ -11,4 +11,5 @@ public interface AddressService {
 	List<Address> findByUserId(int userId);
 	Address getAddressDefaultByUserId(int userId);
 	Address getAddress(int id);
+	Address saveAddress(Address address);
 }
