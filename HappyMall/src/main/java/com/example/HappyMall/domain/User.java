@@ -205,5 +205,29 @@ public class User {
 		this.enable = enable;
 	}
 	
-	
+	public void setZipcode(String zipcode){
+		  for(Address address : listAddress){
+		   address.setZipcode(zipcode);
+		  }
+	}
+	public void setlineOne(String lineOne){
+		  for(Address address : listAddress){
+		   address.setLineOne(lineOne);
+		  }
+		 }
+	public void setlineTwo(String lineTwo){
+		  for(Address address : listAddress){
+		   address.setLineTwo(lineTwo);
+		  }
+		 }
+	public void setcity(String city){
+		  for(Address address : listAddress){
+		   address.setCity(city);
+		  }
+		 }
+	public void setstate(String state){
+		  for(Address address : listAddress){
+		   address.setState(state);
+		  }
+		 }
 }

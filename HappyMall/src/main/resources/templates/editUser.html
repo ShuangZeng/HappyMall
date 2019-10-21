@@ -100,7 +100,7 @@
     </tr>
     <tr th:each="address : ${user.listAddress}">
     <td> <input disabled type="text" name="address.id"th:value="${address.id}" style="margin-right:4px"></td>
-      <td> <input type="text" name="address.zipcode"th:value="${address.zipcode}" ></td>
+      <td> <input type="text" name="zipcode"th:value="${address.zipcode}" ></td>
      </tr>
 </table>
 	
@@ -111,8 +111,8 @@
       <th>Line Two</th>
     </tr>
     <tr th:each="address : ${user.listAddress}">
-     <td> <input type="text" name="address.lineOne"th:value="${address.lineOne}" style="margin-right:4px"></td>
-       <td> <input type="text" name="address.lineTwo"th:value="${address.lineTwo}" ></td>
+     <td> <input type="text" name="lineOne"th:value="${address.lineOne}" style="margin-right:4px"></td>
+       <td> <input type="text" name="lineTwo"th:value="${address.lineTwo}" ></td>
      </tr>
 </table>
 <table align="center">
@@ -120,8 +120,8 @@
       <th>City</th><th>State</th>
     </tr>
     <tr th:each="address : ${user.listAddress}">
-     <td> <input type="text" name="address.city"th:value="${address.city}" style="margin-right:4px"></td>
-     <td> <input type="text" name="address.state"th:value="${address.state}" ></td>
+     <td> <input type="text" name="city"th:value="${address.city}" style="margin-right:4px"></td>
+     <td> <input type="text" name="state"th:value="${address.state}" ></td>
      </tr>
 </table>
 	<br><br> 

@@ -1,5 +1,7 @@
 package com.example.HappyMall.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -34,7 +36,10 @@ public class EditAcountController {
 	}
 	@PostMapping(value = "/account/edit")
 	public String editAccount(@Valid User user, BindingResult bindingResult, ModelMap modelMap) {
-		
+		List<Address> addresses = user.getListAddress();
+		  for(Address address: addresses){
+		   addressService.saveAddress(address);
+		  }
 		userService.saveUser(user);
 		
 

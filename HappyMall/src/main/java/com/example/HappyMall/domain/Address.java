@@ -28,6 +28,9 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@ManyToOne
+	private User user;
+	
 	@NotBlank
 	private String lineOne;
 	
@@ -81,6 +84,13 @@ public class Address {
 		this.id = id;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public String getLineOne() {
 		return lineOne;
