@@ -42,10 +42,10 @@ public class OrderController {
  	//START Region: Get specific order---------------------------------------------------------
  	
  	@GetMapping(value = "/vendor/orderDetail")
- 	String getOrder(Model model, Authentication authentication, @RequestParam int orderId) {
+ 	String getOrderDetailForVendor(Model model, Authentication authentication, @RequestParam int orderId) {
 		try {
 			//Retrieve data
-			Orders order = orderService.getOrder(orderId);
+			Orders order = new Orders();//orderService.getOrder(orderId);
 			User user = (User)model.asMap().get("user");
 			
 			//Model-mapping
@@ -53,7 +53,38 @@ public class OrderController {
 			item.id = order.getId();
 			item.orderCode = order.getOrderCode();
 			item.status = order.getStatus();
-			item.productsList = mapOrderLines(order);
+			item.productsList = mapOrderLines(order.getListOrderLine().stream()
+													.filter(ol -> ol.getProduct().getVendor().getId() == user.getId())
+													.collect(Collectors.toList()));
+			item.subtotal = order.getSubTotal();
+			item.serviceFee = order.getServiceFee();
+			item.tax = order.getTax();
+			item.total = order.getTotal();
+			item.billing = mapAddress(order.getBillingAddress());
+			item.shipping = mapAddress(order.getShippingAddress());
+			
+			model.addAttribute("order", item);
+			return "orderDetail";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+ 	
+ 	@GetMapping(value = "/shoppingcart/orderDetail")
+ 	String getOrderDetailForEnduser(Model model, Authentication authentication, @RequestParam int orderId) {
+		try {
+			//Retrieve data
+			Orders order = new Orders();//orderService.getOrder(orderId);
+			User user = (User)model.asMap().get("user");
+			
+			//Model-mapping
+			OrderModel item = new OrderModel();
+			item.id = order.getId();
+			item.orderCode = order.getOrderCode();
+			item.status = order.getStatus();
+			item.productsList = mapOrderLines(order.getListOrderLine());
 			item.subtotal = order.getSubTotal();
 			item.serviceFee = order.getServiceFee();
 			item.tax = order.getTax();
@@ -74,24 +105,26 @@ public class OrderController {
 	public String getOrdersListForVendor(Model model, Authentication authentication) {
 		try {
 			User user = (User)model.asMap().get("user");
-			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), false));
-			return "ordersList";
+			model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
+			//model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), false));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return "ordersList";
 	}
  	
  	@GetMapping(value = "/shoppingcart/orders")
 	public String getOrdersListForEnduser(Model model, Authentication authentication) {
 		try {
 			User user = (User)model.asMap().get("user");
-			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), true));
-			return "ordersList";
+			model.addAttribute("ordersList", orderService.findByStatusAndUserId("", user.getId()));
+			//model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), true));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return "ordersList";
 	}
  	
 	//END Region: Get specific order-----------------------------------------------------------
@@ -128,10 +161,10 @@ public class OrderController {
 	}
 	
  	@SuppressWarnings("null")
-	private List<ProductModel> mapOrderLines(Orders order) {
+	private List<ProductModel> mapOrderLines(List<OrderLine> listOrderLines) {
  		List<ProductModel> list = null;
 
-		for (OrderLine line : order.getListOrderLine()) {
+		for (OrderLine line : listOrderLines) {
 			Product p = line.getProduct();
 			ProductModel pm = new ProductModel();
 			pm.productName = p.getName();
