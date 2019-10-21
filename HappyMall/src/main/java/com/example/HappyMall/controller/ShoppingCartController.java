@@ -50,12 +50,15 @@ public class ShoppingCartController {
 			model.addAttribute("subTotalGuest", subTotalGuest);
 			model.addAttribute("taxGuest", taxGuest);
 			model.addAttribute("totalGuest", subTotalGuest + taxGuest);
-			model.addAttribute("disabled", true);
 		}
 		else
 		{
 			System.out.println("User: " + user.getEmail() );
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			Orders orders = null;
+			List<Orders> listOrders = ordersService.findByStatusAndUserId("New", user.getId());
+			if (listOrders != null  && listOrders.size() > 0)
+				orders = listOrders.get(0);
+			System.out.println("check error" );
 			System.out.println("Orders: " + orders);
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
 			if(listOrderLine == null)
@@ -68,12 +71,9 @@ public class ShoppingCartController {
 			model.addAttribute("listCardDetail", cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A'));
 			model.addAttribute("totalProduct", listOrderLine.size());
 			model.addAttribute("cardDetail", cardDetailService.getCardDefaultByUserId(user.getId()));
-			model.addAttribute("disabled", false);
-
-    		model.asMap().remove("listItem");
 		}
-		model.addAttribute("newAddress", new Address());
-		model.addAttribute("newCard", new CardDetail());
+		model.addAttribute("newAddress", new Address()); //Use for create new Address
+		model.addAttribute("newCard", new CardDetail()); //Use for create new CardDetail
 		return "shoppingcart";
 	}
 	
@@ -87,7 +87,7 @@ public class ShoppingCartController {
 		return listItem;
 	}
 	
-	@GetMapping("/shoppingcart/{id}")
+	@GetMapping("/shoppingcart/addproduct/{id:\\d+}")
 	public String addToCart(@PathVariable int id, Model model, HttpSession session)
 	{
 		System.out.println("add to cart...");		
@@ -96,10 +96,7 @@ public class ShoppingCartController {
 		if(user == null)
 		{
 			System.out.println("Not log in yet..." );
-			List<Item> listItem = addToCartByGuest(id, model);
-			model.addAttribute("listItem", listItem);
-			System.out.println(listItem.size());
-			model.addAttribute("totalProduct", listItem.size());
+			addToCartByGuest(id, model);
 		}
 		else
 		{
@@ -112,27 +109,16 @@ public class ShoppingCartController {
 				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
 			}
 			//Process for Order_line
-			List<OrderLine> listOrderLine = addToCartByEndUser(id, user, orders);
+			addToCartByEndUser(id, user, orders);
 
 			System.out.println("Complete addToCartByEndUser");	
-			
-			model.addAttribute("orders", orders);
-			model.addAttribute("listOrderLine", listOrderLine);
-			model.addAttribute("listItem", null);
-			model.addAttribute("listAddress", addressService.findByUserId(user.getId()));
-			model.addAttribute("listCardDetail", cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A'));
-			model.addAttribute("totalProduct", listOrderLine == null ? 0 : listOrderLine.size());
-			model.addAttribute("cardDetail", cardDetailService.getCardDefaultByUserId(user.getId()));
-			
 		}
 
-		model.addAttribute("newAddress", new Address());
-		model.addAttribute("newCard", new CardDetail());
 		System.out.println("finish...");
-		return "redirect:/admin/products";
+		return "redirect:/products/admin/products";
 	}	
 	
-	private List<Item> addToCartByGuest(int id, Model model)
+	private void addToCartByGuest(int id, Model model)
 	{
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
 		if (productService.getProduct(id) != null) 
@@ -162,7 +148,6 @@ public class ShoppingCartController {
 				}
 			}
 		}
-		return listItem;
 	}
 	
 	private int isExistItem (int id, List<Item> listItem)
@@ -175,7 +160,7 @@ public class ShoppingCartController {
 		return -1;
 	}
 
-	private List<OrderLine> addToCartByEndUser(int id, User user, Orders orders)
+	private void addToCartByEndUser(int id, User user, Orders orders)
 	{
 		System.out.println("addToCartByEndUser...");	
 		List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
@@ -203,11 +188,9 @@ public class ShoppingCartController {
 		System.out.println("updateMoneyByOrdersId...");	
 		ordersService.updateMoneyByOrdersId(orders.getId());
 		listOrderLine.add(orderLine);
-		
-		return listOrderLine;
 	}
 	
-	@GetMapping("/shoppingcart/remove/{id}")
+	@GetMapping("/shoppingcart/remove/{id:\\d+}")
 	public String removeFromCart(@PathVariable int id, Model model, HttpSession session)
 	{
 		System.out.println("remove from cart...");
@@ -251,19 +234,50 @@ public class ShoppingCartController {
 		return "redirect:/shoppingcart";
 	}
 	
-	@PostMapping("/shoppingcart/setcarddefaut")
-	public String setDefautCard(@ModelAttribute("cardDetail") CardDetail cardDetail)
+	@PostMapping("/shoppingcart/setcarddefault")
+	public String setDefautCard(@ModelAttribute("cardDetail") CardDetail cardDetail, Model model)
 	{
-		CardDetail cardDetailUpdate = cardDetailService.getCardDetail(cardDetail.getId());
-		cardDetailUpdate.setDefault_card(true);
-		cardDetailService.save(cardDetailUpdate);
+		User user = (User) model.asMap().get("user");
+		List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
+		for (CardDetail card : listCard)
+			if (card.getId() == cardDetail.getId())
+				card.setDefault_card(true);
+			else
+				card.setDefault_card(false);
+		cardDetailService.saveAll(listCard);
 		return "redirect:/shoppingcart";
 	}
 
 	@PostMapping("/shoppingcart/createcard")
-	public String createCard(@ModelAttribute("cardDetail") CardDetail cardDetail)
+	public String createCard(@ModelAttribute("newCard") CardDetail cardDetail, Model model)
 	{
-		cardDetailService.save(cardDetail);
+		System.out.println("Create card detail");
+		User user = (User) model.asMap().get("user");
+		List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
+		for (CardDetail item : listCard)
+			item.setDefault_card(false);
+		cardDetail.setDefault_card(true);
+		listCard.add(cardDetail);
+		cardDetailService.saveAll(listCard);
 		return "redirect:/shoppingcart";
+	}
+
+	@PostMapping("/shoppingcart/createaddress")
+	public String createAddress(@ModelAttribute("newAddress") Address newAddress, Model model)
+	{
+		System.out.println("Create address");
+		System.out.println("New address: " + newAddress);
+		Orders orders = (Orders) model.asMap().get("orders");
+		newAddress.setDefault_addr(false);
+		orders.setShippingAddress(newAddress);
+		addressService.save(newAddress);
+		ordersService.save(orders);
+		return "redirect:/shoppingcart";
+	}
+	
+	@PostMapping("/shoppingcart")
+	public String goToConfirmPage()
+	{
+		return "redirect:/shoppingcart/confirm";
 	}
 }

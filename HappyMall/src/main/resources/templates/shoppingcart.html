@@ -24,12 +24,13 @@
 	<div class="container">
 		<H2 align="center">SHOPPING CART</H2>
 
-		<form th:object="${orders}">
+		<form th:object="${orders}" th:action="@{/shoppingcart}" method="post" >
 			<div class="col-12">
-				<div class="row table-head col-12">Total product: <span th:text="${totalProduct}"> 0 </span></div>
+				<div class="row table-head col-12">Total product: <span th:text="${totalProduct}"> 0 </span>
+					<span style="visibility: hidden" th:field="${orders}?${orders.orderCode}"></span></div>
 				<div class="row col-12 itemBlock item" th:each="item : ${listItem}" th:hidden="${user}?true:false">
 					<div class="col-3 productImgContainer">
-						<img class="productImg" th:attr="src=@{${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
+						<img class="productImg" th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
 					<div class="col-9">
 						<div class="row itemRow emphasize"><span th:text="${item.product.name}">Product's Name</span></div>
 						<div class="row itemRow"><span th:text="${item.product.description}">Product's Description</span></div>
@@ -137,7 +138,7 @@
 		<form th:action="@{/login}" method="get" class="float-right" th:hidden="${user}?true:false"> 
 			<button class="btn btn-primary" type="Submit">Log in</button>
 		</form>
-		<form th:action="@{/admin/products}" method="get" class="float-right"> 
+		<form th:action="@{/products/admin/products}" method="get" class="float-right"> 
 			<button class="btn btn-light" type="Submit">Continue Shopping</button>
 		</form>			
 
@@ -196,8 +197,8 @@
 				<div class="modal-content">
 					<div class="modal-header">Create Address</div>
 					<div class="modal-body">
-						<form role="form" th:object="${newAddress}">
-							<div class="input-group mb-3" id="addressGroup" th:action="@{/address/create}">
+						<form role="form" th:object="${newAddress}" th:action="@{/shoppingcart/createaddress}" method="post">
+							<div class="input-group mb-3">
 								<div class="form-group">
 									<label for="lineOne">Line 1:</label>
 									<input type="text" class="form-control" placeholder="Line 1" id="lineOne" th:fied="*{lineOne}" th:required="required">
@@ -236,7 +237,7 @@
 				<div class="modal-content">
 					<div class="modal-header">Edit Payment Method</div>
 					<div class="modal-body" id="paymentMethodBody">
-						<form role="form" th:object="${cardDetail}" method="post" th:action="@{/shoppingcart/setcarddefaut}">
+						<form role="form" th:object="${newCard}" method="post" th:action="@{/shoppingcart/setcarddefault}">
 							<div class="form-check" th:each="card : ${listCardDetail}">
 							  <label class="form-check-label">
 							    <input type="radio" th:id="${card.id}" class="form-check-input" name="optradio" th:text="${card}" th:value="${card.id}" th:field="*{id}">
@@ -260,7 +261,7 @@
 				<div class="modal-content">
 					<div class="modal-header">Create New Card</div>
 					<div class="modal-body" id="createCardBody">
-						<form role="form" th:object="${newCard}" th:action="@{/shoppingcart/createcard}">						
+						<form role="form" th:object="${newCard}" th:action="@{/shoppingcart/createcard}" method="post">						
 							<div class="form-check">
 							  <label class="form-check-label">
 							    <input type="radio" class="form-check-input" name="optradio" th:checked="true" th:field="*{type}" th:value="MASTER">Master
@@ -280,7 +281,7 @@
 								</div>
 								<div class="form-group">
 									<label for="expiredDate">Expired date:</label>
-									<input type="month" class="form-control" id="expiredDate" th:field="*{expiredDate}" th:required="required" >
+									<input type="month" class="form-control" id="expiredDate" th:field="*{expiredDate}" th:required="required">
 								</div>
 							</div>
 							<div class="input-group mb-3">

@@ -34,4 +34,10 @@ public class AddressServiceImpl implements AddressService {
 		return addressRepository.getOne(id);
 	}
 
+	@Override
+	public void save(Address address) {
+		// TODO Auto-generated method stub
+		addressRepository.save(address);
+	}
+
 }

@@ -11,7 +11,7 @@ VALUES (1000,'A','2019-10-12 00:00:00','fhirsch@aol.com','Gauge Tran','2019-10-1
 		(1007,'A','2019-10-12 00:00:00','gastown@live.com','Aliya Clements','2019-10-11 00:00:00','$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(900) 609-4718','aliya_clements', 1,2),
 		(1008,'A','2019-10-12 00:00:00','wagnerch@optonline.net','Rubi Chavez','2019-10-12 00:00:00','$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(755) 894-7319','rubi_chavez', 1,3),
 		(1009,'A','2019-10-12 00:00:00','fviegas@comcast.net','Waylon Morse','2019-10-11 00:00:00','$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(763) 973-5980','waylon_morse', 1,2),
-		(1010,'D','2019-10-12 00:00:00','elmer@aol.com','Liliana Prince',NULL,'$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(958) 388-7951','liliana_prince', 1,4),
+		(1010,'A','2019-10-12 00:00:00','elmer@aol.com','Liliana Prince',NULL,'$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(958) 388-7951','liliana_prince', 1,4),
 		(1011,'D','2019-10-12 00:00:00','maradine@verizon.net','Armani Foley',NULL,'$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(234) 877-0838','armani_foley', 1,3),
 		(1012,'D','2019-10-12 00:00:00','vlefevre@yahoo.com','Giuliana Frazier','2019-10-09 00:00:00','$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(911) 910-2046','giuliana_frazier', 1,3),
 		(1013,'U','2019-10-12 00:00:00','calin@comcast.net','Jovanni Matthews','2019-10-05 00:00:00','$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','(770) 736-4855','jovanni_matthews', 1,3),
