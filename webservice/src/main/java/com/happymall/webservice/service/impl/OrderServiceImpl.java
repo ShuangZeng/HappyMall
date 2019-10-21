@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.happymall.webservice.dao.OrderLineDao;
 import com.happymall.webservice.dao.OrdersDao;
@@ -13,6 +15,8 @@ import com.happymall.webservice.dao.ProductDao;
 import com.happymall.webservice.domain.Orders;
 import com.happymall.webservice.service.OrderService;
 
+@Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
