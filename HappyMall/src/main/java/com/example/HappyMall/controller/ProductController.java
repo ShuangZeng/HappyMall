@@ -1,11 +1,13 @@
 package com.example.HappyMall.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.HappyMall.domain.Product;
@@ -28,7 +29,7 @@ public class ProductController {
 
 	@RequestMapping({ "", "/all" })
 	public List<Product> list(Model model) {
-		
+
 		return productService.getAllProducts();
 	}
 
@@ -56,6 +57,19 @@ public class ProductController {
 		productService.addProduct(productToBeAdded);
 
 	}
+	
+	@RequestMapping("/admin/newProduct")
+	public String showNewProductPage(Model model) {
+	    Product product = new Product();
+	    model.addAttribute("product", product);    
+	    return "newProduct";
+	}
+	
+	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
+	public String saveProduct(@ModelAttribute("product") Product product) {
+	    productService.addProduct(product);
+	    return "redirect:/products/updateProducts";
+	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public Product processUpdateProductForm(@RequestBody Product productToBeUpdated) {
@@ -69,10 +83,17 @@ public class ProductController {
 		productToBeDeleted.setStatus("D");
 		productService.updateProduct(productToBeDeleted);
 	}
+	
+	@RequestMapping("admin/delete/")
+	public String deleteProduct(@RequestParam Integer productId) {
+	    productService.getProduct(productId).setStatus("D");
+	    return "redirect:/products/updateProducts";
+	}
 
 	@GetMapping(value = "/admin/products")
-	public String getProductsList(Model model, Authentication authentication) {		
-		model.addAttribute("productList", productService.getAllProducts().stream().filter(p -> p.getQuantity()!=0).collect(Collectors.toList()));
+	public String getProductsList(Model model, Authentication authentication) {
+		model.addAttribute("productList", productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
+				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList()));
 		return "productsList";
 	}
 
@@ -83,15 +104,16 @@ public class ProductController {
 	}
 
 	@GetMapping(value = "/admin/editProduct")
-	public String editProducts(Model model, Authentication authentication, @RequestParam Integer productId) {
+	public String editProduct(Model model, Authentication authentication, @RequestParam Integer productId) {
 		model.addAttribute("product", productService.getProduct(productId));
 		return "editProduct";
 	}
 
-	@PostMapping(value = "/admin/Edited")
-	public String edited(Model model, Authentication authentication, @RequestBody Product product) {
-		productService.updateProduct(product);
-		return "updateProducts";
-	}
+//	@PostMapping(value = "/admin/Edited")
+//	public String edited(Model model, Authentication authentication) {
+//		Product product = new Product();
+//		productService.updateProduct(product);
+//		return "redirect:/";
+//	}
 
 }
