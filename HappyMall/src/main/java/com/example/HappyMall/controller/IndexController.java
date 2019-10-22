@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.HappyMall.domain.Address;
@@ -15,6 +17,7 @@ import com.example.HappyMall.domain.OrderLine;
 import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.domain.SystemConfig;
 import com.example.HappyMall.domain.User;
+import com.example.HappyMall.repository.ProductPageAndSortingRepository;
 import com.example.HappyMall.service.AddressService;
 import com.example.HappyMall.service.OrderLineService;
 import com.example.HappyMall.service.OrdersService;
@@ -44,11 +47,15 @@ public class IndexController {
 	@Autowired
 	private SystemConfigService systemConfigService;
 	
+	@Autowired
+	private ProductPageAndSortingRepository productPageAndSortingRepository;
+	
 	@GetMapping(value = "/admin/index")
-	public String getHome(Model model ) {
+	public String getHome(Model model, @RequestParam(defaultValue="1") int page ) {
 		User user = (User)model.asMap().get("user");
-		System.out.println("list product size: " + productService.getAllProducts().size());
-		model.addAttribute("productList", productService.getAllProducts());
+		System.out.println("list product size: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 5)).getNumber());
+		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 5)));
+		model.addAttribute("currentPage", page);
 		
 		//Thao code
 		System.out.println("CHECK AND CREATE ORDERS FOR USER WHEN HAS SESSION...");

@@ -2,6 +2,9 @@ package com.example.HappyMall.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 import com.example.HappyMall.domain.Product;
 
 public interface ProductService{

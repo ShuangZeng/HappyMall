@@ -115,7 +115,7 @@ public class ShoppingCartController {
 		}
 
 		System.out.println("finish...");
-		return "redirect:/products/admin/products";
+		return "redirect:/admin/index";
 	}
 
 	private void addToCartByGuest(int id, Model model) {
