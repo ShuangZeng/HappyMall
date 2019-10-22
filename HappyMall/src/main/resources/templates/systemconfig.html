@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYSTEM CONFIG</title>
+
+<!-- Bootstrap library -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Custom css and js -->
+<script type="text/javascript" th:src="@{/js/shoppingcart.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
+</head>
+
+<body>
+	<div class="container">
+		<H2 align="center">SYSTEM CONFIGURATION</H2>
+		<div class="col-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Create Date</th>
+						<th scope="col">Applied date</th>
+						<th scope="col">Tax Percent</th>
+						<th scope="col">Service fee Percent</th>
+						<th scope="col" colspan="2"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${listSystemConfig}">
+						<td th:text="${#dates.format(item.createDate, 'MM-dd-yyyy')}">Create Date</td>
+						<td th:text="${#dates.format(item.appliedDate, 'MM-dd-yyyy')}">Create Date</td>
+						<td th:text="${item.tax}">Tax Percent</td>
+						<td th:text="${item.serviceFee}">Service fee Percent</td>
+						<td>
+							<button type="button" class="btn btn-primary" th:if="${item.checkEdit() == true}">Edit</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger" th:if="${item.checkEdit() == true}">Delete</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</body>
+</html>

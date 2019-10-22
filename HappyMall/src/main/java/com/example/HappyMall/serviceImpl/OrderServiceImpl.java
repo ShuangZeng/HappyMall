@@ -37,9 +37,9 @@ public class OrderServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public void updateMoneyByOrdersId(int orderId) {
+	public void updateMoneyByOrdersId(int orderId, int tax, int serviceFee) {
 		// TODO Auto-generated method stub
-		ordersRepository.updateMoneyByOrdersId(orderId);
+		ordersRepository.updateMoneyByOrdersId(orderId, tax, serviceFee);
 	}
 
 	

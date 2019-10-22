@@ -12,4 +12,6 @@ public interface OrderLineService {
 	OrderLine getByOrderIdAndProductId(int ordersId, int productId);
 	
 	void deleteByOrdersIdAndProductId(int ordersId, int productId);
+	
+	OrderLine getOrderLine(int id);
 }

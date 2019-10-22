@@ -39,4 +39,10 @@ public class OrderLineServiceImpl implements OrderLineService {
 		orderLineRepository.deleteByOrdersIdAndProductId(ordersId, productId);
 	}
 
+	@Override
+	public OrderLine getOrderLine(int id) {
+		// TODO Auto-generated method stub
+		return orderLineRepository.getOne(id);
+	}
+
 }

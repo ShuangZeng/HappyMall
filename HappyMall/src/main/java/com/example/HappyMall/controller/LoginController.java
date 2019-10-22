@@ -40,6 +40,9 @@ public class LoginController {
 	@Autowired
 	private OrderLineService orderLineService;
 
+	@Autowired
+	private SystemConfigService systemConfigService;
+
 //	 @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
 //	 public ModelAndView login(){
 //	        ModelAndView modelAndView = new ModelAndView();
@@ -54,7 +57,7 @@ public class LoginController {
 	    	model.addAttribute("hidden", "true");
 	    	return "login";
     	}
-    	return "redirect:/home";
+    	return "redirect:/index";
     }
 
     
@@ -82,7 +85,7 @@ public class LoginController {
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
 		List<OrderLine> listOrderLine;
 		Orders orders = null;
-		if (listItem != null && user != null)
+		if (listItem != null && user != null && listItem.size() > 0)
 		{
 			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
 			if (listOrdersNew != null)
@@ -122,13 +125,15 @@ public class LoginController {
 					}
 				}
 				System.out.println("update orders...");
-	    		ordersService.updateMoneyByOrdersId(orders.getId());
+				SystemConfig systemConfig = systemConfigService.getToApplied();
+	    		ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
 			}
 		}
 		else
 		{
 			System.out.println("listItem is null");
 		}
+		model.addAttribute("listItem", null);
 		//Finish
 
 		modelAndView.setViewName("home"); 

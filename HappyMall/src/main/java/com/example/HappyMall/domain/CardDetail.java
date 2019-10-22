@@ -204,7 +204,7 @@ public class CardDetail {
 		else 
 			result.append("MASTER: ");
 		
-		result.append("***" + cardNumber.substring(12));
+		result.append("***" + cardNumber.substring((cardNumber.length() - 3) < 0 ? 0 : (cardNumber.length() - 3)));
 		result.append(" - Expired date: " + formatter.format(expiredDate));
 		
 		return result.toString();

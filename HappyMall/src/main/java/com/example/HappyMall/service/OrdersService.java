@@ -13,7 +13,7 @@ public interface OrdersService {
 
 	List<Orders> findByStatusAndUserId(String status, int userId);
 
-	void updateMoneyByOrdersId(int orderId);
+	void updateMoneyByOrdersId(int orderId, int tax, int serviceFee);
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------

@@ -67,7 +67,7 @@ public class Address {
 		StringBuilder result = new StringBuilder();
 		result.append(lineOne);
 		if (lineTwo != null && lineTwo != "")
-			result.append(", " + lineTwo + ", ");
+			result.append(", " + lineTwo);
 		result.append(", " + city + ", " + state + ", " + zipcode);
 		return result.toString();
 	}

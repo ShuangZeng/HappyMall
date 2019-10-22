@@ -13,15 +13,17 @@ import com.example.HappyMall.domain.Address;
 import com.example.HappyMall.domain.Item;
 import com.example.HappyMall.domain.OrderLine;
 import com.example.HappyMall.domain.Orders;
+import com.example.HappyMall.domain.SystemConfig;
 import com.example.HappyMall.domain.User;
 import com.example.HappyMall.service.AddressService;
 import com.example.HappyMall.service.OrderLineService;
 import com.example.HappyMall.service.OrdersService;
 import com.example.HappyMall.service.ProductService;
+import com.example.HappyMall.service.SystemConfigService;
 import com.example.HappyMall.service.UserService;
 
 @Controller
-@SessionAttributes ({"user"})
+@SessionAttributes ({"user", "listItem"})
 public class IndexController {
 
 	@Autowired
@@ -38,10 +40,14 @@ public class IndexController {
 
 	@Autowired
 	private OrderLineService orderLineService;
+
+	@Autowired
+	private SystemConfigService systemConfigService;
 	
 	@GetMapping(value = "/admin/index")
 	public String getHome(Model model ) {
 		User user = (User)model.asMap().get("user");
+		System.out.println("list product size: " + productService.getAllProducts().size());
 		model.addAttribute("productList", productService.getAllProducts());
 		
 		//Thao code
@@ -50,7 +56,7 @@ public class IndexController {
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
 		List<OrderLine> listOrderLine;
 		Orders orders = null;
-		if (listItem != null && user != null)
+		if (listItem != null && user != null && listItem.size() > 0)
 		{
 			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
 			if (listOrdersNew != null)
@@ -90,13 +96,16 @@ public class IndexController {
 					}
 				}
 				System.out.println("update orders...");
-	    		ordersService.updateMoneyByOrdersId(orders.getId());
+				SystemConfig systemConfig = systemConfigService.getToApplied();
+	    		ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
 			}
 		}
 		else
 		{
 			System.out.println("listItem is null");
 		}
+		model.addAttribute("listItem", null);
+		
 		return "index";
 	}
 }
