@@ -18,7 +18,7 @@ import com.happymall.webservice.domain.Orders;
 import com.happymall.webservice.service.OrderService;
 
 @RestController
-//@RequestMapping({"/orders"})
+@RequestMapping({"/orders"})
 public class OrdersController {
 
 	@Autowired
@@ -76,7 +76,7 @@ public class OrdersController {
 		os.updateOrder(orderToBeUpdated);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	@RequestMapping(value = "/refund", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void processRefundOrder(@RequestBody Orders orderToBeUpdated, @RequestBody int userId,@RequestBody boolean isEnduser) {
 		os.refundOrder(orderToBeUpdated, userId, isEnduser);

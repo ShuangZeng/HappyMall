@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import com.example.HappyMall.service.OrdersService;
 
 @Controller
 @SessionAttributes({ "user" })
+//@RequestMapping({"/orders"})
 public class OrderController {
 
 	@Autowired
@@ -30,7 +32,7 @@ public class OrderController {
 	// All retrieving/getting order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@GetMapping(value = "admin/vendor/orderDetail")
+	@GetMapping(value = "/details/vendor/{id}")
 	String getOrderForVendor(Model model, Authentication authentication, @RequestParam int orderId) {
 		try {
 			// Retrieve data
@@ -60,7 +62,7 @@ public class OrderController {
 		}
 	}
 
-	@GetMapping(value = "/shoppingcart/orderDetail")
+	@GetMapping(value = "/details/shoppingcart/{id}")
 	String getOrderForEnduser(Model model, Authentication authentication, @RequestParam int orderId) {
 		try {
 			// Retrieve data
@@ -89,25 +91,23 @@ public class OrderController {
 		}
 	}
 
-	@GetMapping(value = "admin/vendor/orders")
+	@GetMapping(value = "/vendor")
 	public String getAllOrdersForVendor(Model model, Authentication authentication) {
 		try {
 			User user = (User) model.asMap().get("user");
 			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), false));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "ordersList";
 	}
 
-	@GetMapping(value = "/shoppingcart/orders")
+	@GetMapping(value = "/user")
 	public String getAllOrdersForEnduser(Model model, Authentication authentication) {
 		try {
 			User user = (User) model.asMap().get("user");
 			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "ordersList";
@@ -126,7 +126,7 @@ public class OrderController {
 		
 	}
 
-	void refundOrder(Orders order, int vendorId) {
+	void refundOrder(Orders order, int userId, boolean isEnduser) {
 		
 	}
 
