@@ -1,5 +1,6 @@
 package com.example.HappyMall.rest.serviceImpl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.HappyMall.domain.Orders;
+import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.rest.service.OrderRestService;
 
 import com.example.HappyMall.rest.RestHttpHeader;
@@ -25,7 +27,7 @@ public class OrderRestServiceImpl implements OrderRestService {
 
 	@Value("${base.url}")
 	private String baseUrl;
-	String serviceUrl = "http://localhost:8000/products";
+	String serviceUrl = "http://localhost:8000/orders";
 	String serviceUrlExtended = serviceUrl + "/";
 
 	// -----------------------------------------------------------------------------------------
@@ -61,14 +63,21 @@ public class OrderRestServiceImpl implements OrderRestService {
 
 	@Override
 	public List<Orders> getAllOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<Orders[]> responseEntity = restTemplate.exchange(serviceUrl, HttpMethod.GET, httpEntity, Orders[].class);	
+ 		List<Orders> orderList = Arrays.asList(responseEntity.getBody());
+		return orderList;
 	}
 
 	@Override
-	public List<Orders> getAllOrdersByUser(int userId, boolean forEnduser) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Orders> getAllOrdersByUser(int userId, boolean isEnduser) {
+		serviceUrlExtended = serviceUrl + "/user?id=" + userId + "&isEnduser=" + isEnduser;
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<Orders[]> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders[].class);	
+ 		List<Orders> orderList = Arrays.asList(responseEntity.getBody());
+		return orderList;
 	}
 
 	// End Retrieve-----------------------------------------------------------------------------

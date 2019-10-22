@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.security.core.Authentication;
@@ -32,85 +33,81 @@ public class OrderController {
 	// All retrieving/getting order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@GetMapping(value = "/details/vendor/{id}")
-	String getOrderForVendor(Model model, Authentication authentication, @RequestParam int orderId) {
-		try {
-			// Retrieve data
-			Orders order = new Orders();// orderService.getOrder(orderId);
-			User user = (User) model.asMap().get("user");
+	@RequestMapping(value = "/details/{id}")
+	String getOrder(Model model, Authentication authentication, @PathVariable("id") int orderId) {
+		User user = (User) model.asMap().get("user");		
+		if (user == null) {
+			return "orderDetail";	
+		}
 
+		// Retrieve data
+		try {
+			Orders order = orderService.getOrder(orderId);
+		
 			// Model-mapping
 			OrderModel item = new OrderModel();
 			item.id = order.getId();
 			item.orderCode = order.getOrderCode();
 			item.status = order.getStatus();
-			item.productsList = mapOrderLines(order.getListOrderLine().stream()
-					.filter(ol -> ol.getProduct().getVendor().getId() == user.getId()).collect(Collectors.toList()));
 			item.subtotal = order.getSubTotal();
 			item.serviceFee = order.getServiceFee();
 			item.tax = order.getTax();
 			item.total = order.getTotal();
-			item.billing = mapAddress(order.getBillingAddress());
-			item.shipping = mapAddress(order.getShippingAddress());
+			
+			if (user.getRole().getId() == 1) {
+				// User role = Enduser 
+				// -> Get all order lines
+				item.productsList = mapOrderLines(order.getListOrderLine());
+			} else {
+				// User role = Vendor 
+				// -> Get order lines only belongs to vnedor's product
+				item.productsList = mapOrderLines(order.getListOrderLine().stream()
+														.filter(ol -> ol.getProduct().getVendor().getId() == user.getId())
+														.collect(Collectors.toList()));
+			}
+			
+			Address billing = order.getBillingAddress();
+			item.billing = billing != null ? mapAddress(billing) : new AddressModel();
+			
+			Address shipping = order.getShippingAddress();
+			item.shipping = shipping != null ? mapAddress(shipping) : new AddressModel();
 
 			model.addAttribute("order", item);
-			return "orderDetail";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
 		}
+		
+		return "orderDetail";
 	}
 
-	@GetMapping(value = "/details/shoppingcart/{id}")
-	String getOrderForEnduser(Model model, Authentication authentication, @RequestParam int orderId) {
-		try {
-			// Retrieve data
-			Orders order = new Orders();// orderService.getOrder(orderId);
-			User user = (User) model.asMap().get("user");
-
-			// Model-mapping
-			OrderModel item = new OrderModel();
-			item.id = order.getId();
-			item.orderCode = order.getOrderCode();
-			item.status = order.getStatus();
-			item.productsList = mapOrderLines(order.getListOrderLine());
-			item.subtotal = order.getSubTotal();
-			item.serviceFee = order.getServiceFee();
-			item.tax = order.getTax();
-			item.total = order.getTotal();
-			item.billing = mapAddress(order.getBillingAddress());
-			item.shipping = mapAddress(order.getShippingAddress());
-
-			model.addAttribute("order", item);
-			return "orderDetail";
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@GetMapping(value = "/vendor")
+	@RequestMapping(value = "/vendor")
 	public String getAllOrdersForVendor(Model model, Authentication authentication) {
+		List<Orders> list = null;
+		
 		try {
 			User user = (User) model.asMap().get("user");
-			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), false));
+			list = orderService.getAllOrdersByUser(user.getId(), false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "ordersList";
+		
+		model.addAttribute("ordersList", list);
+		return "orderMgmt";
 	}
 
-	@GetMapping(value = "/user")
+	@RequestMapping(value = "/user")
 	public String getAllOrdersForEnduser(Model model, Authentication authentication) {
+		List<Orders> list = null;
+		
 		try {
 			User user = (User) model.asMap().get("user");
-			model.addAttribute("ordersList", orderService.getAllOrdersByUser(user.getId(), true));
+			list = orderService.getAllOrdersByUser(user.getId(), true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "ordersList";
+		
+		model.addAttribute("ordersList", list);
+		return "orderMgmt";
 	}
 
 	// -----------------------------------------------------------------------------------------
