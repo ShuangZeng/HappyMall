@@ -54,7 +54,7 @@ public class LoginController {
 	    	model.addAttribute("hidden", "true");
 	    	return "login";
     	}
-    	return "redirect:/home";
+    	return "redirect:/index";
     }
 
     
@@ -69,7 +69,7 @@ public class LoginController {
 		return "redirect:/login?logout";
 	}
 	
-	@RequestMapping(value="/home", method = RequestMethod.GET) 
+	@RequestMapping(value="/index", method = RequestMethod.GET) 
 	public ModelAndView home(Model model, WebRequest request, SessionStatus status, HttpSession session){ 
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -131,7 +131,7 @@ public class LoginController {
 		}
 		//Finish
 
-		modelAndView.setViewName("home"); 
+		modelAndView.setViewName("index"); 
 		return modelAndView;
 	}
 	
