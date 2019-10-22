@@ -1,10 +1,6 @@
 package com.example.HappyMall.service;
 
-import java.util.Date;
 import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Service;
 
 import com.example.HappyMall.domain.Orders;
 
@@ -32,29 +28,14 @@ public interface OrdersService {
 	// Retrieve---------------------------------------------------------------------------------
 	// All retrieving/getting order functions will be declared here
 	// -----------------------------------------------------------------------------------------
-
-	// START Region: Get specific
-	// order------------------------------------------------------------------------------------
+	
 	Orders getOrder(int id);
-
-	Orders getOrderByOrderCode(int userId, String orderCode, boolean forEnduser);
-	// END Region: Get specific
-	// order------------------------------------------------------------------------------------
-
-	// START Region: Get list of
-	// orders-----------------------------------------------------------------------------------
+	
 	List<Orders> getAllOrders();
 
-	List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEnduser);
+	List<Orders> getAllOrdersByUser(int userId, boolean isEnduser);
 
-	List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEnduser);
-
-	List<Orders> getAllOrdersByUser(int userId, boolean forEnduser);
-	// END Region: Get list of
-	// orders-----------------------------------------------------------------------------------
-
-	// End
-	// Retrieve---------------------------------------------------------------------------------
+	// End Retrieve-----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 	
@@ -66,12 +47,11 @@ public interface OrdersService {
 
 	void updateOrder(Orders order);
 
-	void refundOrder(Orders order, int userId);
+	void refundOrder(Orders order, int userId, boolean isEnduser);
 
 	void save(Orders orders);
 
-	// End
-	// Update-----------------------------------------------------------------------------------
+	// End Update-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 	
@@ -81,9 +61,8 @@ public interface OrdersService {
 	// All deleting/removing order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	void deleteOrder(int id);
+	void deleteOrder(Orders order);
 
-	// End
-	// Delete-----------------------------------------------------------------------------------
+	// End Delete-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 }

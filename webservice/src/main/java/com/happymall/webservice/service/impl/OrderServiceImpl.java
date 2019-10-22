@@ -22,8 +22,6 @@ public class OrderServiceImpl implements OrderService {
 	private OrdersDao orderDao;
 	@Autowired
 	private OrderLineDao olDao;
-	@Autowired
-	private ProductDao productDao;
 	
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
@@ -49,7 +47,6 @@ public class OrderServiceImpl implements OrderService {
  	//All retrieving/getting order functions will be declared here
  	//-----------------------------------------------------------------------------------------
  	
- 	//START Region: Get specific order---------------------------------------------------------
 	@Override
 	public Orders getOrder(int id) {
 		try {
@@ -59,18 +56,7 @@ public class OrderServiceImpl implements OrderService {
 			return null;
 		}
 	}
-
-	@Override
-	public Orders getOrderByOrderCode(int userId, String orderCode, boolean forEnduser) {
-		Stream<Orders> list = this.getAllOrdersByUser(userId, forEnduser).stream()
-									.filter(o -> o.getOrderCode().equalsIgnoreCase(orderCode));
-		Orders order = list.findAny().get();
-		return order;
-	}
-	//END Region: Get specific order-----------------------------------------------------------
 	
-	
-	//START Region: Get list of orders---------------------------------------------------------	
 	@Override
 	public List<Orders> getAllOrders() {
 		try {
@@ -81,21 +67,11 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
-	/*
-	 * @Override public List<Orders> getAllOrdersByDateRange(int userId, Date from,
-	 * Date to, boolean forEnduser) { // TODO Auto-generated method stub return
-	 * null; }
-	 * 
-	 * @Override public List<Orders> getAllOrdersByOrderStatus(int userId, String
-	 * orderStatus, boolean forEnduser) { // TODO Auto-generated method stub return
-	 * null; }
-	 */
-
 	@Override
-	public List<Orders> getAllOrdersByUser(int userId, boolean forEnduser) {
+	public List<Orders> getAllOrdersByUser(int userId, boolean isEnduser) {
 		List<Orders> list;
 		
-		if (forEnduser) {
+		if (isEnduser) {
 			//Get all orders by enduser id
 			list = this.getAllOrders().stream()
 						.filter(o -> o.getUser().getId() == userId)
@@ -110,7 +86,6 @@ public class OrderServiceImpl implements OrderService {
 		
 		return list;
 	}
-	//END Region: Get list of orders-----------------------------------------------------------
 	
  	//End Retrieve-----------------------------------------------------------------------------
  	//-----------------------------------------------------------------------------------------
@@ -132,8 +107,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void refundOrder(Orders order, int userId) {
-		// TODO Auto-generated method stub
+	public void refundOrder(Orders order, int userId, boolean isEnduser) {
 		try {
 			orderDao.update(order);
 		} catch (Exception e) {
