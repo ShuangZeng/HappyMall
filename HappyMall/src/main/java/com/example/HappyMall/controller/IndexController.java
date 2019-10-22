@@ -55,7 +55,7 @@ public class IndexController {
 		User user = (User)model.asMap().get("user");
 		System.out.println("list product size: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 5)).getNumber());
 		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 5)));
-		model.addAttribute("currentPage", page);
+		model.addAttribute("currentPage", page); 
 		
 		//Thao code
 		System.out.println("CHECK AND CREATE ORDERS FOR USER WHEN HAS SESSION...");
