@@ -1,6 +1,5 @@
 package com.example.HappyMall.serviceImpl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.repository.OrdersRepository;
+import com.example.HappyMall.rest.service.OrderRestService;
 import com.example.HappyMall.service.OrdersService;
 
 @Service
@@ -20,9 +20,10 @@ public class OrderServiceImpl implements OrdersService {
 
 	@PersistenceContext
 	private EntityManager em;
-
 	@Autowired
 	private OrdersRepository ordersRepository;
+	@Autowired
+	OrderRestService ors;
 
 	@Override
 	public Orders findByStatus(String status) {
@@ -50,11 +51,13 @@ public class OrderServiceImpl implements OrdersService {
 	// -----------------------------------------------------------------------------------------
 	@Override
 	public void addOrder(Orders order) {
-		// TODO Auto-generated method stub
-
+		try {
+			ors.addOrder(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	// End
-	// Create-----------------------------------------------------------------------------------
+	// End Create-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 	
@@ -64,53 +67,24 @@ public class OrderServiceImpl implements OrdersService {
 	// All retrieving/getting order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	// START Region: Get specific
-	// order------------------------------------------------------------------------------------
+	// START Region: Get specific order
+	// -----------------------------------------------------------------------------------------
 	@Override
 	public Orders getOrder(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return ors.getOrder(id);
 	}
-
-	@Override
-	public Orders getOrderByOrderCode(int userId, String orderCode, boolean forEnduser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	// END Region: Get specific
-	// order------------------------------------------------------------------------------------
-
 	
-	// START Region: Get list of
-	// orders-----------------------------------------------------------------------------------
 	@Override
 	public List<Orders> getAllOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		return ors.getAllOrders();
 	}
 
 	@Override
-	public List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean forEnduser) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Orders> getAllOrdersByUser(int userId, boolean isEnduser) {
+		return ors.getAllOrdersByUser(userId, isEnduser);
 	}
 
-	@Override
-	public List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus, boolean forEnduser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Orders> getAllOrdersByUser(int userId, boolean forEnduser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	// END Region: Get list of
-	// orders-----------------------------------------------------------------------------------
-
-	// End
-	// Retrieve---------------------------------------------------------------------------------
+	// End Retrieve-----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 	
@@ -122,23 +96,28 @@ public class OrderServiceImpl implements OrdersService {
 
 	@Override
 	public void updateOrder(Orders order) {
-		// TODO Auto-generated method stub
-
+		try {
+			ors.updateOrder(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void refundOrder(Orders order, int userId) {
-		// TODO Auto-generated method stub
-
+	public void refundOrder(Orders order, int vendorId, boolean isEnduser) {
+		try {
+			ors.refundOrder(order, vendorId, isEnduser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void save(Orders orders) {
-		// TODO Auto-generated method stub
-		ordersRepository.save(orders);
+	public void save(Orders order) {
+		ordersRepository.save(order);
 	}
-	// End
-	// Update-----------------------------------------------------------------------------------
+	
+	// End Update-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 	
@@ -149,12 +128,14 @@ public class OrderServiceImpl implements OrdersService {
 	// -----------------------------------------------------------------------------------------
 
 	@Override
-	public void deleteOrder(int id) {
-		// TODO Auto-generated method stub
-
+	public void deleteOrder(Orders order) {
+		try {
+			ors.deleteOrder(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	// End
-	// Delete-----------------------------------------------------------------------------------
+	// End Delete-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 }

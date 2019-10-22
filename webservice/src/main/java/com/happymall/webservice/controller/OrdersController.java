@@ -22,7 +22,7 @@ import com.happymall.webservice.service.OrderService;
 public class OrdersController {
 
 	@Autowired
-	OrderService orderService;
+	OrderService os;
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
@@ -32,11 +32,10 @@ public class OrdersController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void processAddNewOrder(@RequestBody Orders orderToBeAdded) {
-		orderService.addOrder(orderToBeAdded);
+		os.addOrder(orderToBeAdded);
 	}
 
-	// End
-	// Create-------------------------------------------------------------------------------
+	// End Create-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 	
@@ -46,49 +45,22 @@ public class OrdersController {
 	// All retrieving/getting order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	// START Region: Get specific
-	// order---------------------------------------------------------
-
 	@GetMapping("/{id}")
 	public @ResponseBody Orders getOrderById(@PathVariable("id") int orderId) {
-		return orderService.getOrder(orderId);
+		return os.getOrder(orderId);
 	}
-
-	@RequestMapping("/code")
-	public Orders getOrderByOrderCode(@RequestParam("id") int userId, @RequestParam("orderCode") String orderCode, 
-										@RequestParam("endUser") boolean forEnduser) {
-		return orderService.getOrderByOrderCode(userId, orderCode, forEnduser);
-	}
-
-	// END Region: Get specific
-	// order-----------------------------------------------------------
-
-	// START Region: Get list of
-	// orders---------------------------------------------------------
 
 	@RequestMapping({ "", "/all" })
 	public List<Orders> getAllOrders() {
-		return orderService.getAllOrders();
+		return os.getAllOrders();
 	}
-
-	/*
-	 * List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean
-	 * forEnduser);
-	 * 
-	 * List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus,
-	 * boolean forEnduser);
-	 */
 
 	@RequestMapping("/user")
-	public List<Orders> getAllOrdersByUser(@RequestParam("id") int userId, @RequestParam("endUser") boolean forEnduser) {
-		return orderService.getAllOrdersByUser(userId, forEnduser);
+	public List<Orders> getAllOrdersByUser(@RequestParam("id") int userId, @RequestParam("endUser") boolean isEnduser) {
+		return os.getAllOrdersByUser(userId, isEnduser);
 	}
 
-	// END Region: Get list of
-	// orders-----------------------------------------------------------
-
-	// End
-	// Retrieve-----------------------------------------------------------------------------
+	// End Retrieve-----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 	
@@ -101,17 +73,16 @@ public class OrdersController {
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void processUpdateOrder(@RequestBody Orders orderToBeUpdated) {
-		orderService.updateOrder(orderToBeUpdated);
+		os.updateOrder(orderToBeUpdated);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void processRefundOrder(@RequestBody Orders orderToBeUpdated, @RequestBody int userId) {
-		orderService.refundOrder(orderToBeUpdated, userId);
+	public void processRefundOrder(@RequestBody Orders orderToBeUpdated, @RequestBody int userId,@RequestBody boolean isEnduser) {
+		os.refundOrder(orderToBeUpdated, userId, isEnduser);
 	}
 
-	// End
-	// Update-------------------------------------------------------------------------------
+	// End Update-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
 		
@@ -125,10 +96,9 @@ public class OrdersController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void processDeleteOrder(@RequestBody Orders orderToBeDeleted) {
 		orderToBeDeleted.setStatus("D");
-		orderService.updateOrder(orderToBeDeleted);
+		os.updateOrder(orderToBeDeleted);
 	}
 
-	// End
-	// Delete-------------------------------------------------------------------------------
+	// End Delete-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 }

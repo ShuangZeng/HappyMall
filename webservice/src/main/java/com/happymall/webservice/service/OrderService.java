@@ -24,26 +24,11 @@ public interface OrderService {
  	//All retrieving/getting order functions will be declared here
  	//-----------------------------------------------------------------------------------------
  	
- 	//START Region: Get specific order---------------------------------------------------------
  	Orders getOrder(int id);
- 	
-	Orders getOrderByOrderCode(int userId, String orderCode, boolean forEnduser);
-	//END Region: Get specific order-----------------------------------------------------------
-	
-	
-	//START Region: Get list of orders---------------------------------------------------------	
+
 	List<Orders> getAllOrders();
 	
-	/*
-	 * List<Orders> getAllOrdersByDateRange(int userId, Date from, Date to, boolean
-	 * forEnduser);
-	 * 
-	 * List<Orders> getAllOrdersByOrderStatus(int userId, String orderStatus,
-	 * boolean forEnduser);
-	 */
-	
-	List<Orders> getAllOrdersByUser(int userId, boolean forEnduser);
-	//END Region: Get list of orders-----------------------------------------------------------
+	List<Orders> getAllOrdersByUser(int userId, boolean isEnduser);
 	
  	//End Retrieve-----------------------------------------------------------------------------
  	//-----------------------------------------------------------------------------------------
@@ -57,7 +42,7 @@ public interface OrderService {
 	
  	void updateOrder(Orders order);
  	
- 	void refundOrder(Orders order, int userId);
+ 	void refundOrder(Orders order, int userId, boolean isEnduser);
 
  	//End Update-------------------------------------------------------------------------------
  	//-----------------------------------------------------------------------------------------
