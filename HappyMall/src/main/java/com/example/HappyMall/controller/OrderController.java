@@ -1,5 +1,6 @@
 package com.example.HappyMall.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,8 @@ import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.domain.User;
 import com.example.HappyMall.domain.Address;
 import com.example.HappyMall.domain.OrderLine;
+import com.example.HappyMall.service.AddressService;
+import com.example.HappyMall.service.OrderLineService;
 import com.example.HappyMall.service.OrdersService;
 
 @Controller
@@ -26,7 +29,13 @@ import com.example.HappyMall.service.OrdersService;
 public class OrderController {
 
 	@Autowired
+	private AddressService addressService;
+	
+	@Autowired
 	private OrdersService orderService;
+
+	@Autowired
+	private OrderLineService olService;
 
 	// -----------------------------------------------------------------------------------------
 	// Retrieve---------------------------------------------------------------------------------
@@ -43,36 +52,44 @@ public class OrderController {
 		// Retrieve data
 		try {
 			Orders order = orderService.getOrder(orderId);
-		
+					
 			// Model-mapping
-			OrderModel item = new OrderModel();
-			item.id = order.getId();
-			item.orderCode = order.getOrderCode();
-			item.status = order.getStatus();
-			item.subtotal = order.getSubTotal();
-			item.serviceFee = order.getServiceFee();
-			item.tax = order.getTax();
-			item.total = order.getTotal();
 			
+			List<OrderLine> orderLines;
+			// Get order lines based on user role
 			if (user.getRole().getId() == 1) {
 				// User role = Enduser 
 				// -> Get all order lines
-				item.productsList = mapOrderLines(order.getListOrderLine());
+				orderLines = olService.findByOrdersId(order.getId());
 			} else {
 				// User role = Vendor 
 				// -> Get order lines only belongs to vnedor's product
-				item.productsList = mapOrderLines(order.getListOrderLine().stream()
-														.filter(ol -> ol.getProduct().getVendor().getId() == user.getId())
-														.collect(Collectors.toList()));
+				orderLines = olService.findByOrdersId(order.getId()).stream()
+										.filter(ol -> ol.getProduct().getVendor().getId() == user.getId())
+										.collect(Collectors.toList());
 			}
+			if (orderLines == null) orderLines = new ArrayList<OrderLine>();
 			
+			// Get billing address
 			Address billing = order.getBillingAddress();
-			item.billing = billing != null ? mapAddress(billing) : new AddressModel();
+			if (billing == null) billing = new Address();
 			
+			// Get shipping address
 			Address shipping = order.getShippingAddress();
-			item.shipping = shipping != null ? mapAddress(shipping) : new AddressModel();
-
-			model.addAttribute("order", item);
+			if (shipping == null) shipping = new Address();
+			
+			// Map data to view model
+			model.addAttribute("orderId", order.getId());
+			model.addAttribute("orderCode", order.getOrderCode());
+			model.addAttribute("status", order.getStatus());
+			model.addAttribute("subtotal", order.getSubTotal());
+			model.addAttribute("serviceFee", order.getServiceFee());
+			model.addAttribute("tax", order.getTax());
+			model.addAttribute("total", order.getTotal());
+			model.addAttribute("orderLines", orderLines);
+			model.addAttribute("billing", billing);
+			model.addAttribute("shipping", shipping);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -123,8 +140,21 @@ public class OrderController {
 		
 	}
 
-	void refundOrder(Orders order, int userId, boolean isEnduser) {
+	@RequestMapping(value = "/refund/{id}")
+	String refundOrder(Model model, Authentication authentication, @PathVariable("id") int orderId) {
+		User user = (User) model.asMap().get("user");		
+		if (user == null) {
+			return null;	
+		}
+
+		// Retrieve data
+		try {
+			Orders order = orderService.getOrder(orderId);									
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		return "orderRefund";
 	}
 
 	// End Update-------------------------------------------------------------------------------
@@ -134,65 +164,8 @@ public class OrderController {
 	// Private functions/methods----------------------------------------------------------------
 	// All private function/methods will be declared here
 	// -----------------------------------------------------------------------------------------
-	private AddressModel mapAddress(Address address) {
-		AddressModel am = new AddressModel();
-		am.line1 = address.getLineOne();
-		am.line2 = address.getLineTwo();
-		am.city = address.getCity();
-		am.state = address.getState();
-		am.zipcode = address.getZipcode();
-		return am;
-	}
 
-	@SuppressWarnings("null")
-	private List<ProductModel> mapOrderLines(List<OrderLine> listOrderLines) {
-		List<ProductModel> list = null;
-
-		for (OrderLine line : listOrderLines) {
-			Product p = line.getProduct();
-			ProductModel pm = new ProductModel();
-			pm.productName = p.getName();
-			pm.vendorName = p.getVendor().getFullName();
-			pm.desc = p.getDescription();
-			pm.price = line.getPrice();
-			pm.quantity = line.getQuantity();
-			pm.total = pm.price * pm.quantity;
-			list.add(pm);
-		}
-
-		return list;
-	}
 	// -----------------------------------------------------------------------------------------
 	// End Private functions/methods------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
-}
-
-class OrderModel {
-	int id;
-	String orderCode;
-	String status;
-	List<ProductModel> productsList;
-	double subtotal;
-	double serviceFee;
-	double tax;
-	double total;
-	AddressModel billing;
-	AddressModel shipping;
-}
-
-class ProductModel {
-	String productName;
-	String vendorName;
-	String desc;
-	int quantity;
-	double price;
-	double total;
-}
-
-class AddressModel {
-	String line1;
-	String line2;
-	String city;
-	String state;
-	String zipcode;
 }
