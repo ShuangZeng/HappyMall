@@ -17,15 +17,15 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
     private EntityManager em;
 
 	@Override
-	public void updateMoneyByOrdersId(int orderId) {
+	public void updateMoneyByOrdersId(int orderId, int tax, int serviceFee) {
 		// TODO Auto-generated method stub
 		//ordersRepository.updateMoneyByOrdersId(orderId);
 		String queryStr = String.format("update Orders a " + 
 				" set subTotal = IFNULL((select sum(b.price * b.quantity) from OrderLine b where b.orders = a.id), 0)," + 
-				"	tax = IFNULL((select sum(b.price * b.quantity) * 0.07 from OrderLine b where b.orders = a.id), 0)," + 
-				"    a.total = IFNULL((select sum(b.price * b.quantity) * 1.07 from OrderLine b where b.orders = a.id), 0)," + 
-				"    serviceFee = IFNULL((select sum(b.price * b.quantity) * 0.25 from OrderLine b where b.orders = a.id), 0) " + 
-				" where a.id = %d",orderId);
+				"	tax = IFNULL((select sum(b.price * b.quantity) * %d / 100 from OrderLine b where b.orders = a.id), 0)," + 
+				"    a.total = IFNULL((select sum(b.price * b.quantity) * (%d + 100) / 100 from OrderLine b where b.orders = a.id), 0)," + 
+				"    serviceFee = IFNULL((select sum(b.price * b.quantity) * %d / 100 from OrderLine b where b.orders = a.id), 0) " + 
+				" where a.id = %d",tax, tax, serviceFee, orderId);
 		
         Query query = em.createQuery(queryStr);
         

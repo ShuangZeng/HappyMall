@@ -20,6 +20,12 @@ public class PaymentServiceImpl implements PaymentService{
 		
 		return paymentRepository.findAll();
 	}
+
+	@Override
+	public void save(Payment payment) {
+		// TODO Auto-generated method stub
+		paymentRepository.save(payment);
+	}
 	
 	
 }

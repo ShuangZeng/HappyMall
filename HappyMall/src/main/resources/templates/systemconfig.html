@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYSTEM CONFIG</title>
+
+<!-- Bootstrap library -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Custom css and js -->
+<script type="text/javascript" th:src="@{/js/systemconfig.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
+</head>
+
+<body>
+	<div class="container">
+		<H2 align="center">SYSTEM CONFIGURATION</H2>
+		<div class="col-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Create Date</th>
+						<th scope="col">Applied date</th>
+						<th scope="col">Tax Percent</th>
+						<th scope="col">Service fee Percent</th>
+						<th scope="col" colspan="2"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${listSystemConfig}">
+						<td th:text="${#dates.format(item.createDate, 'MM-dd-yyyy')}">Create
+							Date</td>
+						<td th:text="${#dates.format(item.appliedDate, 'MM-dd-yyyy')}">Applied
+							Date</td>
+						<td th:text="${item.tax}">Tax Percent</td>
+						<td th:text="${item.serviceFee}">Service fee Percent</td>
+						<td><a class="btn btn-primary eBtn"
+							th:if="${item.checkEdit() == true}"
+							th:href="@{/admin/systemconfig/getone/(id=${item.id})}">Edit</a>
+						</td>
+						<td><a class="btn btn-danger dBtn"
+							th:href="@{/admin/systemconfig/delete/(id=${item.id})}"
+							th:if="${item.checkEdit() == true}">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<a class="btn btn-primary float-right" id="nBtn"
+				th:if="${checkedCreate}">Create</a>
+		</div>
+
+		<form th:action="@{/admin/systemconfig/save}" method="post">
+			<div class="modal fade" id="systemConfigModal" role="dialog">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">Update or create</div>
+						<div class="modal-body" id="addressBody">
+							<div class="form-group" th:hidden="true">
+								<label for="id">Id:</label> <input type="text"
+									class="form-control" id="id" name="id">
+							</div>
+							<div class="form-group">
+								<label for="createDate">Create Date:</label> <input type="date"
+									class="form-control" id="createDate" name="createDate"
+									th:readonly="readonly">
+							</div>
+							<div class="form-group">
+								<label for="appliedDate">Applied Date:</label> <input
+									type="date" class="form-control wbn-datepicker"
+									id="appliedDate" name="appliedDate" th:required="required">
+							</div>
+							<div class="form-group">
+								<label for="tax">Tax percent:</label> <input type="number"
+									class="form-control" id="tax" name="tax" th:required="required">
+							</div>
+							<div class="form-group">
+								<label for="serviceFee">Service fee:</label> <input
+									type="number" class="form-control" id="serviceFee"
+									name="serviceFee" th:required="required">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+		<div class="modal fade" id="confirmDelModal" role="dialog">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">Update or create</div>
+					<div class="modal-body" id="addressBody">
+						<p class="alert alert-danger">Are you sure you want to delete this Configuration?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<a class="btn btn-danger" id="delRef" href="">Delete</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.example.HappyMall.serviceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,11 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Product addProduct(Product product) {
-		
-		return prs.addProduct(product);
+		product.setStatus("U");
+		product.setCreateDate(new Date());
+		productRepository.save(product);
+//		return prs.addProduct(product);
+		return product;
 	}
 
 	@Override
@@ -55,14 +59,21 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public Product updateProduct(Product product) {
-		
-		return prs.updateProduct(product);
+		product.setStatus("U");
+		product.setModifiedDate(new Date());
+		productRepository.save(product);
+//		return prs.updateProduct(product);
+		return product;
 	}
 
 	@Override
-	public void deleteProduct(Product product) {
-		
-		prs.deleteProduct(product);
+	public Product deleteProduct(Product product) {
+		Optional<Product> productRecordOptional = productRepository.findById(product.getId());
+		if(!productRecordOptional.isPresent()) return null;
+		Product productRecord = productRecordOptional.get();
+		productRecord.setStatus("D");
+		productRepository.save(productRecord);
+		return product;
 	}
 
 	@Override
@@ -94,4 +105,3 @@ public class ProductServiceImpl implements ProductService{
 	
 	
 }
-

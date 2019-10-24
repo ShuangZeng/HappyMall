@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +36,6 @@ public class Payment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="card_detail_id")
 	private CardDetail cardDetail;
-	
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private Orders orders;
@@ -55,7 +55,7 @@ public class Payment {
 	
 	@Transient
 	private List<Transaction> listTransaction;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -126,5 +126,10 @@ public class Payment {
 
 	public void setListTransaction(List<Transaction> listTransaction) {
 		this.listTransaction = listTransaction;
+	}
+	
+	public Payment() {
+		// TODO Auto-generated constructor stub
+		this.createDate = new Date();
 	}
 }

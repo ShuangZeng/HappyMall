@@ -11,49 +11,126 @@
     <title>Order Detail</title>
 </head>
 <body>
-<h1 class="text-center">Order Detail</h1>
-	<table class="table table-hover " align="center" style="width:80%">
-	<thead>
-		<tr> 
-			<th> </th>
-			<th>Product Name</th>
-			<th>Vendor</th>
-			<th>Description</th>
-			<th>Validation</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option1"></td>
-			<td>LeBron 17</td>
-			<td>Nike</td>
-			<td>Basketball Shoe</td>
-			<td>Y</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option2"></td>
-			<td>Air Force 1 '07 "MTAA"</td>
-			<td>Nike</td>
-			<td>Men's Shoe</td>
-			<td>N</td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="function" id="function1" value="option3"></td>
-			<td>Puma</td>
-			<td>PUMA RS-X Unexpected Mixes</td>
-			<td>Women's Shoe</td>
-			<td>Y</td>
-			
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><button class="btn btn-default btn-xs" type="submit">VALIDE</button></td>
-		</tr>
-	</tbody>
-</table>
-
-<div style="margin:0 auto;width:200px;">
-<button class="btn btn-default btn-sm"  onclick="location.href='http://localhost:8080/admin'" type="submit">GO BACK</button></div>
-
+	<h1 class="text-center">Order Detail</h1>	
+ 	<table class="table table-hover " align="center" style="width: 80%">
+		<tbody>
+			<tr>
+				<td>Order Id</td>
+				<td th:text="${orderId}"></td>
+			</tr>
+			<tr>
+				<td>Order Code</td>
+				<td th:text="${orderCode}"></td>
+			</tr>
+			<tr>
+				<td>Status</td>
+				<td>
+					<p th:text="${status}"></p>
+					<a href="#" class="btn btn-primary btn-xs" th:href="${'/orders/refund/' + orderId}">Request to refund</a>
+				</td>
+			</tr>
+			<tr>
+				<td>Products:</td>
+				<td>
+					<table class="table table-hover" align="center" style="width: 80%">
+						<thead>
+							<tr>
+								<th>Product Name</th>
+								<th>Vendor</th>
+								<th>Description</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Sub-Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item:${orderLines}">
+								<td th:text="${item.product.name}"></td>
+								<td th:text="${item.product.name}"></td>
+								<td th:text="${item.product.description}"></td>
+								<td th:text="${item.product.quantity}"></td>
+								<td th:text="${item.product.price}"></td>
+								<td th:text="${#numbers.formatDecimal(item.product.quantity*item.product.price, 2, 3)}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>			
+			<tr>
+				<td>Sub-Total</td>
+				<td th:text="${subtotal}"></td>
+			</tr>			
+			<tr>
+				<td>Service Fee</td>
+				<td th:text="${serviceFee}"></td>
+			</tr>			
+			<tr>
+				<td>Tax</td>
+				<td th:text="${tax}"></td>
+			</tr>			
+			<tr>
+				<td>Total</td>
+				<td th:text="${total}"></td>
+			</tr>
+			<tr>
+				<td>Billing Address:</td>
+				<td>
+					<table class="table table-hover" align="center" style="width: 80%">
+						<tbody>
+							<tr>
+								<td>Address Line 1</td>
+								<td th:text="${billing.lineOne}"></td>
+							</tr>
+							<tr>
+								<td>Address Line 2</td>
+								<td th:text="${billing.lineTwo}"></td>
+							</tr>
+							<tr>
+								<td>City</td>
+								<td th:text="${billing.city}"></td>
+							</tr>
+							<tr>
+								<td>State</td>
+								<td th:text="${billing.state}"></td>
+							</tr>
+							<tr>
+								<td>Zipcode</td>
+								<td th:text="${billing.zipcode}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>Shipping Address:</td>
+				<td>
+					<table class="table table-hover" align="center" style="width: 80%">
+						<tbody>
+							<tr>
+								<td>Address Line 1</td>
+								<td th:text="${shipping.lineOne}"></td>
+							</tr>
+							<tr>
+								<td>Address Line 2</td>
+								<td th:text="${shipping.lineTwo}"></td>
+							</tr>
+							<tr>
+								<td>City</td>
+								<td th:text="${shipping.city}"></td>
+							</tr>
+							<tr>
+								<td>State</td>
+								<td th:text="${shipping.state}"></td>
+							</tr>
+							<tr>
+								<td>Zipcode</td>
+								<td th:text="${shipping.zipcode}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>			
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

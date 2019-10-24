@@ -16,4 +16,6 @@ public interface CardDetailService {
 	CardDetail getCardDetail(int id);
 	
 	void save (CardDetail cardDetail);
+	
+	void saveAll (List<CardDetail> listCardDetail);
 }

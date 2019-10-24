@@ -92,11 +92,11 @@ public class Orders {
 	}
 
 	public double getSubTotal() {
-		if(subTotal == 0) {
-			for(OrderLine L : listOrderLine){
-				subTotal += L.getTotal();
-			}
-		}
+//		if(subTotal == 0) {
+//			for(OrderLine L : listOrderLine){
+//				subTotal += L.getTotal();
+//			}
+//		}
 		return subTotal;
 	}
 
@@ -105,9 +105,9 @@ public class Orders {
 	}
 
 	public double getTax() {
-		if(tax == 0) {
-			tax = 0.07 * getSubTotal();
-		}
+//		if(tax == 0) {
+//			tax = 0.07 * getSubTotal();
+//		}
 		return tax;
 	}
 
@@ -124,9 +124,9 @@ public class Orders {
 	}
 
 	public double getTotal() {
-		if(total == 0) {
-			total = getTax() + getSubTotal();
-		}
+//		if(total == 0) {
+//			total = getTax() + getSubTotal();
+//		}
 		return total;
 	}
 
@@ -166,13 +166,6 @@ public class Orders {
 		this.listOrderLine = listOrderLine;
 	}
 	
-	
-	
-	public Orders() {
-		// TODO Auto-generated constructor stub
-	}
-	
-
 	public Address getShippingAddress() {
 		return shippingAddress;
 	}
@@ -188,8 +181,10 @@ public class Orders {
 	public void setBillingAddress(Address billingAddress) {
 		this.billingAddress = billingAddress;
 	}
-
-	
+		
+	public Orders() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Orders(User user, @NotBlank String orderCode, Address shippingAddress, Address billingAddress,
 			String status) {
@@ -200,6 +195,14 @@ public class Orders {
 		this.billingAddress = billingAddress;
 		this.status = status;
 		this.createDate = new Date();
+	}
+
+	@Override
+	public String toString() {
+		return "Orders [id=" + id + ", user=" + user + ", orderCode=" + orderCode + ", shippingAddress="
+				+ shippingAddress + ", billingAddress=" + billingAddress + ", subTotal=" + subTotal + ", tax=" + tax
+				+ ", serviceFee=" + serviceFee + ", total=" + total + ", status=" + status + ", createDate="
+				+ createDate + ", modifiedDate=" + modifiedDate + "]";
 	}
 	
 	

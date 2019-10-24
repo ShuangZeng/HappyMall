@@ -204,48 +204,34 @@ public class User {
 		this.enable = enable;
 	}
 
-	public void setZipcode(String zipcode) {
-		for (Address address : listAddress) {
-			address.setZipcode(zipcode);
-		}
-	}
-
-	public void setlineOne(String lineOne) {
-		for (Address address : listAddress) {
-			address.setLineOne(lineOne);
-		}
-	}
-
-	public void setlineTwo(String lineTwo) {
-		for (Address address : listAddress) {
-			address.setLineTwo(lineTwo);
-		}
-	}
-
-	public void setcity(String city) {
-		for (Address address : listAddress) {
-			address.setCity(city);
-		}
-	}
-
-	public void setstate(String state) {
-		for (Address address : listAddress) {
-			address.setState(state);
-		}
-	}
-	
-//	public UserDto toDto() {
-//		UserDto dto = new UserDto();
-//		dto.setId(id);
-//		dto.setFullName(fullName);
-//		dto.setEmail(email);
-//		dto.setListAddress(listAddress);
-//		dto.setActive_Ind(active_Ind);
-//		dto.set
-//		
+//	public void setZipcode(String zipcode) {
+//		for (Address address : listAddress) {
+//			address.setZipcode(zipcode);
+//		}
 //	}
-	
-	
-	
+//
+//	public void setlineOne(String lineOne) {
+//		for (Address address : listAddress) {
+//			address.setLineOne(lineOne);
+//		}
+//	}
+//
+//	public void setlineTwo(String lineTwo) {
+//		for (Address address : listAddress) {
+//			address.setLineTwo(lineTwo);
+//		}
+//	}
+//
+//	public void setcity(String city) {
+//		for (Address address : listAddress) {
+//			address.setCity(city);
+//		}
+//	}
+//
+//	public void setstate(String state) {
+//		for (Address address : listAddress) {
+//			address.setState(state);
+//		}
+//	}
 	
 }

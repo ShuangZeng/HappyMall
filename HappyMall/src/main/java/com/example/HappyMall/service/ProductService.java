@@ -2,6 +2,9 @@ package com.example.HappyMall.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 import com.example.HappyMall.domain.Product;
 
 public interface ProductService{
@@ -15,5 +18,5 @@ public interface ProductService{
 	List<Product> getProductsByVendorName(String name);
 	Product getProduct(int id);
 	Product updateProduct(Product product);
-	void deleteProduct(Product product);
+	Product deleteProduct(Product product);
 }

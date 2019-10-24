@@ -39,4 +39,10 @@ public class CardDetailServiceImpl implements CardDetailService{
 		cardDetailRepository.save(cardDetail);
 	}
 
+	@Override
+	public void saveAll(List<CardDetail> listCardDetail) {
+		// TODO Auto-generated method stub
+		cardDetailRepository.saveAll(listCardDetail);
+	}
+
 }

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SHOPPING CART</title>	
+    
+	<!-- Bootstrap library -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
+	<!-- Bootstrap datetimepicker -->
+	<!-- <link rel="stylesheet" type="text/css" th:href="@{/css/datepicker.css}" >
+	<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js}"></script> -->
+	
+	<!-- Custom css and js -->
+	<script type="text/javascript" th:src="@{/js/shoppingcart.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+</head>
+<body>	
+	<header th:insert="header :: navbar"> </header>
+	<div class="container">
+		<H2 align="center">ORDER CONFIRM</H2>
+
+		<form th:object="${orders}" th:action="@{/shoppingcart/confirm}" method="post">
+			<div class="col-12">
+				<div class="row table-head col-12">Total product: <span th:text="${totalProduct}"> 0 </span> 
+					<span style="visibility: hidden" th:field="${orders}?${orders.orderCode}"></span></div>
+				<div class="row col-12 itemBlock item" th:each="item : ${listOrderLine}" th:hidden="${user}?false:true">
+					<div class="col-3 productImgContainer">
+						<img class="productImg" th:attr="src=@{${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
+					<div class="col-9">
+						<div class="row itemRow emphasize"><span th:text="${item.product.name}">Product's Name</span> </div>
+						<div class="row itemRow"><span th:text="${item.product.description}">Product's Description</span></div>
+						<div class="row itemRow"><span class="format-money price" th:text="${item.product.price}">0.00</span></div>
+						<div class="row itemRow"><span th:text="${item.quantity}">0</span></div>
+					</div>
+				</div>
+			</div>
+	
+			<div class="col-12">
+				<div class="col-6 float-right">
+					<table class="table">
+						<tbody>
+							<tr>
+								<td class="row-titile" scope="row">Total before Tax</td>
+								<td class="format-money" id="totalBeforeTax" th:text="${orders}?*{subTotal}"></td>
+							</tr>
+							<tr>
+								<td class="row-titile" scope="row" >Estimated Tax</td>
+								<td class="format-money" id="estimatedTax" th:text="${orders}?*{tax}"></td>
+							</tr>
+							<tr>
+								<td class="row-titile emphasize" scope="row" >Order total</td>
+								<td class="emphasize format-money" id="orderTotal" th:text="${orders}?*{total}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+	
+			<div class="col-12">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Shipping Information</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								Name: <span class="info" id="shippingName" th:text="${orders}?*{user.fullName}"></span> 
+								- Phone Number: <span class="info" id="shippingPhoneNo" th:text="${orders}?*{user.phone}"></span>
+							</td>
+						</tr>
+						<tr>
+							<td>Address: <span class="info" id="shippingAddress" th:text="${orders}?*{shippingAddress}" ></span>	</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	
+			<div class="col-12">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Payment Information</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Payment Method: <span class="info" id="paymentMethod" th:text="${cardDetail}?${cardDetail}"></span>		</td>
+						</tr>
+						<tr>
+							<td>Billing Address: <span class="info" id="billingAddress" th:text="${orders}?*{billingAddress}"></span>	</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	
+			<div class="float-right" th:if="${totalProduct > 0}">
+				<button type="submit" class="btn btn-primary">Confirm and complete process</button>
+			</div>
+		</form>			
+		<form th:action="@{/shoppingcart}" method="get" class="float-right"> 
+			<button class="btn btn-light" type="Submit">Go back</button>
+		</form>			
+
+		
+				
+	</div>
+	
+	<footer th:insert="footer :: navbar"> </footer>
+</body>
+</html>

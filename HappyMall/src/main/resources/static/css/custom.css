@@ -1,7 +1,5 @@
 @charset "ISO-8859-1";
 
-
-
 .row-titile{
 	background-color: lightgrey;
 }
@@ -81,4 +79,8 @@ thead, .modal-header  {
 
 span {
 	margin-left: 5px;
+}
+
+.searchPlace {
+	text-align: center;
 }
