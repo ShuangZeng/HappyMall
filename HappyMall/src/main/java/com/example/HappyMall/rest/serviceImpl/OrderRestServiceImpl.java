@@ -97,12 +97,22 @@ public class OrderRestServiceImpl implements OrderRestService {
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
 		restTemplate.patchForObject(serviceUrlExtended + "update", httpEntity, Orders.class);
 	}
-
+	
 	@Override
-	public void refundOrder(Orders order, int userId, boolean isEnduser) {
+	public void refundOrder(int orderId, int vendorId) {
+		//RestTemplate restTemplate = restHelper.getRestTemplate();
+		//HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
+		//restTemplate.patchForObject(serviceUrlExtended + "refund", httpEntity, Orders.class);
+	}
+	
+	@Override
+	public Orders requestToRefundOrder(int orderId) {
+		serviceUrlExtended = serviceUrl + "/" + orderId;
 		RestTemplate restTemplate = restHelper.getRestTemplate();
-		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		restTemplate.patchForObject(serviceUrlExtended + "refund", httpEntity, Orders.class);
+		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
+ 		Orders order = responseEntity.getBody();
+		return order;
 	}
 
 	// End Update-------------------------------------------------------------------------------
