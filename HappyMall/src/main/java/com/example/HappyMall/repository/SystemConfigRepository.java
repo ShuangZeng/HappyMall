@@ -16,4 +16,9 @@ public interface SystemConfigRepository extends  JpaRepository<SystemConfig, Int
 			"order by applied_date desc " + 
 			"limit 1", nativeQuery = true)
 	SystemConfig getToApplied();
+	
+	@Query(value="select * from system_config " + 
+			"where applied_date > CURDATE() " +
+			"limit 1", nativeQuery = true)
+	SystemConfig getNewest();
 }

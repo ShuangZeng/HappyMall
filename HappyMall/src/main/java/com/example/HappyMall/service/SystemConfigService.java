@@ -11,4 +11,10 @@ public interface SystemConfigService {
 	SystemConfig getToApplied();
 	
 	List<SystemConfig> getAll ();
+	
+	SystemConfig getNewest();
+	
+	SystemConfig getSystemConfig(int id);
+	
+	void delete (SystemConfig systemConfig);
 }

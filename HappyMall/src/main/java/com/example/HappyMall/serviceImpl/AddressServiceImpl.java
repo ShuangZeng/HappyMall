@@ -31,7 +31,7 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public Address getAddress(int id) {
 		// TODO Auto-generated method stub
-		return addressRepository.getOne(id);
+		return addressRepository.findById(id).get();
 	}
 
 	@Override
@@ -43,6 +43,12 @@ public class AddressServiceImpl implements AddressService {
 	public Address saveAddress(Address address) {
 		// TODO Auto-generated method stub
 		return addressRepository.save(address);
+	}
+
+	@Override
+	public void delete(Address address) {
+		// TODO Auto-generated method stub
+		addressRepository.delete(address);
 	}
 
 }

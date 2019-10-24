@@ -89,11 +89,11 @@ public class Orders {
 	}
 
 	public double getSubTotal() {
-		if(subTotal == 0) {
-			for(OrderLine L : listOrderLine){
-				subTotal += L.getTotal();
-			}
-		}
+//		if(subTotal == 0) {
+//			for(OrderLine L : listOrderLine){
+//				subTotal += L.getTotal();
+//			}
+//		}
 		return subTotal;
 	}
 
@@ -102,9 +102,9 @@ public class Orders {
 	}
 
 	public double getTax() {
-		if(tax == 0) {
-			tax = 0.07 * getSubTotal();
-		}
+//		if(tax == 0) {
+//			tax = 0.07 * getSubTotal();
+//		}
 		return tax;
 	}
 
@@ -121,9 +121,9 @@ public class Orders {
 	}
 
 	public double getTotal() {
-		if(total == 0) {
-			total = getTax() + getSubTotal();
-		}
+//		if(total == 0) {
+//			total = getTax() + getSubTotal();
+//		}
 		return total;
 	}
 

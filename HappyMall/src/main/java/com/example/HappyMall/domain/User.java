@@ -64,21 +64,21 @@ public class User {
 	private Date modifiedDate;
 	
 //	@JsonIgnoreProperties("listAddress")
-	@OneToMany
-	@JoinColumn(name = "user_id")
-	private List<Address> listAddress;
+//	@OneToMany
+//	@JoinColumn(name = "user_id")
+//	private List<Address> listAddress;
 	
-	@JsonIgnoreProperties("listOrders")
-	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
-	private List<Orders> listOrders;
-	
-	@JsonIgnoreProperties("listProduct")
-	@OneToMany(mappedBy="vendor", cascade = CascadeType.PERSIST)
-	private List<Product> listProduct;
-	
-	@JsonIgnoreProperties("listCardDetail")
-	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
-	private List<CardDetail> listCardDetail;
+//	@JsonIgnoreProperties("listOrders")
+//	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
+//	private List<Orders> listOrders;
+//	
+//	@JsonIgnoreProperties("listProduct")
+//	@OneToMany(mappedBy="vendor", cascade = CascadeType.PERSIST)
+//	private List<Product> listProduct;
+//	
+//	@JsonIgnoreProperties("listCardDetail")
+//	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
+//	private List<CardDetail> listCardDetail;
 
 	public int getId() {
 		return id;
@@ -153,37 +153,37 @@ public class User {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public List<Address> getListAddress() {
-		return listAddress;
-	}
+//	public List<Address> getListAddress() {
+//		return listAddress;
+//	}
+//
+//	public void setListAddress(List<Address> listAddress) {
+//		this.listAddress = listAddress;
+//	}
 
-	public void setListAddress(List<Address> listAddress) {
-		this.listAddress = listAddress;
-	}
-
-	public List<Orders> getListOrders() {
-		return listOrders;
-	}
-
-	public void setListOrders(List<Orders> listOrders) {
-		this.listOrders = listOrders;
-	}
-
-	public List<Product> getListProduct() {
-		return listProduct;
-	}
-
-	public void setListProduct(List<Product> listProduct) {
-		this.listProduct = listProduct;
-	}
-
-	public List<CardDetail> getListCardDetail() {
-		return listCardDetail;
-	}
-
-	public void setListCardDetail(List<CardDetail> listCardDetail) {
-		this.listCardDetail = listCardDetail;
-	}
+//	public List<Orders> getListOrders() {
+//		return listOrders;
+//	}
+//
+//	public void setListOrders(List<Orders> listOrders) {
+//		this.listOrders = listOrders;
+//	}
+//
+//	public List<Product> getListProduct() {
+//		return listProduct;
+//	}
+//
+//	public void setListProduct(List<Product> listProduct) {
+//		this.listProduct = listProduct;
+//	}
+//
+//	public List<CardDetail> getListCardDetail() {
+//		return listCardDetail;
+//	}
+//
+//	public void setListCardDetail(List<CardDetail> listCardDetail) {
+//		this.listCardDetail = listCardDetail;
+//	}
 	
 	public String toString() {
 		return getFullName();
@@ -205,29 +205,29 @@ public class User {
 		this.enable = enable;
 	}
 	
-	public void setZipcode(String zipcode){
-		  for(Address address : listAddress){
-		   address.setZipcode(zipcode);
-		  }
-	}
-	public void setlineOne(String lineOne){
-		  for(Address address : listAddress){
-		   address.setLineOne(lineOne);
-		  }
-		 }
-	public void setlineTwo(String lineTwo){
-		  for(Address address : listAddress){
-		   address.setLineTwo(lineTwo);
-		  }
-		 }
-	public void setcity(String city){
-		  for(Address address : listAddress){
-		   address.setCity(city);
-		  }
-		 }
-	public void setstate(String state){
-		  for(Address address : listAddress){
-		   address.setState(state);
-		  }
-		 }
+//	public void setZipcode(String zipcode){
+//		  for(Address address : listAddress){
+//		   address.setZipcode(zipcode);
+//		  }
+//	}
+//	public void setlineOne(String lineOne){
+//		  for(Address address : listAddress){
+//		   address.setLineOne(lineOne);
+//		  }
+//		 }
+//	public void setlineTwo(String lineTwo){
+//		  for(Address address : listAddress){
+//		   address.setLineTwo(lineTwo);
+//		  }
+//		 }
+//	public void setcity(String city){
+//		  for(Address address : listAddress){
+//		   address.setCity(city);
+//		  }
+//		 }
+//	public void setstate(String state){
+//		  for(Address address : listAddress){
+//		   address.setState(state);
+//		  }
+//		 }
 }

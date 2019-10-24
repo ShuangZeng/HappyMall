@@ -33,4 +33,22 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 		return systemConfigRepository.getToApplied();
 	}
 
+	@Override
+	public SystemConfig getNewest() {
+		// TODO Auto-generated method stub
+		return systemConfigRepository.getNewest();
+	}
+
+	@Override
+	public SystemConfig getSystemConfig(int id) {
+		// TODO Auto-generated method stub
+		return systemConfigRepository.findById(id).get();
+	}
+
+	@Override
+	public void delete(SystemConfig systemConfig) {
+		// TODO Auto-generated method stub
+		systemConfigRepository.delete(systemConfig);
+	}
+
 }

@@ -27,7 +27,7 @@
 		<form th:object="${orders}" th:action="@{/shoppingcart/confirm}" method="post">
 			<div class="col-12">
 				<div class="row table-head col-12">Total product: <span th:text="${totalProduct}"> 0 </span> 
-					<span style="visibility: hidden" th:field="${orders.orderCode}"></span></div>
+					<span style="visibility: hidden" th:field="${orders}?${orders.orderCode}"></span></div>
 				<div class="row col-12 itemBlock item" th:each="item : ${listOrderLine}" th:hidden="${user}?false:true">
 					<div class="col-3 productImgContainer">
 						<img class="productImg" th:attr="src=@{${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
@@ -46,15 +46,15 @@
 						<tbody>
 							<tr>
 								<td class="row-titile" scope="row">Total before Tax</td>
-								<td class="format-money" id="totalBeforeTax" th:text="${orders}?*{subTotal}:${subTotalGuest}"></td>
+								<td class="format-money" id="totalBeforeTax" th:text="${orders}?*{subTotal}"></td>
 							</tr>
 							<tr>
 								<td class="row-titile" scope="row" >Estimated Tax</td>
-								<td class="format-money" id="estimatedTax" th:text="${orders}?*{tax}:${taxGuest}"></td>
+								<td class="format-money" id="estimatedTax" th:text="${orders}?*{tax}"></td>
 							</tr>
 							<tr>
 								<td class="row-titile emphasize" scope="row" >Order total</td>
-								<td class="emphasize format-money" id="orderTotal" th:text="${orders}?*{total}:${totalGuest}"></td>
+								<td class="emphasize format-money" id="orderTotal" th:text="${orders}?*{total}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -100,7 +100,7 @@
 				</table>
 			</div>
 	
-			<div class="float-right" th:hidden="${user}?false:true">
+			<div class="float-right" th:if="${totalProduct > 0}">
 				<button type="submit" class="btn btn-primary">Confirm and complete process</button>
 			</div>
 		</form>			

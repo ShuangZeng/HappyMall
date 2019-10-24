@@ -45,4 +45,10 @@ public class OrderLineServiceImpl implements OrderLineService {
 		return orderLineRepository.getOne(id);
 	}
 
+	@Override
+	public void saveAll(List<OrderLine> listOrderLine) {
+		// TODO Auto-generated method stub
+		orderLineRepository.saveAll(listOrderLine);
+	}
+
 }

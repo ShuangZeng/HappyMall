@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.HappyMall.domain.Address;
 import com.example.HappyMall.domain.Item;
@@ -26,15 +29,15 @@ import com.example.HappyMall.service.SystemConfigService;
 import com.example.HappyMall.service.UserService;
 
 @Controller
-@SessionAttributes ({"user", "listItem"})
+@SessionAttributes({ "user", "listItem" })
 public class IndexController {
 
 	@Autowired
 	ProductService productService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	private OrdersService ordersService;
 
@@ -46,73 +49,71 @@ public class IndexController {
 
 	@Autowired
 	private SystemConfigService systemConfigService;
-	
+
 	@Autowired
 	private ProductPageAndSortingRepository productPageAndSortingRepository;
-	
+
 	@GetMapping(value = "/admin/index")
-	public String getHome(Model model, @RequestParam(defaultValue="1") int page ) {
-		User user = (User)model.asMap().get("user");
-		System.out.println("list product size: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 5)).getNumber());
-		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 5)));
-		model.addAttribute("currentPage", page); 
+	public String getHome(Model model, @RequestParam(defaultValue = "1") int page) {
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(auth.getName());
+		modelAndView.addObject("user",user);
 		
-		//Thao code
-		System.out.println("CHECK AND CREATE ORDERS FOR USER WHEN HAS SESSION...");
-		System.out.println(model.asMap().keySet().toString());
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
-		List<OrderLine> listOrderLine;
-		Orders orders = null;
-		if (listItem != null && user != null && listItem.size() > 0)
+		if (listItem != null && listItem.size() > 0 && user != null) 
 		{
+			// Thao Dao - To pass the list of Item to the OrderLine for user when log in
+			// successfully
+			System.out.println("CHECK AND CREATE ORDERS FOR USER WHEN HAS SESSION...");
+			System.out.println(model.asMap().keySet().toString());
+			List<OrderLine> listOrderLine;
+
+			// Get orders by user. If does not exist, create new orders for user
 			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
-			if (listOrdersNew != null)
+
+			Orders orders = null;
+			if (listOrdersNew != null && listOrdersNew.size() > 0) {
 				orders = listOrdersNew.get(0);
-			if (orders == null)
-			{
-				System.out.println("orders is null...");
+			}
+
+			// Create a new order
+			if (orders == null) {
+				System.out.println("create orders...");
 				Address address = addressService.getAddressDefaultByUserId(user.getId());
 				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
 				ordersService.save(orders);
-				listOrderLine = new ArrayList<OrderLine>();
-				for(Item item : listItem)
-				{
-					OrderLine orderLine = new OrderLine(orders, item.getProduct(), item.getProduct().getPrice(), item.getQuantity());
+				System.out.println("complete creating orders...");
+			}
+
+			listOrderLine = orderLineService.findByOrdersId(orders.getId());
+			for (Item item : listItem) {
+				OrderLine orderLine = orderLineService.getByOrderIdAndProductId(orders.getId(),
+						item.getProduct().getId());
+				if (orderLine == null) {
+					orderLine = new OrderLine(orders, item.getProduct(), item.getProduct().getPrice(),
+							item.getQuantity());
 					orderLineService.save(orderLine);
+				} else {
+					int quantity = orderLine.getQuantity();
+					orderLine.setQuantity(quantity + 1);
+					orderLine.setTotal((quantity + 1) * orderLine.getPrice());
 					listOrderLine.add(orderLine);
 				}
 			}
-			else
-			{
-				System.out.println("user has orders...");
-				listOrderLine = orderLineService.findByOrdersId(orders.getId());
-				for(Item item : listItem)
-				{
-					OrderLine orderLine = orderLineService.getByOrderIdAndProductId(orders.getId(), item.getProduct().getId());
-					if(orderLine == null)
-					{
-						orderLine = new OrderLine(orders, item.getProduct(), item.getProduct().getPrice(), item.getQuantity());
-    					orderLineService.save(orderLine);
-					}
-					else
-					{
-						int quantity = orderLine.getQuantity();
-						orderLine.setQuantity(quantity + 1);
-						orderLine.setTotal((quantity + 1) * orderLine.getPrice());
-						listOrderLine.add(orderLine);
-					}
-				}
-				System.out.println("update orders...");
-				SystemConfig systemConfig = systemConfigService.getToApplied();
-	    		ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-			}
+			System.out.println("update orders...");
+			SystemConfig systemConfig = systemConfigService.getToApplied();
+			ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
+
+			model.addAttribute("listItem", new ArrayList<Item>());			
 		}
-		else
-		{
-			System.out.println("listItem is null");
-		}
-		model.addAttribute("listItem", null);
-		
+		// Finish
+				
+		System.out.println(
+				"Load list of products: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 5)).getNumber());
+		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 5)));
+		model.addAttribute("currentPage", page);
+
 		return "index";
 	}
 }

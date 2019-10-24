@@ -18,7 +18,7 @@ import com.example.HappyMall.domain.*;
 import com.example.HappyMall.service.*;
 
 @Controller
-@SessionAttributes({ "user", "listItem", "orders" })
+@SessionAttributes({ "user", "listItem"})
 public class ShoppingCartController {
 
 	@Autowired
@@ -300,11 +300,17 @@ public class ShoppingCartController {
 		System.out.println("Update quantity: type: guest, productId: " + productId + ", quantity: " + quantity);
 		Orders order = new Orders();
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
-		if (productService.getProduct(productId) != null && listItem != null && listItem.size() > 0) {
+		Product product = productService.getProduct(productId);
+		if (product != null && listItem != null && listItem.size() > 0) {
 			int index = isExistItem(productId, listItem);
 			if (index > -1) {
-				System.out.println("update quantity of item in cart...");
-				listItem.get(index).setQuantity(quantity);
+				System.out.println("Check quantity...");
+				if (product.getQuantity() >= quantity)
+				{
+					System.out.println("update quantity of item in cart...");
+					listItem.get(index).setQuantity(quantity);
+				}
+				System.out.println("Get order to return for json...");
 				SystemConfig systemConfig = systemConfigService.getToApplied();
 				double subTotalGuest = listItem.size() > 0 ? listItem.stream()
 						.map(i -> i.getProduct().getPrice() * i.getQuantity()).reduce(0.00, Double::sum) : 0.00;
@@ -325,14 +331,18 @@ public class ShoppingCartController {
 		
 		if (orderLine != null)
 		{
-			orderLine.setQuantity(quantity);
-			orderLine.setTotal(orderLine.getPrice() * quantity);
-			orderLineService.save(orderLine);
 			Orders order = orderLine.getOrders();
-			System.out.println("Order update:" + order);
-			SystemConfig systemConfig = systemConfigService.getToApplied();
-			ordersService.updateMoneyByOrdersId(order.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-			ordersService.save(order);
+			System.out.println("Check quantity...");
+			if (orderLine.getProduct().getQuantity() >= quantity)
+			{
+				orderLine.setQuantity(quantity);
+				orderLine.setTotal(orderLine.getPrice() * quantity);
+				orderLineService.save(orderLine);
+				System.out.println("Order update:" + order);
+				SystemConfig systemConfig = systemConfigService.getToApplied();
+				ordersService.updateMoneyByOrdersId(order.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
+				ordersService.save(order);
+			}
 
 			return order;
 		}

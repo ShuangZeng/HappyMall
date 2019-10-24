@@ -131,7 +131,7 @@
 				</table>
 			</div>
 	
-			<div class="float-right" th:hidden="${user}?false:true">
+			<div class="float-right" th:hidden="${user}?false:true" th:if="${totalProduct > 0}">
 				<button type="submit" class="btn btn-primary">Check out</button>
 			</div>
 		</form>			
