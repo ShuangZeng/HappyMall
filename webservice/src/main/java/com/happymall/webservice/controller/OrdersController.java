@@ -56,7 +56,7 @@ public class OrdersController {
 	}
 
 	@RequestMapping("/user")
-	public List<Orders> getAllOrdersByUser(@RequestParam("id") int userId, @RequestParam("endUser") boolean isEnduser) {
+	public List<Orders> getAllOrdersByUser(@RequestParam("id") int userId, @RequestParam("isEnduser") boolean isEnduser) {
 		return os.getAllOrdersByUser(userId, isEnduser);
 	}
 
