@@ -54,10 +54,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 
 	@Override
 	public Orders getOrder(int id) {
-		serviceUrlExtended = serviceUrl + "/" + id;
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
-		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended + id, HttpMethod.GET, httpEntity, Orders.class);	
  		Orders order = responseEntity.getBody();
 		return order;
 	}
