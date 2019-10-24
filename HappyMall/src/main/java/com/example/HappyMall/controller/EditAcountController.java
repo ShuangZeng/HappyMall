@@ -44,7 +44,7 @@ public class EditAcountController {
 		
 
 		System.out.print("address:"+ user.getListAddress());
-		return "redirect:/login?logout";
+		return "redirect:/account";
 	}
 	
 }
