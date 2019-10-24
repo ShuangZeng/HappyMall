@@ -16,19 +16,18 @@
 		<tbody>
 			<tr>
 				<td>Order Id</td>
-				<td th:text="${order.id}"></td>
+				<td th:text="${orderId}"></td>
 			</tr>
 			<tr>
 				<td>Order Code</td>
-				<td th:text="${order.orderCode}"></td>
+				<td th:text="${orderCode}"></td>
 			</tr>
 			<tr>
 				<td>Status</td>
-				<td th:text="${order.status}"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><a>Request to refund</a></td>
+				<td>
+					<p th:text="${status}"></p>
+					<a href="#" class="btn btn-primary btn-xs" th:href="${'/orders/refund/' + orderId}">Request to refund</a>
+				</td>
 			</tr>
 			<tr>
 				<td>Products:</td>
@@ -45,13 +44,13 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="product:${order.productsList}">
-								<td th:text="${product.productName}"></td>
-								<td th:text="${product.vendorName}"></td>
-								<td th:text="${product.desc}"></td>
-								<td th:text="${product.quantity}"></td>
-								<td th:text="${product.price}"></td>
-								<td th:text="${product.total}"></td>
+							<tr th:each="item:${orderLines}">
+								<td th:text="${item.product.name}"></td>
+								<td th:text="${item.product.name}"></td>
+								<td th:text="${item.product.description}"></td>
+								<td th:text="${item.product.quantity}"></td>
+								<td th:text="${item.product.price}"></td>
+								<td th:text="${#numbers.formatDecimal(item.product.quantity*item.product.price, 2, 3)}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -59,19 +58,19 @@
 			</tr>			
 			<tr>
 				<td>Sub-Total</td>
-				<td th:text="${order.subtotal}"></td>
+				<td th:text="${subtotal}"></td>
 			</tr>			
 			<tr>
 				<td>Service Fee</td>
-				<td th:text="${order.serviceFee}"></td>
+				<td th:text="${serviceFee}"></td>
 			</tr>			
 			<tr>
 				<td>Tax</td>
-				<td th:text="${order.tax}"></td>
+				<td th:text="${tax}"></td>
 			</tr>			
 			<tr>
 				<td>Total</td>
-				<td th:text="${order.total}"></td>
+				<td th:text="${total}"></td>
 			</tr>
 			<tr>
 				<td>Billing Address:</td>
@@ -80,23 +79,23 @@
 						<tbody>
 							<tr>
 								<td>Address Line 1</td>
-								<td th:text="${order.billing.line1}"></td>
+								<td th:text="${billing.lineOne}"></td>
 							</tr>
 							<tr>
 								<td>Address Line 2</td>
-								<td th:text="${order.billing.line2}"></td>
+								<td th:text="${billing.lineTwo}"></td>
 							</tr>
 							<tr>
 								<td>City</td>
-								<td th:text="${order.billing.city}"></td>
+								<td th:text="${billing.city}"></td>
 							</tr>
 							<tr>
 								<td>State</td>
-								<td th:text="${order.billing.state}"></td>
+								<td th:text="${billing.state}"></td>
 							</tr>
 							<tr>
 								<td>Zipcode</td>
-								<td th:text="${order.billing.zipcode}"></td>
+								<td th:text="${billing.zipcode}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -109,23 +108,23 @@
 						<tbody>
 							<tr>
 								<td>Address Line 1</td>
-								<td th:text="${order.shipping.line1}"></td>
+								<td th:text="${shipping.lineOne}"></td>
 							</tr>
 							<tr>
 								<td>Address Line 2</td>
-								<td th:text="${order.shipping.line2}"></td>
+								<td th:text="${shipping.lineTwo}"></td>
 							</tr>
 							<tr>
 								<td>City</td>
-								<td th:text="${order.shipping.city}"></td>
+								<td th:text="${shipping.city}"></td>
 							</tr>
 							<tr>
 								<td>State</td>
-								<td th:text="${order.shipping.state}"></td>
+								<td th:text="${shipping.state}"></td>
 							</tr>
 							<tr>
 								<td>Zipcode</td>
-								<td th:text="${order.shipping.zipcode}"></td>
+								<td th:text="${shipping.zipcode}"></td>
 							</tr>
 						</tbody>
 					</table>
