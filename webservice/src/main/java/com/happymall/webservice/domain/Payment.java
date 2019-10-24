@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,11 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
+
 public class Payment {
 
 	@javax.persistence.Id
@@ -25,11 +32,12 @@ public class Payment {
 	private int id;
 
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="card_detail_id")
 	private CardDetail cardDetail;
 	
-	@OneToOne
+
+	@OneToOne(fetch = FetchType.LAZY)
 	private Orders orders;
 	
 	private double paymentTotal;
@@ -37,18 +45,20 @@ public class Payment {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date paymentDate;
 	
-	private String Status;
+	@Column
+	private String status;
 
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	private Date createDate;
+	
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	private Date modifiedDate;
+	
+	@Transient
+	private List<Transaction> listTransaction;
+	
 	public int getId() {
 		return id;
-	}
-
-	public String getStatus() {
-		return Status;
-	}
-
-	public void setStatus(String status) {
-		Status = status;
 	}
 
 	public void setId(int id) {
@@ -87,6 +97,14 @@ public class Payment {
 		this.paymentDate = paymentDate;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -111,12 +129,4 @@ public class Payment {
 		this.listTransaction = listTransaction;
 	}
 
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date createDate;
-	
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date modifiedDate;
-	
-	@OneToMany(mappedBy="payment")
-	private List<Transaction> listTransaction;
 }

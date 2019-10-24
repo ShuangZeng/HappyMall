@@ -30,7 +30,7 @@
 			<tr>
 			<tr th:each="product:${productList}">
 				<td th:text="${product.name}"></td>
-				<td th:text="${product.vendor.fullName}"></td>
+				<td th:text="${product.name}"></td>
 				<td th:text="${product.description}"></td>
 				<td th:text="${product.quantity}"></td>
 				<td><form th:action="@{/products/admin/editProduct/}"

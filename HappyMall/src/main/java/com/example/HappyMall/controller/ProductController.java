@@ -67,7 +67,7 @@ public class ProductController {
 	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
 	public String saveProduct(@ModelAttribute("product") Product product) {
 	    productService.addProduct(product);
-	    return "redirect:/products/updateProducts";
+	    return "redirect:/products/admin/update";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
@@ -99,6 +99,7 @@ public class ProductController {
 	@GetMapping(value = "/admin/update")
 	public String getUpdateProducts(Model model, Authentication authentication) {
 		model.addAttribute("productList", productService.getAllProducts());
+		System.out.println("###################&&&&&&&&&&&&&&&&########################################");
 		return "updateProducts";
 	}
 

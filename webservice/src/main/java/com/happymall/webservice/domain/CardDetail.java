@@ -1,11 +1,13 @@
 package com.happymall.webservice.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -20,15 +23,19 @@ import javax.validation.constraints.Past;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 public class CardDetail {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
     private int id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
 	
@@ -53,8 +60,10 @@ public class CardDetail {
 	
 	private String type;
 	
-	@NotBlank
+	//@NotBlank
 	private char active_Ind;
+	
+	private boolean default_card;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
@@ -62,11 +71,11 @@ public class CardDetail {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
-	@OneToMany(mappedBy="cardDetail")
+	@Transient
 	private List<Payment> listPayment;
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
@@ -176,7 +185,33 @@ public class CardDetail {
 	public void setListPayment(List<Payment> listPayment) {
 		this.listPayment = listPayment;
 	}
-	
-	
 		
+	public boolean isDefault_card() {
+		return default_card;
+	}
+
+	public void setDefault_card(boolean default_card) {
+		this.default_card = default_card;
+	}
+
+	public CardDetail() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		StringBuilder result = new StringBuilder();
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+		result.append(nameOnCard + " - ");
+		if (type.equals("VISA"))
+			result.append("VISA: ");
+		else 
+			result.append("MASTER: ");
+		
+		result.append("***" + cardNumber.substring(12));
+		result.append(" - Expired date: " + formatter.format(expiredDate));
+		
+		return result.toString();
+	}
 }

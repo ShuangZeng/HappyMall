@@ -7,66 +7,77 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.happymall.webservice.domain.Address;
-import com.happymall.webservice.domain.CardDetail;
-import com.happymall.webservice.domain.Orders;
-import com.happymall.webservice.domain.Product;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.happymall.webservice.dto.UserDto;
 
 @Entity
 public class User {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-	
-	@OneToOne
+	private int id;
+
+	@OneToOne(fetch = FetchType.LAZY)
 	private Role role;
-	
+
 	@NotBlank
 	private String fullName;
-	
+
+	@NotBlank
+	private String userName;
+
 	@Email
 	private String email;
-	
-	private String phone;
-	
+
 	@NotBlank
+	private String password;
+
+	// @Pattern(regexp="(^$[0-9]{10})",message="Mobile number must be 10 digits")
+//	@Pattern(regexp="(^$|[0-9]{10})",message="Mobile number must be 10 digits")
+	private String phone;
+
+	@NotNull
 	private char active_Ind;
-	
+
+	private boolean enable = true;
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
-	
-	@JsonBackReference(value = "ownerOfAddress")
-	@OneToMany(mappedBy="user")
+
+	@Transient
 	private List<Address> listAddress;
-	
-	@JsonBackReference(value = "ownerOfOrder")
-	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
+
+	@Transient
 	private List<Orders> listOrders;
-	
-	@JsonBackReference(value = "ownerOfProduct")
-	@OneToMany(mappedBy="vendor", cascade = CascadeType.PERSIST)
+
+	@Transient
 	private List<Product> listProduct;
-	
-	@JsonBackReference(value = "ownerOfCard")
-	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
+
+	@Transient
 	private List<CardDetail> listCardDetail;
 
 	public int getId() {
@@ -99,6 +110,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getPhone() {
@@ -164,9 +183,69 @@ public class User {
 	public void setListCardDetail(List<CardDetail> listCardDetail) {
 		this.listCardDetail = listCardDetail;
 	}
-	
+
 	public String toString() {
 		return getFullName();
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
+	public void setZipcode(String zipcode) {
+		for (Address address : listAddress) {
+			address.setZipcode(zipcode);
+		}
+	}
+
+	public void setlineOne(String lineOne) {
+		for (Address address : listAddress) {
+			address.setLineOne(lineOne);
+		}
+	}
+
+	public void setlineTwo(String lineTwo) {
+		for (Address address : listAddress) {
+			address.setLineTwo(lineTwo);
+		}
+	}
+
+	public void setcity(String city) {
+		for (Address address : listAddress) {
+			address.setCity(city);
+		}
+	}
+
+	public void setstate(String state) {
+		for (Address address : listAddress) {
+			address.setState(state);
+		}
+	}
+	
+//	public UserDto toDto() {
+//		UserDto dto = new UserDto();
+//		dto.setId(id);
+//		dto.setFullName(fullName);
+//		dto.setEmail(email);
+//		dto.setListAddress(listAddress);
+//		dto.setActive_Ind(active_Ind);
+//		dto.set
+//		
+//	}
+	
+	
+	
 	
 }

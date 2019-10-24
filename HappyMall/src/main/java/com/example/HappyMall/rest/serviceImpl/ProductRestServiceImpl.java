@@ -68,7 +68,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 		
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Product> httpEntity = new HttpEntity<Product>(product, restHelper.getHttpHeaders());
-		product = restTemplate.postForObject(serviceUrl, httpEntity, Product.class);
+		//product = restTemplate.postForObject(serviceUrl, httpEntity, Product.class);
+		restTemplate.exchange(serviceUrl, HttpMethod.POST, httpEntity, Product.class);	
 		return product;
 	}
 
