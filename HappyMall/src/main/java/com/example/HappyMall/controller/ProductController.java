@@ -67,21 +67,24 @@ public class ProductController {
 		return "newProduct";
 	}
 
-	@RequestMapping(value = "/saveProduct")
+	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
 	public String saveProduct(@ModelAttribute("product") Product product, Model model) {
 		User user = (User) model.asMap().get("user");
 		product.setVendor(user);
 		productService.addProduct(product);
 		return "redirect:/products/admin/update/";
-//		return "updateProducts";
 	}
-	
+
+//	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
+//	public String saveProduct(@ModelAttribute("product") Product product) {
+//	    productService.addProduct(product);
+//	    return "redirect:/products/admin/update";
+//	}
+
 	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
-	public String updateProduct(@ModelAttribute("product") Product product, Model model) {
-		User user = (User) model.asMap().get("user");
-		product.setVendor(user);
+	public String updateProduct(@ModelAttribute("product") Product product) {
 		productService.updateProduct(product);
-		return "redirect:/vendor";
+		return "redirect:/products/admin/update/";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
@@ -116,6 +119,7 @@ public class ProductController {
 	@GetMapping(value = "/admin/update")
 	public String getUpdateProducts(Model model) {
 		model.addAttribute("productList", productService.getAllProducts());
+		System.out.println("###################&&&&&&&&&&&&&&&&########################################");
 		return "updateProducts";
 	}
 
@@ -124,5 +128,4 @@ public class ProductController {
 		model.addAttribute("product", productService.getProduct(productId));
 		return "editProduct";
 	}
-
 }

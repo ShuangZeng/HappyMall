@@ -1,25 +1,30 @@
 package com.example.HappyMall.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class Product {
@@ -28,7 +33,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="vendor_id")
 	private User vendor;
 	
@@ -50,8 +55,7 @@ public class Product {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
-	@JsonIgnoreProperties("listResources")
-	@OneToMany(mappedBy="product")
+	@Transient
 	private List<Resource> listResouce;
 
 	public int getId() {
@@ -134,6 +138,25 @@ public class Product {
 	public void setListResouce(List<Resource> listResouce) {
 		this.listResouce = listResouce;
 	}
+	
+//	public ProductDto toDto() {
+//		ProductDto dto = new ProductDto();
+//		dto.setId(id);
+//		dto.setName(name);
+//		dto.setPrice(price);
+//		dto.setQuantity(quantity);
+//		vendor.setListAddress(new ArrayList<>());
+//		vendor.setListCardDetail(new ArrayList<>());
+//		vendor.setListProduct(new ArrayList<>());
+//		vendor.setListOrders(new ArrayList<>());
+//		dto.setVendor(vendor);
+//		dto.setDescription(description);
+//		dto.setStatus(status);
+//		dto.setModifiedDate(modifiedDate);
+//		dto.setCreateDate(createDate);
+//		dto.setListResouce(listResouce);
+//		return dto;
+//	}
 	
 	
 	

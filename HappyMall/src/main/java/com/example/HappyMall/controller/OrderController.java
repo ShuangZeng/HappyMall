@@ -137,19 +137,28 @@ public class OrderController {
 	// -----------------------------------------------------------------------------------------
 
 	void updateOrder(Orders order) {
+		try {
+			orderService.updateOrder(order);									
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/acceptToRefund/{id}")
+	String acceptToRefund(Model model, Authentication authentication, @PathVariable("id") int orderId) {
+		try {
+			//orderService.requestToRefundOrder(orderId);									
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		return "orderRefund";
 	}
 
-	@RequestMapping(value = "/refund/{id}")
-	String refundOrder(Model model, Authentication authentication, @PathVariable("id") int orderId) {
-		User user = (User) model.asMap().get("user");		
-		if (user == null) {
-			return null;	
-		}
-
-		// Retrieve data
+	@RequestMapping(value = "/requestToRefund/{id}")
+	String requestToRefund(Model model, Authentication authentication, @PathVariable("id") int orderId) {
 		try {
-			Orders order = orderService.getOrder(orderId);									
+			orderService.requestToRefundOrder(orderId);									
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

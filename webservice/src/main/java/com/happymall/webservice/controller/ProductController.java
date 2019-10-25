@@ -1,7 +1,6 @@
 package com.happymall.webservice.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +28,9 @@ public class ProductController {
  
  	@RequestMapping({"","/all"})
 	public List<Product> list(Model model) {
-		return  productService.getAllProducts();
- 
+		List<Product> list =  productService.getAllProducts();
+		
+		return list;
 	}
 	
  	@GetMapping("/{id}")
@@ -53,11 +53,12 @@ public class ProductController {
 
 	   
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void processAddNewProductForm(@RequestBody Product productToBeAdded ) {
-
+	@ResponseStatus(value = HttpStatus.OK)
+	public Product processAddNewProductForm(@RequestBody Product productToBeAdded ) {
+//		System.out.println("##############################################################################################");
+//		System.out.println(productToBeAdded.getName()+": "+ productToBeAdded.getDescription()+": "+ productToBeAdded.getPrice()+": "+productToBeAdded.getQuantity());
 			productService.addProduct(productToBeAdded);
- 
+			return productToBeAdded;
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)

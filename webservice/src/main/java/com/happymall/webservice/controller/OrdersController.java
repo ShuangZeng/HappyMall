@@ -70,16 +70,23 @@ public class OrdersController {
 	// All updating/modifying order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value = "/update")
 	public void processUpdateOrder(@RequestBody Orders orderToBeUpdated) {
 		os.updateOrder(orderToBeUpdated);
 	}
 
-	@RequestMapping(value = "/refund", method = RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value = "/refund")
 	public void processRefundOrder(@RequestBody Orders orderToBeUpdated, @RequestBody int userId,@RequestBody boolean isEnduser) {
 		os.refundOrder(orderToBeUpdated, userId, isEnduser);
+	}
+
+	@RequestMapping(value = "/requestToRefund/{id}")
+	public Orders requestToRefundOrder(@PathVariable("id") int orderId) {
+		Orders orderToBeRefunded = os.getOrder(orderId);
+		orderToBeRefunded.setStatus("Pending To Refund");
+		os.updateOrder(orderToBeRefunded);
+		
+		return orderToBeRefunded;
 	}
 
 	// End Update-------------------------------------------------------------------------------
@@ -95,7 +102,7 @@ public class OrdersController {
 	@RequestMapping(value = "/delete", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void processDeleteOrder(@RequestBody Orders orderToBeDeleted) {
-		orderToBeDeleted.setStatus("D");
+		orderToBeDeleted.setStatus("Delete");
 		os.updateOrder(orderToBeDeleted);
 	}
 

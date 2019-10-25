@@ -6,20 +6,24 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class Address {
@@ -28,7 +32,7 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
 	@NotBlank
@@ -52,14 +56,12 @@ public class Address {
 	
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
+
+	@Transient
+	private List<Orders> listOrdersShipping;
 	
-//	@JsonIgnoreProperties("listOrdersShipping")
-//	@OneToMany(mappedBy="shippingAddress")
-//	private List<Orders> listOrdersShipping;
-//	
-//	@JsonIgnoreProperties("listOrdersBilling")
-//	@OneToMany(mappedBy="billingAddress")
-//	private List<Orders> listOrdersBilling;
+	@Transient
+	private List<Orders> listOrdersBilling;
 
 
 	@Override
@@ -156,21 +158,21 @@ public class Address {
 		this.modifiedDate = modifiedDate;
 	}
 
-//	public List<Orders> getListOrdersShipping() {
-//		return listOrdersShipping;
-//	}
-//
-//	public void setListOrdersShipping(List<Orders> listOrdersShipping) {
-//		this.listOrdersShipping = listOrdersShipping;
-//	}
-//
-//	public List<Orders> getListOrdersBilling() {
-//		return listOrdersBilling;
-//	}
-//
-//	public void setListOrdersBilling(List<Orders> listOrdersBilling) {
-//		this.listOrdersBilling = listOrdersBilling;
-//	}
+	public List<Orders> getListOrdersShipping() {
+		return listOrdersShipping;
+	}
+
+	public void setListOrdersShipping(List<Orders> listOrdersShipping) {
+		this.listOrdersShipping = listOrdersShipping;
+	}
+
+	public List<Orders> getListOrdersBilling() {
+		return listOrdersBilling;
+	}
+
+	public void setListOrdersBilling(List<Orders> listOrdersBilling) {
+		this.listOrdersBilling = listOrdersBilling;
+	}
 
 	
 	

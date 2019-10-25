@@ -7,19 +7,24 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class Orders {
@@ -28,13 +33,20 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@JsonManagedReference
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
 	
 	@NotBlank
 	private String orderCode;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="shipping_address_id")
+	private Address shippingAddress;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="billing_address_id")
+	private Address billingAddress;
 	
 	private double subTotal;
 	
@@ -43,7 +55,7 @@ public class Orders {
 	private double serviceFee;
 	
 	private double total;
-	
+
 	private String status;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -52,8 +64,7 @@ public class Orders {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 	
-	@JsonBackReference
-	@OneToMany(mappedBy="orders", cascade=CascadeType.PERSIST)
+	@Transient
 	private List<OrderLine> listOrderLine;
 
 	public int getId() {
@@ -155,6 +166,41 @@ public class Orders {
 		this.listOrderLine = listOrderLine;
 	}
 	
+	
+	
+	public Orders() {
+		// TODO Auto-generated constructor stub
+	}
+	
+
+	public Address getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(Address shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+	public Address getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	
+
+	public Orders(User user, @NotBlank String orderCode, Address shippingAddress, Address billingAddress,
+			String status) {
+		super();
+		this.user = user;
+		this.orderCode = orderCode;
+		this.shippingAddress = shippingAddress;
+		this.billingAddress = billingAddress;
+		this.status = status;
+		this.createDate = new Date();
+	}
 	
 	
 }

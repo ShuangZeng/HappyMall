@@ -29,7 +29,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 	public User findByEmail(String email) {
 		
 		Query query = entityManager.createQuery("select v from User v  where v.email =: email");
-		return (User) query.setParameter("phone", email).getSingleResult();
+		return (User) query.setParameter("email", email).getSingleResult();
 	}
 
 	@Override
