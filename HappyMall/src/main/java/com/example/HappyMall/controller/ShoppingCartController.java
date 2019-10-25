@@ -64,6 +64,14 @@ public class ShoppingCartController {
 			List<Orders> listOrders = ordersService.findByStatusAndUserId("New", user.getId());
 			if (listOrders != null && listOrders.size() > 0)
 				orders = listOrders.get(0);
+			if(orders == null)
+			{
+				System.out.println("create orders...");
+				Address address = addressService.getAddressDefaultByUserId(user.getId());
+				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+				ordersService.save(orders);
+				System.out.println("complete creating orders...");
+			}
 			System.out.println("check error");
 			System.out.println("Orders: " + orders);
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
@@ -115,7 +123,7 @@ public class ShoppingCartController {
 		}
 
 		System.out.println("finish...");
-		return "redirect:/admin/index";
+		return "redirect:/index";
 	}
 
 	private void addToCartByGuest(int id, Model model) {
@@ -260,7 +268,8 @@ public class ShoppingCartController {
 		if (!result.hasErrors()) {
 			System.out.println("Create address");
 			System.out.println("New address: " + newAddress);
-			Orders orders = (Orders) model.asMap().get("orders");
+			User user = (User) model.asMap().get("user");
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
 			newAddress.setCreateDate(new Date());
 			newAddress.setUser(orders.getUser());
 			addressService.save(newAddress);
@@ -280,7 +289,8 @@ public class ShoppingCartController {
 		if (!result.hasErrors()) {
 			System.out.println("Create address");
 			System.out.println("New address: " + newAddress);
-			Orders orders = (Orders) model.asMap().get("orders");
+			User user = (User) model.asMap().get("user");
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
 			newAddress.setCreateDate(new Date());
 			newAddress.setUser(orders.getUser());
 			addressService.save(newAddress);

@@ -1,0 +1,35 @@
+@charset "ISO-8859-1";
+
+ #navHeader {
+	background-color: #87CEEB !important;
+}
+
+.textHeader{	
+	text-align: center !important;
+	display: block;
+}
+
+#headLabel {
+	padding: 20px !important;
+	font: 500%/1 Rockwell, serif !important;
+	font-weight: bold !important;
+	height: 100px !important;
+	color: white !important;
+	text-shadow: 1px 1px black, 2px 2px black, 3px 3px black, 4px 4px black,
+		5px 5px black, 6px 6px black, 7px 7px black, 8px 8px black !important;
+
+}
+
+#span1 {
+	font-size: 100px !important;
+}
+
+#firstNameHeader, #lastNameHeader {
+	margin-right: 30px !important;
+}
+
+#userinfo {
+	background: white !important;
+
+	text-align: center;
+}

@@ -30,7 +30,7 @@ public class VendorController {
 	@Autowired
 	ProductService productService;
 	
-	@RequestMapping(value = "/admin/vendor")
+	@RequestMapping(value = "/vendor")
 	public String listVendors(Model model, HttpSession session) {
 		User user = (User)model.asMap().get("user");
 		List<Product> products = productService.findProductsByVendor(user.getId());

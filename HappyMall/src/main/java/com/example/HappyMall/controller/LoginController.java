@@ -56,7 +56,7 @@ public class LoginController {
 	    	model.addAttribute("hidden", "true");
 	    	return "login";
     	}
-    	return "redirect:/admin/index";
+    	return "redirect:/index";
     }
         
     @GetMapping("/access-denied")

@@ -28,7 +28,7 @@ public class ProductMgmtController {
 	@RequestMapping(value = "/admin/productmgmt")
 	public String getShoppingCart(Model model, HttpSession session)
 	{
-		List<Product> products = productService.getAllProducts();
+		List<Product> products = productService.getAllProductsMngt();
 		User user = (User)model.asMap().get("user");
 		model.addAttribute("productList",products);
 		return "productMgmt";

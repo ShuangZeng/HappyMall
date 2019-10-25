@@ -53,7 +53,7 @@ public class IndexController {
 	@Autowired
 	private ProductPageAndSortingRepository productPageAndSortingRepository;
 
-	@GetMapping(value = "/admin/index")
+	@GetMapping(value = "/index")
 	public String getHome(Model model, @RequestParam(defaultValue = "1") int page) {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

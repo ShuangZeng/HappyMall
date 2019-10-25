@@ -19,4 +19,6 @@ public interface ProductService{
 	Product getProduct(int id);
 	Product updateProduct(Product product);
 	Product deleteProduct(Product product);
+	
+	List<Product> getAllProductsMngt();
 }

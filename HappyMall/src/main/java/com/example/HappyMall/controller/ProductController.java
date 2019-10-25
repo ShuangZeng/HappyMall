@@ -77,9 +77,11 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
-	public String updateProduct(@ModelAttribute("product") Product product) {
+	public String updateProduct(@ModelAttribute("product") Product product, Model model) {
+		User user = (User) model.asMap().get("user");
+		product.setVendor(user);
 		productService.updateProduct(product);
-		return "redirect:/products/admin/update/";
+		return "redirect:/vendor";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)

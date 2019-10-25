@@ -2,7 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="ISO-8859-1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
 	<title>SHOPPING CART</title>	
     
 	<!-- Bootstrap library -->
@@ -17,6 +21,7 @@
 	
 	<!-- Custom css and js -->
 	<script type="text/javascript" th:src="@{/js/shoppingcart.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
 </head>
 <body>	
@@ -142,13 +147,14 @@
 			<div class="float-right" th:hidden="${user}?false:true" th:if="${totalProduct > 0}">
 				<button type="submit" class="btn btn-primary">Check out</button>
 			</div>
-		</form>			
-		<form th:action="@{/login}" method="get" class="float-right" th:hidden="${user}?true:false"> 
-			<button class="btn btn-primary" type="Submit">Log in</button>
-		</form>
-		<form th:action="@{/admin/index}" method="get" class="float-right"> 
-			<button class="btn btn-light" type="Submit">Continue Shopping</button>
-		</form>			
+		</form>		
+		
+			<form th:action="@{/login}" method="get" class="float-right" th:hidden="${user}?true:false"> 
+				<button class="btn btn-primary" type="Submit">Log in</button>
+			</form>
+			<form th:action="@{/index}" method="get" class="float-right"> 
+				<button class="btn btn-light" type="Submit">Continue Shopping</button>
+			</form>		
 
 		<div class="modal fade" id="editShippingAddressModal" role="dialog">
 			<div class="modal-dialog modal-dialog-centered" role="document">
@@ -364,7 +370,9 @@
 		</div>
 				
 	</div>
-	
-	<footer th:insert="footer :: navbar"> </footer>
+	</br>
+	</br>
+	</br>
+	<footer class="float-center" th:insert="footer :: navbar"> </footer>
 </body>
 </html>
