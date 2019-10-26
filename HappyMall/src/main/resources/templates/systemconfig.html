@@ -44,7 +44,7 @@
 						<td th:text="${item.serviceFee}">Service fee Percent</td>
 						<td><a class="btn btn-primary eBtn"
 							th:if="${item.checkEdit() == true}"
-							th:href="@{/admin/systemconfig/getone/(id=${item.id})}">Edit</a>
+							th:href="@{/admin/systemconfig/getone/(id=${item.id})}" th:text="Edit">Edit</a>
 						</td>
 						<td><a class="btn btn-danger dBtn"
 							th:href="@{/admin/systemconfig/delete/(id=${item.id})}"
@@ -54,7 +54,7 @@
 			</table>
 
 			<a class="btn btn-primary float-right" id="nBtn"
-				th:if="${checkedCreate}">Create</a>
+				th:if="${checkedCreate}" th:text="Create">Create</a>
 		</div>
 
 		<form th:action="@{/admin/systemconfig/save}" method="post">

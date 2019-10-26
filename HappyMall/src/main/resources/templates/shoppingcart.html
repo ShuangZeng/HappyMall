@@ -56,7 +56,7 @@
 				</div>
 				<div class="row col-12 itemBlock item" th:each="item : ${listOrderLine}" th:hidden="${user}?false:true">
 					<div class="col-3 productImgContainer">
-						<img class="productImg" th:attr="src=@{${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
+						<img class="productImg" th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
 					<div class="col-9">
 						<div class="row itemRow emphasize"><span th:text="${item.product.name}">Product's Name</span></div>
 						<div class="row itemRow"><span th:text="${item.product.description}">Product's Description</span></div>

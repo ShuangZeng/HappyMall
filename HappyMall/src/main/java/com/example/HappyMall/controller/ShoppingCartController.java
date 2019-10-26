@@ -18,7 +18,7 @@ import com.example.HappyMall.domain.*;
 import com.example.HappyMall.service.*;
 
 @Controller
-@SessionAttributes({ "user", "listItem"})
+@SessionAttributes({ "user", "listItem" })
 public class ShoppingCartController {
 
 	@Autowired
@@ -64,8 +64,7 @@ public class ShoppingCartController {
 			List<Orders> listOrders = ordersService.findByStatusAndUserId("New", user.getId());
 			if (listOrders != null && listOrders.size() > 0)
 				orders = listOrders.get(0);
-			if(orders == null)
-			{
+			if (orders == null) {
 				System.out.println("create orders...");
 				Address address = addressService.getAddressDefaultByUserId(user.getId());
 				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
@@ -99,92 +98,6 @@ public class ShoppingCartController {
 		System.out.println("Finish getListItemForGuest...");
 		return listItem;
 	}
-
-	@GetMapping("/shoppingcart/addproduct/{id:\\d+}")
-	public String addToCart(@PathVariable int id, Model model, HttpSession session) {
-		System.out.println("add to cart...");
-
-		User user = (User) model.asMap().get("user");
-		if (user == null) {
-			System.out.println("Not log in yet...");
-			addToCartByGuest(id, model);
-		} else {
-			System.out.println("User: " + user.getEmail());
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-			// create new Order if it does not exist
-			if (orders == null) {
-				Address address = addressService.getAddressDefaultByUserId(user.getId());
-				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
-			}
-			// Process for Order_line
-			addToCartByEndUser(id, user, orders);
-
-			System.out.println("Complete addToCartByEndUser");
-		}
-
-		System.out.println("finish...");
-		return "redirect:/index";
-	}
-
-	private void addToCartByGuest(int id, Model model) {
-		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
-		if (productService.getProduct(id) != null) {
-			if (listItem == null) {
-				System.out.println("create new cart...");
-				System.out.println(productService.getProduct(id));
-				listItem = new ArrayList<Item>();
-				if (productService.getProduct(id) != null)
-					listItem.add(new Item(productService.getProduct(id), 1));
-			} else {
-				System.out.println("has cart in session...");
-				int index = isExistItem(id, listItem);
-				if (index == -1) {
-					System.out.println("insert item into cart...");
-					listItem.add(new Item(productService.getProduct(id), 1));
-				} else {
-					System.out.println("update quantity of item in cart...");
-					int quantity = listItem.get(index).getQuantity();
-					listItem.get(index).setQuantity(quantity + 1);
-				}
-			}
-		}
-	}
-
-	private int isExistItem(int id, List<Item> listItem) {
-		for (int i = 0; i < listItem.size(); i++) {
-			if (listItem.get(i).getProduct().getId() == id)
-				return i;
-		}
-		return -1;
-	}
-
-	private void addToCartByEndUser(int id, User user, Orders orders) {
-		System.out.println("addToCartByEndUser...");
-		List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
-
-		if (listOrderLine == null)
-			listOrderLine = new ArrayList<OrderLine>();
-
-		OrderLine orderLine = orderLineService.getByOrderIdAndProductId(orders.getId(), id);
-		if (orderLine == null) {
-			System.out.println("create new orderLine...");
-			Product product = productService.getProduct(id);
-			orderLine = new OrderLine(orders, product, product.getPrice(), 1);
-		} else {
-			System.out.println("update quantity for orderLine...");
-			int quantity = orderLine.getQuantity();
-			orderLine.setQuantity(quantity + 1);
-			orderLine.setTotal((quantity + 1) * orderLine.getPrice());
-		}
-
-		System.out.println("save orderLine...");
-		orderLineService.save(orderLine);
-		System.out.println("updateMoneyByOrdersId...");
-		SystemConfig systemConfig = systemConfigService.getToApplied();
-		ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-		listOrderLine.add(orderLine);
-	}
-
 	@GetMapping("/shoppingcart/remove/{id:\\d+}")
 	public String removeFromCart(@PathVariable int id, Model model, HttpSession session) {
 		System.out.println("remove from cart...");
@@ -205,6 +118,14 @@ public class ShoppingCartController {
 		}
 
 		return "redirect:/shoppingcart";
+	}
+
+	private int isExistItem(int id, List<Item> listItem) {
+		for (int i = 0; i < listItem.size(); i++) {
+			if (listItem.get(i).getProduct().getId() == id)
+				return i;
+		}
+		return -1;
 	}
 
 	@PostMapping("/orders/editshippingaddress")
@@ -258,7 +179,7 @@ public class ShoppingCartController {
 		} else {
 			System.out.println("Sorry, an error has occur. Card has not been created.");
 		}
-		//return "redirect:/shoppingcart";
+		// return "redirect:/shoppingcart";
 	}
 
 	@PostMapping(value = "/shoppingcart/createShippingAddress")
@@ -279,7 +200,7 @@ public class ShoppingCartController {
 		} else {
 			System.out.println("Sorry, an error has occur. Address has not been created.");
 		}
-		//return "redirect:/shoppingcart";
+		// return "redirect:/shoppingcart";
 	}
 
 	@PostMapping(value = "/shoppingcart/createBillingAddress")
@@ -300,13 +221,13 @@ public class ShoppingCartController {
 		} else {
 			System.out.println("Sorry, an error has occur. Address has not been created.");
 		}
-		//return "redirect:/shoppingcart";
+		// return "redirect:/shoppingcart";
 
 	}
 
-	@PostMapping("/shoppingcart/updateQuantity/guest/{productId}/{quantity}")
-	public @ResponseBody Orders updateQuantityGuest(@PathVariable(value = "productId") int productId, @PathVariable(value = "quantity") int quantity, Model model) 
-	{
+	@RequestMapping(value="/shoppingcart/updateQuantity/guest/{productId}/{quantity}", method=RequestMethod.PUT)
+	public @ResponseBody Orders updateQuantityGuest(@PathVariable(value = "productId") int productId,
+			@PathVariable(value = "quantity") int quantity, Model model) {
 		System.out.println("Update quantity: type: guest, productId: " + productId + ", quantity: " + quantity);
 		Orders order = new Orders();
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
@@ -315,8 +236,7 @@ public class ShoppingCartController {
 			int index = isExistItem(productId, listItem);
 			if (index > -1) {
 				System.out.println("Check quantity...");
-				if (product.getQuantity() >= quantity)
-				{
+				if (product.getQuantity() >= quantity) {
 					System.out.println("update quantity of item in cart...");
 					listItem.get(index).setQuantity(quantity);
 				}
@@ -332,19 +252,17 @@ public class ShoppingCartController {
 		}
 		return order;
 	}
-	
-	@RequestMapping(value="/shoppingcart/updateQuantity/enduser/{orderLineId}/{quantity}", method=RequestMethod.PUT)
-	public @ResponseBody Orders updateQuantityEndUser(@PathVariable(value = "orderLineId") int orderLineId, @PathVariable(value = "quantity") int quantity, Model model) 
-	{
+
+	@RequestMapping(value = "/shoppingcart/updateQuantity/enduser/{orderLineId}/{quantity}", method = RequestMethod.PUT)
+	public @ResponseBody Orders updateQuantityEndUser(@PathVariable(value = "orderLineId") int orderLineId,
+			@PathVariable(value = "quantity") int quantity, Model model) {
 		System.out.println("Update quantity: type: guest, productId: " + orderLineId + ", quantity: " + quantity);
 		OrderLine orderLine = orderLineService.getOrderLine(orderLineId);
-		
-		if (orderLine != null)
-		{
+
+		if (orderLine != null) {
 			Orders order = orderLine.getOrders();
 			System.out.println("Check quantity...");
-			if (orderLine.getProduct().getQuantity() >= quantity)
-			{
+			if (orderLine.getProduct().getQuantity() >= quantity) {
 				orderLine.setQuantity(quantity);
 				orderLine.setTotal(orderLine.getPrice() * quantity);
 				orderLineService.save(orderLine);
@@ -355,9 +273,7 @@ public class ShoppingCartController {
 			}
 
 			return order;
-		}
-		else
-		{
+		} else {
 			return new Orders();
 		}
 	}

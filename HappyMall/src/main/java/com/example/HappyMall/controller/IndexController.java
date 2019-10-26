@@ -5,12 +5,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,6 +23,7 @@ import com.example.HappyMall.domain.Address;
 import com.example.HappyMall.domain.Item;
 import com.example.HappyMall.domain.OrderLine;
 import com.example.HappyMall.domain.Orders;
+import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.domain.SystemConfig;
 import com.example.HappyMall.domain.User;
 import com.example.HappyMall.repository.ProductPageAndSortingRepository;
@@ -53,7 +59,7 @@ public class IndexController {
 	@Autowired
 	private ProductPageAndSortingRepository productPageAndSortingRepository;
 
-	@GetMapping(value = "/index")
+	@GetMapping(value = {"/","/index"})
 	public String getHome(Model model, @RequestParam(defaultValue = "1") int page) {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -109,11 +115,101 @@ public class IndexController {
 		}
 		// Finish
 				
-		System.out.println(
-				"Load list of products: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 5)).getNumber());
-		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 5)));
-		model.addAttribute("currentPage", page);
-
+//		System.out.println(
+//				"Load list of products: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 6)).getNumber());
+//		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 6)));
+//		model.addAttribute("currentPage", page);
+	
+		model.addAttribute("productList", productService.getAllProducts());
 		return "index";
 	}
+	
+
+
+	@RequestMapping(value = "/index/addproduct/{id:\\d+}", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void addToCart(@PathVariable int id, Model model) {
+		System.out.println("add to cart...");
+		User user = (User) model.asMap().get("user");
+		if (user == null) {
+			System.out.println("Not log in yet...");
+			addToCartByGuest(id, model);
+		} else {
+			System.out.println("User: " + user.getEmail());
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			// create new Order if it does not exist
+			if (orders == null) {
+				Address address = addressService.getAddressDefaultByUserId(user.getId());
+				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+			}
+			// Process for Order_line
+			addToCartByEndUser(id, user, orders);
+
+			System.out.println("Complete addToCartByEndUser");
+		}
+
+		System.out.println("finish...");
+	}
+
+	private void addToCartByGuest(int id, Model model) {
+		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
+		if (productService.getProduct(id) != null) {
+			if (listItem == null) {
+				System.out.println("create new cart...");
+				System.out.println(productService.getProduct(id));
+				listItem = new ArrayList<Item>();
+				if (productService.getProduct(id) != null)
+					listItem.add(new Item(productService.getProduct(id), 1));
+			} else {
+				System.out.println("has cart in session...");
+				int index = isExistItem(id, listItem);
+				if (index == -1) {
+					System.out.println("insert item into cart...");
+					listItem.add(new Item(productService.getProduct(id), 1));
+				} else {
+					System.out.println("update quantity of item in cart...");
+					int quantity = listItem.get(index).getQuantity();
+					listItem.get(index).setQuantity(quantity + 1);
+				}
+			}
+		}
+
+		model.addAttribute("listItem", listItem);	
+	}
+
+	private int isExistItem(int id, List<Item> listItem) {
+		for (int i = 0; i < listItem.size(); i++) {
+			if (listItem.get(i).getProduct().getId() == id)
+				return i;
+		}
+		return -1;
+	}
+
+	private void addToCartByEndUser(int id, User user, Orders orders) {
+		System.out.println("addToCartByEndUser...");
+		List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
+
+		if (listOrderLine == null)
+			listOrderLine = new ArrayList<OrderLine>();
+
+		OrderLine orderLine = orderLineService.getByOrderIdAndProductId(orders.getId(), id);
+		if (orderLine == null) {
+			System.out.println("create new orderLine...");
+			Product product = productService.getProduct(id);
+			orderLine = new OrderLine(orders, product, product.getPrice(), 1);
+		} else {
+			System.out.println("update quantity for orderLine...");
+			int quantity = orderLine.getQuantity();
+			orderLine.setQuantity(quantity + 1);
+			orderLine.setTotal((quantity + 1) * orderLine.getPrice());
+		}
+
+		System.out.println("save orderLine...");
+		orderLineService.save(orderLine);
+		System.out.println("updateMoneyByOrdersId...");
+		SystemConfig systemConfig = systemConfigService.getToApplied();
+		ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
+		listOrderLine.add(orderLine);
+	}
+
 }

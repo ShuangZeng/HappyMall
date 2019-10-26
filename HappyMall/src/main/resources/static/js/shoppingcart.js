@@ -4,7 +4,6 @@
 
 $(document).ready(function() {
 	formatMoney();
-	//calPrice();	
 	
 	$("#btnEditShippingAddress").click(function () {
 		$id = "#" + $('#shippingId').html();
@@ -44,14 +43,17 @@ $(document).ready(function() {
         createCardDetail();
     });
 	
-	$(".guestQuantity").change(function() {
+	$(".guestQuantity").change(function(event) {
+        event.preventDefault();
 		var productId = $(this).attr('id');
 		var quantity = $(this).val();
         console.log("productId: " + productId);
         console.log("quantity: " + quantity);
+        let url = "http://localhost:8080/shoppingcart/updateQuantity/guest/"  + productId + "/" + quantity;
+        console.log("url: " + url);
 		$.ajax({  
-		      type: 'POST',  
-		      url :  window.location + "/updateQuantity/guest/"  + productId + "/" + quantity,
+		      type: 'PUT',  
+		      url :  url,
 		      contentType: "application/json",
 		      success: function(order){
 		    	  $('#totalBeforeTax').html(order.subTotal);
@@ -71,11 +73,13 @@ $(document).ready(function() {
 		var quantity = $(this).val();
         console.log("orderLineId: " + orderLineId);
         console.log("quantity: " + quantity);
+        let url = "http://localhost:8080/shoppingcart/updateQuantity/enduser/"  + orderLineId + "/" + quantity;
+        console.log("url: " + url);
 		$.ajax({  
 		      type: 'PUT',  
-		      url :  window.location + "/updateQuantity/enduser/"  + orderLineId + "/" + quantity,
+		      url :  url,
 		      contentType: "application/json",
-		      success: function(orderUpdate){
+		      success: function(order){
 		          console.log("update success");
 		    	  $('#totalBeforeTax').html(order.subTotal);
 		    	  $('#estimatedTax').html(order.tax);
