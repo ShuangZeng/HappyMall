@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Search For Product</title>
+</head>
+<body>
+        <h1 align="center">Search For Product</h1>
+        <br />
+        
+        <form align="center" th:action="@{/index/advancedSearchResult}" th:object="${product}"
+						method="GET">
+						<input placeholder="Product Name" type="text" name="productName" th:value="${product.name}" />
+						<input placeholder="Product Price" type="text" name="productPrice" th:value="${product.price}" />
+						<input placeholder="Product Vendor Name" type="text" name="productVendor" th:value="${product.vendor}?${product.vendor.fullName}" />
+						<input class="btn btn-default btn-xs" type="submit"
+							value="Search Product">
+					</form>
+        
+</body>
+</html>

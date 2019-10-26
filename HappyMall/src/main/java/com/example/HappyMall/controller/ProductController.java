@@ -119,7 +119,6 @@ public class ProductController {
 	@GetMapping(value = "/admin/update")
 	public String getUpdateProducts(Model model) {
 		model.addAttribute("productList", productService.getAllProducts());
-		System.out.println("###################&&&&&&&&&&&&&&&&########################################");
 		return "updateProducts";
 	}
 

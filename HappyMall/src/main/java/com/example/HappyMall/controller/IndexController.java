@@ -2,6 +2,7 @@ package com.example.HappyMall.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,17 +61,16 @@ public class IndexController {
 	@Autowired
 	private ProductPageAndSortingRepository productPageAndSortingRepository;
 
-	@GetMapping(value = {"/","/index"})
+	@GetMapping(value = { "/", "/index" })
 	public String getHome(Model model, @RequestParam(defaultValue = "1") int page) {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
-		modelAndView.addObject("user",user);
+		modelAndView.addObject("user", user);
 		modelAndView.addObject("product", new Product());
-		
+
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
-		if (listItem != null && listItem.size() > 0 && user != null) 
-		{
+		if (listItem != null && listItem.size() > 0 && user != null) {
 			// Thao Dao - To pass the list of Item to the OrderLine for user when log in
 			// successfully
 			System.out.println("CHECK AND CREATE ORDERS FOR USER WHEN HAS SESSION...");
@@ -113,31 +113,55 @@ public class IndexController {
 			SystemConfig systemConfig = systemConfigService.getToApplied();
 			ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
 
-			model.addAttribute("listItem", new ArrayList<Item>());			
+			model.addAttribute("listItem", new ArrayList<Item>());
 		}
 		// Finish
-				
+
 //		System.out.println(
 //				"Load list of products: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 6)).getNumber());
 //		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 6)));
 //		model.addAttribute("currentPage", page);
-	
+
 		model.addAttribute("productList", productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
 				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList()));
 		return "index";
 	}
 
+	@GetMapping(value = "/index/advancedSearchProduct")
+	public String advancedSearchProduct(Model model) {
+		model.addAttribute("product", new Product());
+		return "advancedSearchProducts";
+	}
+	
 	@GetMapping(value = "/index/searchResult")
 	public String searchResult(Model model, @RequestParam String productName) {
 		List<Product> productList = null;
-		try
-		{
-			productList= productService.getProductsByName(productName).stream().filter(p -> p.getQuantity() != 0)
-				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
+		try {
+			productList = productService.getProductsByName(productName).stream().filter(p -> p.getQuantity() != 0)
+					.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
 			productList.forEach(p -> System.out.println(p.getName()));
+		} catch (Exception e) {
+			productList = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
+					.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
 		}
-		catch (Exception e)
-		{
+		model.addAttribute("productList", productList);
+		return "index";
+	}
+
+	@GetMapping(value = "/index/advancedSearchResult")
+	public String advancedSearchResult(Model model, @RequestParam String productName, @RequestParam String productPrice,
+			@RequestParam String productVendor) {
+		List<Product> productList = null;
+		try {
+			Predicate<Product> checkValid = p -> ((p.getQuantity() != 0) && (!p.getStatus().equals("D")));
+			Predicate<Product> checkPrice = p -> ((p.getPrice() < Double.parseDouble(productPrice) + 10
+					&& (p.getPrice() > Double.parseDouble(productPrice) - 10)));
+			Predicate<Product> checkVendor = p -> p.getVendor().getFullName().equals(productVendor);
+			productList = productService.getProductsByName(productName).stream()
+					.filter(checkValid.and(checkPrice).and(checkVendor))
+					.collect(Collectors.toList());
+			productList.forEach(p -> System.out.println(p.getName()));
+		} catch (Exception e) {
 			productList = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
 					.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
 		}
@@ -193,7 +217,7 @@ public class IndexController {
 			}
 		}
 
-		model.addAttribute("listItem", listItem);	
+		model.addAttribute("listItem", listItem);
 	}
 
 	private int isExistItem(int id, List<Item> listItem) {

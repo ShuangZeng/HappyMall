@@ -31,6 +31,7 @@
 				<!-- <form th:action="@{/search/searchResult}" method="get" class="float-right" id="formShoppingcartBtn">
 					<input class="btn btn-primary" type="submit" value="Search"/>
 				</form> -->
+				<a href="/index/advancedSearchProduct" align="center"><h3>Advanced Search</h3></a>
 				<form th:action="@{/index/searchResult}" th:object="${product}"
 						method="GET">
 						<input type="text" name="productName" th:value="${product}?${product.name}" />
