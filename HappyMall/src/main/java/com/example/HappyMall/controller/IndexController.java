@@ -2,6 +2,7 @@ package com.example.HappyMall.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -65,6 +66,7 @@ public class IndexController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		modelAndView.addObject("user",user);
+		modelAndView.addObject("product", new Product());
 		
 		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
 		if (listItem != null && listItem.size() > 0 && user != null) 
@@ -120,11 +122,28 @@ public class IndexController {
 //		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 6)));
 //		model.addAttribute("currentPage", page);
 	
-		model.addAttribute("productList", productService.getAllProducts());
+		model.addAttribute("productList", productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
+				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList()));
 		return "index";
 	}
-	
 
+	@GetMapping(value = "/index/searchResult")
+	public String searchResult(Model model, @RequestParam String productName) {
+		List<Product> productList = null;
+		try
+		{
+			productList= productService.getProductsByName(productName).stream().filter(p -> p.getQuantity() != 0)
+				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
+			productList.forEach(p -> System.out.println(p.getName()));
+		}
+		catch (Exception e)
+		{
+			productList = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
+					.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
+		}
+		model.addAttribute("productList", productList);
+		return "index";
+	}
 
 	@RequestMapping(value = "/index/addproduct/{id:\\d+}", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)

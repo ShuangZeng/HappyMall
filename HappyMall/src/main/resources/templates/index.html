@@ -28,8 +28,14 @@
 	<div class="container">			
 		<div class="col-12">		
 			<div class="row float-right">				
-				<form th:action="@{/search/searchResult}" method="get" class="float-right" id="formShoppingcartBtn">
+				<!-- <form th:action="@{/search/searchResult}" method="get" class="float-right" id="formShoppingcartBtn">
 					<input class="btn btn-primary" type="submit" value="Search"/>
+				</form> -->
+				<form th:action="@{/index/searchResult}" th:object="${product}"
+						method="GET">
+						<input type="text" name="productName" th:value="${product}?${product.name}" />
+						<input class="btn btn-success btn-xs" type="submit"
+							value="Search Product">
 				</form>
 				<form th:action="@{/shoppingcart}" method="get" class="float-right" id="formShoppingcartBtn">
 					<input class="btn btn-secondary" type="submit" value="Shopping Cart"/>
