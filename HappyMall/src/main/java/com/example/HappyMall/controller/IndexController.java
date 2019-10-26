@@ -121,9 +121,10 @@ public class IndexController {
 //				"Load list of products: " + productPageAndSortingRepository.findAll(PageRequest.of(page, 6)).getNumber());
 //		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 6)));
 //		model.addAttribute("currentPage", page);
-
-		model.addAttribute("productList", productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
-				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList()));
+		List<Product> products = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
+				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
+		products.forEach(p -> p.getImageUrl());
+		model.addAttribute("productList", products);
 		return "index";
 	}
 

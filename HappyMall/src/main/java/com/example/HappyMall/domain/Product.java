@@ -48,6 +48,8 @@ public class Product {
 	private int quantity;
 	
 	private String status;
+	
+	private String imageUrl;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
@@ -137,6 +139,14 @@ public class Product {
 
 	public void setListResouce(List<Resource> listResouce) {
 		this.listResouce = listResouce;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
 //	public ProductDto toDto() {

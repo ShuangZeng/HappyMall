@@ -46,8 +46,8 @@
 			<div class="row col-12 itemBlock item"
 				th:each="item : ${productList}">
 				<div class="col-3 productImgContainer">
-					<img class="productImg"
-						th:attr="src=@{${item.listResouce}?${item.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" />
+						<img class="productImg" th:attr="src=@{${item.imageUrl}},title=#{logo},alt=#{logo}" />
+						
 				</div>
 				<div class="col-9">
 					<div class="row itemRow emphasize">
