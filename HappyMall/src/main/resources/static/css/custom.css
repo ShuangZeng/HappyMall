@@ -84,3 +84,11 @@ span {
 .searchPlace {
 	text-align: center;
 }
+
+#btnFooter{
+	text-align: right !important;
+}
+
+#formShoppingcartBtn{
+	padding-left: 10px;
+}

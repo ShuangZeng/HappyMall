@@ -11,7 +11,7 @@
         
         <form align="center" th:action="@{/search/searchResult}" th:object="${product}"
 						method="GET">
-						<input type="text" name="productName" th:value="${product.name}" />
+						<input type="text" name="productName" th:value="${product}?${product.name}" />
 						<input class="btn btn-default btn-xs" type="submit"
 							value="Search Product">
 					</form>

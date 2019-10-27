@@ -47,7 +47,9 @@ public interface OrdersService {
 
 	void updateOrder(Orders order);
 
-	void refundOrder(Orders order, int userId, boolean isEnduser);
+	void refundOrder(int orderId, int vendorId);
+
+	Orders requestToRefundOrder(int orderId);
 
 	void save(Orders orders);
 

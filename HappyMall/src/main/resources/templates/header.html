@@ -7,38 +7,36 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    
+	<!-- Bootstrap library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+<!-- Custom css and js -->
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
     <title>header</title>
 
   </head>
 
   <body>
-    <nav style="background-color:#87CEEB;" class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar">
-	<div>
-	<label style = "
-            padding:20px;
-            font:500%/1 Rockwell,serif;
-            font-weight: bold;
-            height: 100px;
-            color: white;
-            text-shadow: 1px 1px black,2px 2px black,
-                 3px 3px black,4px 4px black, 
-                 5px 5px black,6px 6px black, 
-                 7px 7px black,8px 8px black;
-                 text-align: center;">
-                 Happy Mall</label>                 
-		<span style='font-size:100px;'>&#128522;</span></div>
-		<div id="userinfo" style ="background: white;" th:hidden="${user}?false:true">
-	      <label for="firstName">Welcome:</label>
-	      <span  style="margin-right: 30px" disabled type="text"  id="firstName" placeholder="" th:text="${user}?${user.fullName}"/>
-	      <label  for="email">Email:</label>
-			<span style="margin-right: 30px" disabled type="text"  id="lastName" placeholder="" th:text="${user}?${user.email}"/>
-	      <button class="btn btn-default btn-sm " onclick="location.href='/account'" type="submit">My Account</button>
-	      <button class="btn btn-link" onclick="location.href='/logout'"type="submit">LOG OUT</button>
-	     </div>
-		<div id="userinfo" style ="background: white;" th:hidden="${user}?true:false">
-	      <button class="btn btn-link" onclick="location.href='/login'"type="submit">LOG IN</button>	      
-	     </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navHeader" th:fragment="navbar">
+		<div class="textHeader" >
+			<label id="headLabel">Happy Mall</label>                 
+			<span id="span1">&#128522;</span>
+		</div>
+		<div  id="userinfo" th:hidden="${user}?false:true">
+		      <label for="firstNameHeader">Welcome:</label>
+		      <span disabled type="text"  id="firstNameHeader" placeholder="" th:text="${user}?${user.fullName}"></span>
+		      <label  for="email">Email:</label>
+				<span disabled type="text"  id="lastName" placeholder="" th:text="${user}?${user.email}"></span>
+		      <button class="btn btn-default btn-sm " onclick="location.href='/account'" type="submit">My Account</button>
+		      <button class="btn btn-link" onclick="location.href='/logout'"type="submit">LOG OUT</button>
+		</div>
+		<div id="userinfo" th:hidden="${user}?true:false">
+		     <button class="btn btn-link" onclick="location.href='/login'"type="submit">LOG IN</button>	      
+		</div>
     </nav>
 
 

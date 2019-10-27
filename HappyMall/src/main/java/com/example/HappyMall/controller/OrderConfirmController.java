@@ -135,6 +135,6 @@ public class OrderConfirmController {
 		System.out.println("Finish a new order");
 
 		model.addAttribute("orders", newOrder);
-		return "redirect:/admin/index";
+		return "redirect:/index";
 	}
 }

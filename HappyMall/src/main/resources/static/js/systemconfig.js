@@ -4,12 +4,14 @@
 $("document").ready(function(){
 	$(".table .eBtn, #nBtn").click(function(event){
 		event.preventDefault();
-		var text = $(this).text;
+		var text = $(this).text();
 		var href = $(this).attr('href');
         console.log("href: " + href);
+        console.log("text: " + text);
         if(text == 'Edit')
         {
 			$.get(href, function(systemConfig, status){
+		        console.log("Edit: " + systemConfig);
 				$("#id").val(systemConfig.id);
 				$("#createDate").val(systemConfig.createDate);
 				$("#appliedDate").val(systemConfig.appliedDate);

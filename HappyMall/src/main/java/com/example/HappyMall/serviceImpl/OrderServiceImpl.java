@@ -104,12 +104,18 @@ public class OrderServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public void refundOrder(Orders order, int vendorId, boolean isEnduser) {
+	public	void refundOrder(int orderId, int vendorId) {
+		
+	}
+
+	@Override
+	public Orders requestToRefundOrder(int orderId) {
 		try {
-			ors.refundOrder(order, vendorId, isEnduser);
+			return ors.requestToRefundOrder(orderId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override

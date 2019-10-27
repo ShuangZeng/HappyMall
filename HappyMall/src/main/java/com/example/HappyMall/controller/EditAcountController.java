@@ -49,7 +49,7 @@ public class EditAcountController {
 		userService.saveUser(user);
 		
 //		System.out.print("address:"+ user.getListAddress());
-		return "redirect:/login?logout";
+		return "redirect:/account";
 	}
 	
 

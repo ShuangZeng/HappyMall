@@ -55,22 +55,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/h2-console").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/index/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/shoppingcart/**").permitAll()
-                .antMatchers("/admin/**").permitAll()
-                .antMatchers("/products/**").permitAll()
-                .antMatchers("/search/**").permitAll()
-
-
-                .antMatchers("/vendor").permitAll()
-                .antMatchers("/vendors").permitAll()
-//                .antMatchers("/admin/**").hasAuthority("4")
-//                .antMatchers("/vendor/**").hasAuthority("2")
-//			    .antMatchers("/endUser/**").hasAuthority("1")
-//			    .antMatchers("/customer/**").hasAuthority("3")
+                .antMatchers("/admin/**").hasAuthority("4")
+                .antMatchers("/vendor/**").hasAuthority("2")
 			    //.antMatchers("/home/**").hasAnyAuthority("VENDOR_USER","ADMIN","END_USER","CUSTOMER_USER")
                 //.antMatchers("/admin/**").hasAnyAuthority("VENDER_USER","ADMIN")
                 .anyRequest()
@@ -85,34 +76,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/").and().exceptionHandling()
                 .accessDeniedPage("/access-denied");
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http.
-//                authorizeRequests()
-//                .antMatchers("/h2-console").permitAll()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/register").permitAll()
-//                .antMatchers("/shoppingcart").permitAll()
-//                .antMatchers("/admin/**").permitAll()
-////                .antMatchers("/vender/**").hasAuthority("VENDER_USER")
-////				.antMatchers("/endUser/**").hasAuthority("SITE_USER")
-//                .antMatchers("/home/**").hasAnyAuthority("VENDER_USER","ADMIN","SITE_USER").anyRequest()
-////                .antMatchers("/admin/**").hasAnyAuthority("VENDER_USER","ADMIN").anyRequest()
-//                .authenticated().and().csrf().disable()
-//                .formLogin()
-//                .loginPage("/login").failureUrl("/login?error=true")
-//                .successHandler(customerLoginSuccessHandler)
-//                .defaultSuccessUrl("/home")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
-//                .and().logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/").and().exceptionHandling()
-//                .accessDeniedPage("/access-denied");
-//    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {

@@ -49,14 +49,14 @@ public class LoginController {
 //	        return modelAndView;
 //	    }
 	
-	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+	@RequestMapping(value={"/login"}, method = RequestMethod.GET)
     public String login(Model model, Principal principal) {
     	if (principal == null)
     	{
 	    	model.addAttribute("hidden", "true");
 	    	return "login";
     	}
-    	return "redirect:/admin/index";
+    	return "redirect:/index";
     }
         
     @GetMapping("/access-denied")
