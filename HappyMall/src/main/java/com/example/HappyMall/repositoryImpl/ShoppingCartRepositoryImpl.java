@@ -30,6 +30,7 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
         Query query = em.createQuery(queryStr);
         
         query.executeUpdate();
+        System.out.println("Complete execute database to update order.");
 	}
 
 	@Override

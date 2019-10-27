@@ -7,9 +7,11 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.happymall.webservice.dao.CardDetailDao;
 import com.happymall.webservice.dao.OrdersDao;
 import com.happymall.webservice.dao.PaymentDao;
 import com.happymall.webservice.dao.TransactionDao;
+import com.happymall.webservice.domain.CardDetail;
 import com.happymall.webservice.domain.Orders;
 import com.happymall.webservice.domain.Payment;
 import com.happymall.webservice.domain.Transaction;
@@ -19,9 +21,23 @@ public class PaymentDaoImpl extends GenericDaoImpl<Payment> implements PaymentDa
 	
 	@Autowired
 	TransactionDao transDao;
+	
+	@Autowired
+	CardDetailDao cardDao;
 
 	public PaymentDaoImpl() {
 		super.setDaoType(Payment.class);
+	}
+	
+	public void savePayment(Payment payment) throws Exception {
+		
+		CardDetail card = cardDao.findOne(payment.getCardDetail().getId());
+		if(card.getRemainingValue() < payment.getPaymentTotal()) {
+			throw new Exception("You have insufficient amount in your account!");
+		}
+		super.save(payment);
+		card.setRemainingValue(card.getRemainingValue() - payment.getPaymentTotal());
+		
 	}
 
 	@Override

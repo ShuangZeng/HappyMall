@@ -272,19 +272,20 @@ public class ShoppingCartController {
 		OrderLine orderLine = orderLineService.getOrderLine(orderLineId);
 
 		if (orderLine != null) {
-			Orders order = orderLine.getOrders();
 			System.out.println("Check quantity...");
 			if (orderLine.getProduct().getQuantity() >= quantity) {
 				orderLine.setQuantity(quantity);
 				orderLine.setTotal(orderLine.getPrice() * quantity);
 				orderLineService.save(orderLine);
-				System.out.println("Order update:" + order);
+				System.out.println("Order update:" + orderLine.getOrders());
 				SystemConfig systemConfig = systemConfigService.getToApplied();
-				ordersService.updateMoneyByOrdersId(order.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-				ordersService.save(order);
+				ordersService.updateMoneyByOrdersId(orderLine.getOrders().getId(), systemConfig.getTax(), systemConfig.getServiceFee());
+				//ordersService.save(order);
 			}
-
-			return order;
+			User user = (User) model.asMap().get("user");
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			System.out.println("Order after update quantity: " + orders);
+			return orders;
 		} else {
 			return new Orders();
 		}

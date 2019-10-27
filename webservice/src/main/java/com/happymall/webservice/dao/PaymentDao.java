@@ -15,6 +15,8 @@ public interface PaymentDao extends GenericDao<Payment> {
 	// CardDetail id
 	List<Payment> findCustomerPayments(int id);
 	
+	void savePayment(Payment payment) throws Exception;
+	
 	// Vendor id
 	// List<Payment> findVendorPayments(int id);
 

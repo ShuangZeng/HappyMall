@@ -52,7 +52,11 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void addPayment(Payment payment) {
 		
-		paymentDao.save(payment);
+		try {
+			paymentDao.savePayment(payment);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
