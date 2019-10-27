@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SYSTEM CONFIG</title>
+	<meta charset="ISO-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SYSTEM CONFIG</title>
+	
+	<!-- Bootstrap library -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<!-- Bootstrap library -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-<!-- Custom css and js -->
-<script type="text/javascript" th:src="@{/js/systemconfig.js}"></script>
-<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
+	<!-- Bootstrap datetimepicker -->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.css}" >
+	<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js}"></script>
+	
+	<!-- Custom css and js -->
+	<script type="text/javascript" th:src="@{/js/systemconfig.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
 </head>
 
 <body>
@@ -36,9 +40,9 @@
 				</thead>
 				<tbody>
 					<tr th:each="item : ${listSystemConfig}">
-						<td th:text="${#dates.format(item.createDate, 'MM-dd-yyyy')}">Create
+						<td th:text="${item.createDateString}">Create
 							Date</td>
-						<td th:text="${#dates.format(item.appliedDate, 'MM-dd-yyyy')}">Applied
+						<td th:text="${item.appliedDateString}">Applied
 							Date</td>
 						<td th:text="${item.tax}">Tax Percent</td>
 						<td th:text="${item.serviceFee}">Service fee Percent</td>
@@ -57,7 +61,7 @@
 				th:if="${checkedCreate}" th:text="Create">Create</a>
 		</div>
 
-		<form th:action="@{/admin/systemconfig/save}" method="post">
+		<form id="createSystemConfig" th:action="@{/admin/systemconfig/save}" method="post">
 			<div class="modal fade" id="systemConfigModal" role="dialog">
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
@@ -68,14 +72,14 @@
 									class="form-control" id="id" name="id">
 							</div>
 							<div class="form-group">
-								<label for="createDate">Create Date:</label> <input type="date"
-									class="form-control" id="createDate" name="createDate"
-									th:readonly="readonly">
+								<label for="createDate">Create Date:</label> 
+								<!-- <input type="date" class="form-control" id="createDate" name="createDate" th:readonly="readonly"> -->
+								<input type="text" class="form-control" id="createDate" placeholder="Select Date" th:readonly="readonly">
 							</div>
 							<div class="form-group">
-								<label for="appliedDate">Applied Date:</label> <input
-									type="date" class="form-control wbn-datepicker"
-									id="appliedDate" name="appliedDate" th:required="required">
+								<label for="appliedDate">Applied Date:</label> 
+								<!-- <input type="date" class="form-control wbn-datepicker" id="appliedDate" name="appliedDate" th:required="required"> -->
+								<input type="text" class="form-control" id="appliedDate" placeholder="Select Date" th:required="required">
 							</div>
 							<div class="form-group">
 								<label for="tax">Tax percent:</label> <input type="number"

@@ -129,17 +129,29 @@ public class ShoppingCartController {
 	}
 
 	@PostMapping("/orders/editshippingaddress")
-	public String editShippingAddress(@ModelAttribute("orders") Orders orders) {
-		Address address = addressService.getAddress(orders.getShippingAddress().getId());
+	public String editShippingAddress(@ModelAttribute("orders") Orders ordersUpdate, Model model) {
+		System.out.println("shipping address: " + ordersUpdate.getShippingAddress() + " - default: " + ordersUpdate.getShippingAddress());
+		System.out.println("orders: " + ordersUpdate);
+
+		User user = (User) model.asMap().get("user");
+		Address address = addressService.getAddress(ordersUpdate.getShippingAddress().getId());
+		Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
 		orders.setShippingAddress(address);
+		orders.setModifiedDate(new Date());
 		ordersService.save(orders);
 		return "redirect:/shoppingcart";
 	}
 
 	@PostMapping("/orders/editbillingaddress")
-	public String editBillingAddress(@ModelAttribute("orders") Orders orders) {
-		Address address = addressService.getAddress(orders.getShippingAddress().getId());
+	public String editBillingAddress(@ModelAttribute("orders") Orders ordersUpdate, Model model) {
+		System.out.println("billing address: " + ordersUpdate.getBillingAddress() + " - default: " + ordersUpdate.getBillingAddress());
+		System.out.println("orders: " + ordersUpdate);
+
+		User user = (User) model.asMap().get("user");
+		Address address = addressService.getAddress(ordersUpdate.getBillingAddress().getId());
+		Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
 		orders.setBillingAddress(address);
+		orders.setModifiedDate(new Date());
 		ordersService.save(orders);
 		return "redirect:/shoppingcart";
 	}
@@ -159,7 +171,7 @@ public class ShoppingCartController {
 
 	@PostMapping("/shoppingcart/createCardDetail")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void createCard(@Valid @RequestBody CardDetail cardDetail, Model model, BindingResult result) {
+	public void createCard(@Valid @RequestBody CardDetail cardDetail, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
 			System.out.println("Create card detail");
 			User user = (User) model.asMap().get("user");
@@ -184,7 +196,7 @@ public class ShoppingCartController {
 
 	@PostMapping(value = "/shoppingcart/createShippingAddress")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void createShippingAddress(@RequestBody Address newAddress, Model model, BindingResult result) {
+	public void createShippingAddress(@RequestBody Address newAddress, BindingResult result, Model model) {
 		System.out.println("Create Shipping address");
 		if (!result.hasErrors()) {
 			System.out.println("Create address");
@@ -205,7 +217,7 @@ public class ShoppingCartController {
 
 	@PostMapping(value = "/shoppingcart/createBillingAddress")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void createBillingAddress(@RequestBody Address newAddress, Model model, BindingResult result) {
+	public void createBillingAddress(@RequestBody Address newAddress, BindingResult result, Model model) {
 		System.out.println("Create Billing address");
 		if (!result.hasErrors()) {
 			System.out.println("Create address");

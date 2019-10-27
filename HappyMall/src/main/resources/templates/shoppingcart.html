@@ -2,94 +2,137 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="ISO-8859-1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-	<title>SHOPPING CART</title>	
-    
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>SHOPPING CART</title>
+	
 	<!-- Bootstrap library -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 	<!-- Bootstrap datetimepicker -->
-	<!-- <link rel="stylesheet" type="text/css" th:href="@{/css/datepicker.css}" >
-	<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js}"></script> -->
-	
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.css}" >
+	<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js}"></script>
+
 	<!-- Custom css and js -->
 	<script type="text/javascript" th:src="@{/js/shoppingcart.js}"></script>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
 </head>
-<body>	
+<body>
 	<header th:insert="header :: navbar"> </header>
 	<div class="container">
 		<H2 align="center">SHOPPING CART</H2>
-		
+
 		<div class="row">
 			<div class="col-sm-3 offset-sm-9">
 				<form action="orderMgmt.html" th:action="@{/orders/user}">
-					<button class="btn btn-primary btn-sm" type="submit">Order History</button>
+					<button class="btn btn-primary btn-sm" type="submit">Order
+						History</button>
 				</form>
 			</div>
 		</div>
 
-		<form th:object="${orders}" th:action="@{/shoppingcart}" method="post" >
+		<form th:object="${orders}" th:action="@{/shoppingcart}" method="post">
 			<div class="col-12">
-				<div class="row table-head col-12">Total product: <span th:text="${totalProduct}"> 0 </span>
-					<span style="visibility: hidden" th:field="${orders}?${orders.orderCode}"></span></div>
-				<div class="row col-12 itemBlock item" th:each="item : ${listItem}" th:hidden="${user}?true:false">
+				<div class="row table-head col-12">
+					Total product: <span th:text="${totalProduct}"> 0 </span> <span
+						style="visibility: hidden"
+						th:field="${orders}?${orders.orderCode}"></span>
+				</div>
+				<div class="row col-12 itemBlock item" th:each="item : ${listItem}"
+					th:hidden="${user}?true:false">
 					<div class="col-3 productImgContainer">
-						<img class="productImg" th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
+						<img class="productImg"
+							th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" />
+					</div>
 					<div class="col-9">
-						<div class="row itemRow emphasize"><span th:text="${item.product.name}">Product's Name</span></div>
-						<div class="row itemRow"><span th:text="${item.product.description}">Product's Description</span></div>
-						<div class="row itemRow"><span class="format-money price" th:text="${item.product.price}">0.00</span></div>
+						<div class="row itemRow emphasize">
+							<span th:text="${item.product.name}">Product's Name</span>
+						</div>
 						<div class="row itemRow">
-							<div class="col-9"><input th:id="${item.product.id}" class="quantity guestQuantity" type="number" th:value="${item.quantity}"/></div>
-							<div><a href="#" class="float-right" th:href="${'/shoppingcart/remove/' + item.product.id}">Remove</a></div>
+							<span th:text="${item.product.description}">Product's
+								Description</span>
+						</div>
+						<div class="row itemRow">
+							<span class="format-money price" th:text="${item.product.price}">0.00</span>
+						</div>
+						<div class="row itemRow">
+							<div class="col-9">
+								<input th:id="${item.product.id}" class="quantity guestQuantity"
+									type="number" th:value="${item.quantity}" />
+							</div>
+							<div>
+								<a href="#" class="float-right"
+									th:href="${'/shoppingcart/remove/' + item.product.id}">Remove</a>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row col-12 itemBlock item" th:each="item : ${listOrderLine}" th:hidden="${user}?false:true">
+				<div class="row col-12 itemBlock item"
+					th:each="item : ${listOrderLine}" th:hidden="${user}?false:true">
 					<div class="col-3 productImgContainer">
-						<img class="productImg" th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" /></div>
+						<img class="productImg"
+							th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" />
+					</div>
 					<div class="col-9">
-						<div class="row itemRow emphasize"><span th:text="${item.product.name}">Product's Name</span></div>
-						<div class="row itemRow"><span th:text="${item.product.description}">Product's Description</span></div>
-						<div class="row itemRow"><span class="format-money price" th:text="${item.product.price}">0.00</span></div>
+						<div class="row itemRow emphasize">
+							<span th:text="${item.product.name}">Product's Name</span>
+						</div>
 						<div class="row itemRow">
-							<div class="col-9"><input th:id="${item.id}" class="quantity enduserQuantity" type="number" th:value="${item.quantity}"/></div>
-							<div><a href="#" class="float-right" th:href="${'/shoppingcart/remove/' + item.product.id}">Remove</a></div>
+							<span th:text="${item.product.description}">Product's
+								Description</span>
+						</div>
+						<div class="row itemRow">
+							<span class="format-money price" th:text="${item.product.price}">0.00</span>
+						</div>
+						<div class="row itemRow">
+							<div class="col-9">
+								<input th:id="${item.id}" class="quantity enduserQuantity"
+									type="number" th:value="${item.quantity}" />
+							</div>
+							<div>
+								<a href="#" class="float-right"
+									th:href="${'/shoppingcart/remove/' + item.product.id}">Remove</a>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-	
+
 			<div class="col-12">
 				<div class="col-6 float-right">
 					<table class="table">
 						<tbody>
 							<tr>
 								<td class="row-titile" scope="row">Total before Tax</td>
-								<td class="format-money" id="totalBeforeTax" th:text="${orders}?*{subTotal}:${subTotalGuest}"></td>
+								<td class="format-money" id="totalBeforeTax"
+									th:text="${orders}?*{subTotal}:${subTotalGuest}"></td>
 							</tr>
 							<tr>
-								<td class="row-titile" scope="row" >Estimated Tax</td>
-								<td class="format-money" id="estimatedTax" th:text="${orders}?*{tax}:${taxGuest}"></td>
+								<td class="row-titile" scope="row">Estimated Tax</td>
+								<td class="format-money" id="estimatedTax"
+									th:text="${orders}?*{tax}:${taxGuest}"></td>
 							</tr>
 							<tr>
-								<td class="row-titile emphasize" scope="row" >Order total</td>
-								<td class="emphasize format-money" id="orderTotal" th:text="${orders}?*{total}:${totalGuest}"></td>
+								<td class="row-titile emphasize" scope="row">Order total</td>
+								<td class="emphasize format-money" id="orderTotal"
+									th:text="${orders}?*{total}:${totalGuest}"></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
-	
+
 			<div class="col-12">
 				<table class="table">
 					<thead>
@@ -99,23 +142,27 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>
-								Name: <span class="info" id="shippingName" th:text="${orders}?*{user.fullName}"></span> 
-								- Phone Number: <span class="info" id="shippingPhoneNo" th:text="${orders}?*{user.phone}"></span>
+							<td>Name: <span class="info" id="shippingName"
+								th:text="${orders}?*{user.fullName}"></span> - Phone Number: <span
+								class="info" id="shippingPhoneNo"
+								th:text="${orders}?*{user.phone}"></span>
 							</td>
 						</tr>
 						<tr>
-							<td>Address: <span class="info" id="shippingAddress" th:text="${orders}?*{shippingAddress}" ></span>
-								<span style="visibility: hidden" id="shippingId" th:text="${orders}?*{shippingAddress.id}"></span>								
+							<td>Address: <span class="info" id="shippingAddress"
+								th:text="${orders}?*{shippingAddress}"></span> <span
+								style="visibility: hidden" id="shippingId"
+								th:text="${orders}?*{shippingAddress.id}"></span>
 								<div class="float-right">
-									<a id="btnEditShippingAddress" href="#" data-toggle="modal" data-backdrop="static" th:hidden="${user}?false:true" >Edit</a>
-								</div>	
+									<a id="btnEditShippingAddress" href="#" data-toggle="modal"
+										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
+								</div>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-	
+
 			<div class="col-12">
 				<table class="table">
 					<thead>
@@ -125,58 +172,73 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>Payment Method: <span class="info" id="paymentMethod" th:text="${cardDetail}?${cardDetail}"></span>
-								<span style="visibility: hidden" id="cardId" th:text="${cardDetail}?${cardDetail.id}"></span>	
+							<td>Payment Method: <span class="info" id="paymentMethod"
+								th:text="${cardDetail}?${cardDetail}"></span> <span
+								style="visibility: hidden" id="cardId"
+								th:text="${cardDetail}?${cardDetail.id}"></span>
 								<div class="float-right">
-									<a id="btnEditPaymentMethod" href="#" data-toggle="modal" data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
+									<a id="btnEditPaymentMethod" href="#" data-toggle="modal"
+										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
 								</div>
 							</td>
 						</tr>
 						<tr>
-							<td>Billing Address: <span class="info" id="billingAddress" th:text="${orders}?*{billingAddress}"></span>
-								<span style="visibility: hidden" id="billingId" th:text="${orders}?*{billingAddress.id}"></span>	
+							<td>Billing Address: <span class="info" id="billingAddress"
+								th:text="${orders}?*{billingAddress}"></span> <span
+								style="visibility: hidden" id="billingId"
+								th:text="${orders}?*{billingAddress.id}"></span>
 								<div class="float-right">
-									<a id="btnEditBillingAddress" href="#" data-toggle="modal" data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
+									<a id="btnEditBillingAddress" href="#" data-toggle="modal"
+										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
 								</div>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-	
-			<div class="float-right" th:hidden="${user}?false:true" th:if="${totalProduct > 0}">
+
+			<div class="float-right" th:hidden="${user}?false:true"
+				th:if="${totalProduct > 0}">
 				<button type="submit" class="btn btn-primary">Check out</button>
 			</div>
-		</form>		
-		
-			<form th:action="@{/login}" method="get" class="float-right" th:hidden="${user}?true:false"> 
-				<button class="btn btn-primary" type="Submit">Log in</button>
-			</form>
-			<form th:action="@{/index}" method="get" class="float-right"> 
-				<button class="btn btn-light" type="Submit">Continue Shopping</button>
-			</form>		
+		</form>
+
+		<form th:action="@{/login}" method="get" class="float-right"
+			th:hidden="${user}?true:false">
+			<button class="btn btn-primary" type="Submit">Log in</button>
+		</form>
+		<form th:action="@{/index}" method="get" class="float-right">
+			<button class="btn btn-light" type="Submit">Continue
+				Shopping</button>
+		</form>
 
 		<div class="modal fade" id="editShippingAddressModal" role="dialog">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">Edit Address</div>
 					<div class="modal-body" id="addressBody">
-						<form role="form" th:object="${orders}" th:action="@{/orders/editshippingaddress}" method="post" >
+						<form role="form" th:object="${orders}"
+							th:action="@{/orders/editshippingaddress}" method="post">
 							<div class="form-check" th:each="address : ${listAddress}">
-							  <label class="form-check-label">
-							    <input type="radio" th:id="${address.id}" class="form-check-input" name="optradio" th:text="${address}" th:field="*{shippingAddress}" th:value="${address.id}" >
-							  </label>
+								<label class="form-check-label"> <input type="radio"
+									th:id="${address.id}" class="form-check-input" name="optradio"
+									th:text="${address}" th:field="*{shippingAddress}"
+									th:value="${address.id}">
+								</label>
 							</div>
 							<div class="form-check">
-								<button id="btnNewAddress" type="button" class="btn btn-success" data-toggle="modal" data-target="#createShippingAddressModal" data-backdrop="static" >New Address</button>  
+								<button id="btnNewAddress" type="button" class="btn btn-success"
+									data-toggle="modal" data-target="#createShippingAddressModal"
+									data-backdrop="static">New Address</button>
 							</div>
-							<span style="visibility: hidden" id="textEdit"></span>	
+							<span style="visibility: hidden" id="textEdit"></span>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
 								<button type="submit" class="btn btn-primary">Save</button>
 							</div>
 						</form>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div>
@@ -186,65 +248,79 @@
 				<div class="modal-content">
 					<div class="modal-header">Edit Address</div>
 					<div class="modal-body" id="addressBody">
-						<form role="form" th:object="${orders}" th:action="@{/orders/editshippingaddress}" method="post" >
+						<form role="form" th:object="${orders}"
+							th:action="@{/orders/editbillingaddress}" method="post">
 							<div class="form-check" th:each="address : ${listAddress}">
-							  <label class="form-check-label">
-							    <input type="radio" th:id="${address.id}" class="form-check-input" name="optradio" th:text="${address}" th:field="*{billingAddress}" th:value="${address.id}" >
-							  </label>
+								<label class="form-check-label"> <input type="radio"
+									th:id="${address.id}" class="form-check-input" name="optradio"
+									th:text="${address}" th:field="*{billingAddress}"
+									th:value="${address.id}">
+								</label>
 							</div>
 							<div class="form-check">
-								<button type="button" class="btn btn-success" data-toggle="modal" data-backdrop="static" data-target="#createBillingAddressModal">New Address</button> 
+								<button type="button" class="btn btn-success"
+									data-toggle="modal" data-backdrop="static"
+									data-target="#createBillingAddressModal">New Address</button>
 							</div>
-							<span style="visibility: hidden" id="textEdit"></span>	
+							<span style="visibility: hidden" id="textEdit"></span>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
 								<button type="submit" class="btn btn-primary">Save</button>
 							</div>
 						</form>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div>
-				
+
 		<div class="modal fade" id="createShippingAddressModal" role="dialog">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">Create Address</div>
 					<div class="modal-body">
-						<form id="newShippingAddressForm" role="form" th:object="${newAddress}" >
+						<form id="newShippingAddressForm" role="form"
+							th:object="${newAddress}">
 							<div class="input-group mb-3">
 								<div class="form-group">
-									<label for="lineOne">Line 1:</label>
-									<input type="text" class="form-control" placeholder="Line 1" id="shippingLineOne" th:required="required">
+									<label for="lineOne">Line 1:</label> <input type="text"
+										class="form-control" placeholder="Line 1" id="shippingLineOne"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="lineTwo">Line 2:</label>
-									<input type="text" class="form-control" placeholder="Line 2" id="shippingLineTwo" >
+									<label for="lineTwo">Line 2:</label> <input type="text"
+										class="form-control" placeholder="Line 2" id="shippingLineTwo">
 								</div>
 								<div class="form-group">
-									<label for="city">City:</label>
-									<input type="text" class="form-control" placeholder="City" id="shippingCity" th:required="required">
+									<label for="city">City:</label> <input type="text"
+										class="form-control" placeholder="City" id="shippingCity"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="state">State:</label>
-									<input type="text" class="form-control" placeholder="State" id="shippingState" th:required="required">
+									<label for="state">State:</label> <input type="text"
+										class="form-control" placeholder="State" id="shippingState"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="zipcode">Zipcode:</label>
-									<input type="text" class="form-control" placeholder="Zipcode" id="shippingZipcode" th:required="required">
+									<label for="zipcode">Zipcode:</label> <input type="text"
+										class="form-control" placeholder="Zipcode - 00000"
+										id="shippingZipcode" th:required="required"
+										pattern="^[0-9]{5}(?:-[0-9]{4})?$" />
 								</div>
 							</div>
-							
+
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-								<button type="submit" class="btn btn-primary" id="btnCreateShippingAddress">Save</button> 
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary"
+									id="btnCreateShippingAddress">Save</button>
 							</div>
 						</form>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div>
-				
+
 		<div class="modal fade" id="createBillingAddressModal" role="dialog">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
@@ -253,33 +329,40 @@
 						<form id="newBillingAddressForm" role="form">
 							<div class="input-group mb-3">
 								<div class="form-group">
-									<label for="lineOne">Line 1:</label>
-									<input type="text" class="form-control" placeholder="Line 1" id="billingLineOne" th:required="required">
+									<label for="lineOne">Line 1:</label> <input type="text"
+										class="form-control" placeholder="Line 1" id="billingLineOne"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="lineTwo">Line 2:</label>
-									<input type="text" class="form-control" placeholder="Line 2" id="billingLineTwo" >
+									<label for="lineTwo">Line 2:</label> <input type="text"
+										class="form-control" placeholder="Line 2" id="billingLineTwo">
 								</div>
 								<div class="form-group">
-									<label for="city">City:</label>
-									<input type="text" class="form-control" placeholder="City" id="billingCity" th:required="required">
+									<label for="city">City:</label> <input type="text"
+										class="form-control" placeholder="City" id="billingCity"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="state">State:</label>
-									<input type="text" class="form-control" placeholder="State" id="billingState" th:required="required">
+									<label for="state">State:</label> <input type="text"
+										class="form-control" placeholder="State" id="billingState"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="zipcode">Zipcode:</label>
-									<input type="text" class="form-control" placeholder="Zipcode" id="billingZipcode" th:required="required">
+									<label for="zipcode">Zipcode:</label> <input type="text"
+										class="form-control" placeholder="Zipcode - 00000"
+										id="billingZipcode" th:required="required"
+										pattern="^[0-9]{5}(?:-[0-9]{4})?$">
 								</div>
 							</div>
-							
+
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-								<button type="submit" class="btn btn-primary" id="btnCreateBillingAddress">Save</button> 
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary"
+									id="btnCreateBillingAddress">Save</button>
 							</div>
 						</form>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div>
@@ -289,78 +372,95 @@
 				<div class="modal-content">
 					<div class="modal-header">Edit Payment Method</div>
 					<div class="modal-body" id="paymentMethodBody">
-						<form role="form" th:object="${newCard}" method="post" th:action="@{/shoppingcart/setcarddefault}">
+						<form role="form" th:object="${newCard}" method="post"
+							th:action="@{/shoppingcart/setcarddefault}">
 							<div class="form-check" th:each="card : ${listCardDetail}">
-							  <label class="form-check-label">
-							    <input type="radio" th:id="${card.id}" class="form-check-input" name="optradio" th:text="${card}" th:value="${card.id}" th:field="*{id}">
-							  </label>
+								<label class="form-check-label"> <input type="radio"
+									th:id="${card.id}" class="form-check-input" name="optradio"
+									th:text="${card}" th:value="${card.id}" th:field="*{id}">
+								</label>
 							</div>
 							<div class="form-check">
-								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#createCardModal" data-backdrop="static">New Card</button> 
+								<button type="button" class="btn btn-success"
+									data-toggle="modal" data-target="#createCardModal"
+									data-backdrop="static">New Card</button>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-								<button type="submit" class="btn btn-primary" id="btnSavePaymentMethod">Save</button>
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary"
+									id="btnSavePaymentMethod">Save</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="modal fade" id="createCardModal" role="dialog">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">Create New Card</div>
 					<div class="modal-body" id="createCardBody">
-						<form role="form" th:object="${newCard}" id="createCardForm">						
-							<div class="form-check">
-							  <label class="form-check-label">
-							    <input type="radio" class="form-check-input" name="cardType" th:checked="true" th:value="MASTER">Master
-							  </label>
-							  <label class="form-check-label">
-							    <input type="radio" class="form-check-input" name="cardType" th:value="VISA">Visa
-							  </label>
+						<form role="form" th:object="${newCard}" id="createCardForm">
+							<div id="groupCardType" class="form-check">
+								<label class="form-check-label"> <input type="radio"
+									class="form-check-input" name="cardType" th:checked="true"
+									th:value="Mastercard">Master
+								</label> <label class="form-check-label"> <input type="radio"
+									class="form-check-input" name="cardType" th:value="Visacard">Visa
+								</label>
 							</div>
 							<div class="form-group">
-								<label for="nameOnCard">Card Holder's Name:</label>
-								<input type="text" class="form-control" placeholder="Name" id="nameOnCard" th:required="required">
+								<label for="nameOnCard">Card Holder's Name:</label> <input
+									type="text" class="form-control" placeholder="Name"
+									id="nameOnCard" th:required="required">
 							</div>
 							<div class="input-group mb-3" id="paymentMethodGroup">
 								<div class="form-group">
-									<label for="cardNumber">Card Number:</label>
-									<input type="text" class="form-control" placeholder="Card number" id="cardNumber" th:required="required">
+									<label for="cardNumber">Card Number:</label> <input type="text"
+										class="form-control" placeholder="Card number" id="cardNumber"
+										th:required="required"
+										pattern="^5[1-5]\d{14}$">
 								</div>
 								<div class="form-group">
-									<label for="expiredDate">Expired date:</label>
-									<input type="month" class="form-control" id="expiredDate" th:required="required">
+									<label for="expiredDate">Expired date:</label> 
+									<!-- <input type="month" class="form-control" id="expiredDate" th:required="required"> -->
+									<input type="text" class="form-control" id="expiredDate" placeholder="Select Date" th:required="required">
 								</div>
 							</div>
 							<div class="input-group mb-3">
 								<div class="form-group">
-									<label for="cardAddressLineOne">Line 1:</label>
-									<input type="text" class="form-control" placeholder="Line 1" id="cardAddressLineOne" th:required="required">
+									<label for="cardAddressLineOne">Line 1:</label> <input
+										type="text" class="form-control" placeholder="Line 1"
+										id="cardAddressLineOne" th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="cardAddressLineTwo">Line 2:</label>
-									<input type="text" class="form-control" placeholder="Line 2" id="cardAddressLineTwo" >
+									<label for="cardAddressLineTwo">Line 2:</label> <input
+										type="text" class="form-control" placeholder="Line 2"
+										id="cardAddressLineTwo">
 								</div>
 								<div class="form-group">
-									<label for="cardAddressCity">City:</label>
-									<input type="text" class="form-control" placeholder="City" id="cardAddressCity" th:required="required">
+									<label for="cardAddressCity">City:</label> <input type="text"
+										class="form-control" placeholder="City" id="cardAddressCity"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="cardAddressState">State:</label>
-									<input type="text" class="form-control" placeholder="State" id="cardAddressState" th:required="required">
+									<label for="cardAddressState">State:</label> <input type="text"
+										class="form-control" placeholder="State" id="cardAddressState"
+										th:required="required">
 								</div>
 								<div class="form-group">
-									<label for="cardAddressZipcode">Zipcode:</label>
-									<input type="text" class="form-control" placeholder="Zipcode" id="cardAddressZipcode" th:required="required">
+									<label for="cardAddressZipcode">Zipcode:</label> <input
+										type="text" class="form-control" placeholder="Zipcode - 00000"
+										id="cardAddressZipcode" th:required="required"
+										pattern="^[0-9]{5}(?:-[0-9]{4})?$">
 								</div>
 
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
 								<button type="submit" class="btn btn-primary" id="btnCreateCard">Save</button>
 							</div>
 						</form>
@@ -368,7 +468,7 @@
 				</div>
 			</div>
 		</div>
-				
+
 	</div>
 	</br>
 	</br>

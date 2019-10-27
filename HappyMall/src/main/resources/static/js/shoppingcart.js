@@ -5,23 +5,47 @@
 $(document).ready(function() {
 	formatMoney();
 	
+	$("#expiredDate").datepicker({
+	    format: "mm-yyyy",
+	    startDate: '+1m',
+	    minViewMode: 1,
+	    autoclose: true
+	  });
+	
+	$("#groupCardType").change(function(){
+		let type = $("input:radio[name='cardType']:checked").val();
+		if(type == "Visacard")
+		{
+			$("#cardNumber").attr("pattern", "^4[0-9]{12}(?:[0-9]{3})?$");
+			$("#cardNumber").attr("title", "It should be a Visa card's number.");
+		}
+		else
+		{
+			$("#cardNumber").attr("pattern", "^5[1-5]\d{14}$");
+			$("#cardNumber").attr("title", "It should be a Master card's number.");
+		}
+	});
+	
 	$("#btnEditShippingAddress").click(function () {
 		$id = "#" + $('#shippingId').html();
-        $($id).prop("checked", true);
+		if ($id != "#")
+			$($id).prop("checked", true);
         $('#textEdit').text('shipping');
         $('#editShippingAddressModal').modal('show');
     });
 	
 	$("#btnEditBillingAddress").click(function () {
 		$id = "#" + $('#billingId').html();
-        $($id).prop("checked", true);
+		if ($id != "#")
+			$($id).prop("checked", true);
         $('#textEdit').text('billing');
         $('#editBillingAddressModal').modal('show');
     });
 	
 	$("#btnEditPaymentMethod").click(function () {
 		$id = "#" + $('#cardId').html();
-        $($id).prop("checked", true);
+		if ($id != "#")
+			$($id).prop("checked", true);
         $('#editPaymentMethodModal').modal('show');
     });
 	
@@ -69,8 +93,8 @@ $(document).ready(function() {
 
 	
 	$(".enduserQuantity").change(function() {
-		var orderLineId = $(this).attr('id');
-		var quantity = $(this).val();
+		let orderLineId = $(this).attr('id');
+		let quantity = $(this).val();
         console.log("orderLineId: " + orderLineId);
         console.log("quantity: " + quantity);
         let url = "http://localhost:8080/shoppingcart/updateQuantity/enduser/"  + orderLineId + "/" + quantity;
@@ -91,6 +115,7 @@ $(document).ready(function() {
 		      }  
 		    });  
 	});
+	
 });
 
 // format money
@@ -104,7 +129,7 @@ function formatMoney() {
 
 function createShippingAddress() {     
     console.log("Ajax: create shipping address...");
-    var address = {};
+    let address = {};
     address.lineOne = $("#shippingLineOne").val();
     address.lineTwo = $("#shippingLineTwo").val();
     address.city = $("#shippingCity").val();
@@ -114,7 +139,7 @@ function createShippingAddress() {
     
     $.ajax({  
       type: 'POST',  
-      url :  window.location + "/createShippingAddress",
+      url : "http://localhost:8080/shoppingcart/createShippingAddress",
       contentType: "application/json",
       data: JSON.stringify(address),
       datatype: "json",
@@ -129,7 +154,7 @@ function createShippingAddress() {
 
 function createBillingAddress() {     
     console.log("Ajax: create billing address...");
-    var address = {};
+    let address = {};
     address.lineOne = $("#billingLineOne").val();
     address.lineTwo = $("#billingLineTwo").val();
     address.city = $("#billingCity").val();
@@ -139,7 +164,7 @@ function createBillingAddress() {
     
     $.ajax({  
       type: 'POST',  
-      url :  window.location + "/createBillingAddress",
+      url :  "http://localhost:8080/shoppingcart/createBillingAddress",
       contentType: "application/json",
       data: JSON.stringify(address),
       datatype: "json",
@@ -156,25 +181,25 @@ function createBillingAddress() {
 function createCardDetail() {     
     console.log("Ajax: create cardDetail...");
     //var dataToSend = JSON.stringify($('#createCardForm').serializeFormJSON());
-
-    var address = {};
+    let date = $("#expiredDate").val();
+    let address = {};
     address.lineOne = $("#cardAddressLineOne").val();
     address.lineTwo = $("#cardAddressLineTwo").val();
     address.city = $("#cardAddressCity").val();
     address.state = $("#cardAddressState").val();
     address.zipcode = $("#cardAddressZipcode").val();
     
-    var card = {};
+    let card = {};
     card.type = $("input:radio[name='cardType']:checked").val();
     card.nameOnCard = $("#nameOnCard").val();
     card.cardNumber = $("#cardNumber").val();
-    card.expiredDate = $("#expiredDate").val() + "-01";
+    card.expiredDate =  date.substring(3, 7) + "-" + date.substring(0, 2) + "-01";
     card.address = address;
     console.log(card);
     
     $.ajax({  
       type: 'POST',  
-      url :  window.location + "/createCardDetail",
+      url :  "http://localhost:8080/shoppingcart/createCardDetail",
       contentType: "application/json",
       data: JSON.stringify(card),
       datatype: "json",

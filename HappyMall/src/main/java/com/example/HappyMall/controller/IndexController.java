@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -61,10 +63,11 @@ public class IndexController {
 	private ProductPageAndSortingRepository productPageAndSortingRepository;
 
 	@GetMapping(value = {"/","/index"})
-	public String getHome(Model model, @RequestParam(defaultValue = "1") int page) {
+	public String getHome(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
+		System.out.println(user);
 		modelAndView.addObject("user",user);
 		modelAndView.addObject("product", new Product());
 		
