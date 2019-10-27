@@ -42,8 +42,6 @@ public class ProductServiceTests {
 	@Autowired
 	private ProductService productService;
 	
-	@Autowired
-	private Product product;
 	
 	@Test
 	public void whenGetAllProductsThenListNotEmpty() {
@@ -62,19 +60,19 @@ public class ProductServiceTests {
 	}
 	
 	@Test
-	public void whenGetVendorByPhoneThenReturnVendor() {
-		String phone = "(389) 255-2383";
-		String expectedName = "Brooks Griffin";
-		User vendor = vendorService.getVendorByPhone(phone);
-		assertThat(vendor.getFullName()).isEqualTo(expectedName);
+	public void whenGetProductsByVendorNameThenReturnVendor() {
+		String productName = "Kids Headphones - noot products K11 Foldable Stereo";
+		String vendorName = "Brooks Griffin";
+		List<Product> list = productService.getProductsByVendorName(vendorName);
+		assertThat(list.get(0).getName()).isEqualTo(productName);
 	}
 	
 	@Test
-	public void whenGetVendorByIdThenReturnVendor() {
-		int id = 1001;
-		String expectedName = "Brooks Griffin";
-		User vendor = vendorService.getVendor(id);
-		assertThat(vendor.getFullName()).isEqualTo(expectedName);
+	public void whenGetProductByIdThenReturnProduct() {
+		int id = 4009;
+		String productName = "Kids Headphones - noot products K11 Foldable Stereo";
+		Product product = productService.getProduct(id);
+		assertThat(product.getName()).isEqualTo(productName);
 	}
 
 }
