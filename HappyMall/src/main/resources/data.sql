@@ -44,21 +44,22 @@ VALUES (6000,'A','2019-10-12 00:00:00','2019-10-11 00:00:00','$2a$10$AswL9uFisOg
 		(6018,'A','2019-10-12 00:00:00','2019-10-12 00:00:00','$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','Terrance Carson',1018),
 		(6019,'A','2019-10-12 00:00:00','2019-10-12 00:00:00','$2a$10$AswL9uFisOgKK6Ur.RqKbuC0Uhns3LLNNpsPeC71M/SVZP8qXuMQK','Marcelo Owen',1019);
 
-INSERT INTO happymall.product 
-VALUES (4000,'2019-10-11 00:00:00','Includes 20 pieces: cot, high chair, slide, and many accessories','2019-10-12 00:00:00','Calico Critters Baby Nursery Set',12.21,15,'A',1004),
-		(4001,'2019-10-12 00:00:00','Simple setup with an included High Speed HDMI Cable',NULL,'Roku Express | Easy High Definition (HD)',26.99,9,'A',1005),
-		(4002,'2019-10-09 00:00:00','50% Cotton / 50% Polyester','2019-10-11 00:00:00','Hanes Men\'s Ecosmart Fleece Sweatshirt',16.99,41,'A',1006),
-		(4003,'2019-10-12 00:00:00','This Barbie doll is dressed to dance the day away in a stage-ready ballerina costume',NULL,'Barbie Fairytale Ballerina Doll, Brunette',6.05,23,'A',1005),
-		(4004,'2019-09-19 00:00:00','Series Ultra HD Smart TV with HDR and Alexa Compatibility (2019 Model)','2019-10-12 00:00:00','Samsung UN55RU7100FXZA Flat 55-Inch 4K UHD 7',988,10,'D',1005),
-		(4005,'2019-08-05 00:00:00','Combination DVD Player and Hi-Fi VCR',NULL,'Sony SLVD360P DVD / VCR Combo',105.28,3,'D',1005),
-		(4006,'2019-10-06 00:00:00','DVD/VCR combo unit with progressive-scan DVD output and 1-month, 8-event VCR programming',NULL,'Sony SLV-D300P Progressive-Scan DVD-VCR Combo',150,35,'D',1015),
-		(4007,'2019-08-07 00:00:00','All together Now: shows, movies, live TV, YouTube, and photos;',NULL,'Google Chromecast Ultra',69,21,'D',1016),
-		(4008,'2019-09-30 00:00:00','Full size black RockJam electric guitar with spare strings, guitar picks, and a strap',NULL,'RockJam 6 ST Style Electric Guitar Super Pack with Amp',89.99,9,'A',1018),
-		(4009,'2019-09-15 00:00:00','Tangle-Free 3.5mm Jack Wired Cord On-Ear Headset for Children/Teens/Boys/Girls','2019-10-12 00:00:00','Kids Headphones - noot products K11 Foldable Stereo',18.99,2,'A',1001),
-		(4010,'2018-10-20 00:00:00','30 millimeter drivers for rich, full frequency response',NULL,'Sony MDRZX110/BLK ZX Series Stereo Headphones (Black)',15.99,4,'D',1019),
-		(4011,'2019-07-06 00:00:00','Apple iPad Pro (10.5-inch, Wi-Fi + Cellular, 64GB) - Rose Gold (Previous Model)',NULL,'Apple iPad Pro',579,5,'D',1017),
-		(4012,'2018-08-21 00:00:00','Echo Dot (3rd Gen) - Smart speaker with Alexa - Charcoal','2019-10-12 00:00:00','Smart speaker with Alexa',49.99,6,'D',1010),
-		(4013,'2018-06-28 00:00:00','Fire HD 8 Tablet (8\" HD Display, 16 GB) - Black',NULL,'Fire HD 8 Tablet',79.9,9,'A',1012);
+INSERT INTO happymall.product (id, create_date, description, modified_date, name, price, quantity, status, vendor_id, image_Url)
+
+VALUES (4000,'2019-10-11 00:00:00','Includes 20 pieces: cot, high chair, slide, and many accessories','2019-10-12 00:00:00','Calico Critters Baby Nursery Set',12.21,15,'A',1004,'/images/Calico Critters Baby Nursery Set.jpg'),
+		(4001,'2019-10-12 00:00:00','Simple setup with an included High Speed HDMI Cable',NULL,'Roku Express | Easy High Definition (HD)',26.99,9,'A',1005,'/images/Roku Express | Easy High Definition (HD).jpg'),
+		(4002,'2019-10-09 00:00:00','50% Cotton / 50% Polyester','2019-10-11 00:00:00','Hanes Men\'s Ecosmart Fleece Sweatshirt',16.99,41,'A',1006,'/images/Hanes Men Ecosmart Fleece Sweatshirt.jpg'),
+		(4003,'2019-10-12 00:00:00','This Barbie doll is dressed to dance the day away in a stage-ready ballerina costume',NULL,'Barbie Fairytale Ballerina Doll, Brunette',6.05,23,'A',1005,'/images/Barbie Fairytale Ballerina Doll Brunette.jpg'),
+		(4004,'2019-09-19 00:00:00','Series Ultra HD Smart TV with HDR and Alexa Compatibility (2019 Model)','2019-10-12 00:00:00','Samsung UN55RU7100FXZA Flat 55-Inch 4K UHD 7',988,10,'D',1005,'/images/Samsung UN55RU7100FXZA Flat 55-Inch 4K UHD 7.jpg'),
+		(4005,'2019-08-05 00:00:00','Combination DVD Player and Hi-Fi VCR',NULL,'Sony SLVD360P DVD / VCR Combo',105.28,3,'D',1005,'/images/Sony SLVD360P DVD VCR Combo.jpg'),
+		(4006,'2019-10-06 00:00:00','DVD/VCR combo unit with progressive-scan DVD output and 1-month, 8-event VCR programming',NULL,'Sony SLV-D300P Progressive-Scan DVD-VCR Combo',150,35,'D',1015,'/images/Sony SLV-D300P Progressive-Scan DVD-VCR Combo.jpg'),
+		(4007,'2019-08-07 00:00:00','All together Now: shows, movies, live TV, YouTube, and photos;',NULL,'Google Chromecast Ultra',69,21,'D',1016,'/images/Google Chromecast Ultra.jpg'),
+		(4008,'2019-09-30 00:00:00','Full size black RockJam electric guitar with spare strings, guitar picks, and a strap',NULL,'RockJam 6 ST Style Electric Guitar Super Pack with Amp',89.99,9,'A',1018,'/images/RockJam 6 ST Style Electric Guitar Super Pack with Amp.jpg'),
+		(4009,'2019-09-15 00:00:00','Tangle-Free 3.5mm Jack Wired Cord On-Ear Headset for Children/Teens/Boys/Girls','2019-10-12 00:00:00','Kids Headphones - noot products K11 Foldable Stereo',18.99,2,'A',1001,'/images/Kids Headphones - noot products K11 Foldable Stereo.jpg'),
+		(4010,'2018-10-20 00:00:00','30 millimeter drivers for rich, full frequency response',NULL,'Sony MDRZX110/BLK ZX Series Stereo Headphones (Black)',15.99,4,'D',1019,'/images/4Sony MDRZX110BLK ZX Series Stereo Headphones (Black).jpg'),
+		(4011,'2019-07-06 00:00:00','Apple iPad Pro (10.5-inch, Wi-Fi + Cellular, 64GB) - Rose Gold (Previous Model)',NULL,'Apple iPad Pro',579,5,'D',1017,'/images/Apple iPad Pro.jpg'),
+		(4012,'2018-08-21 00:00:00','Echo Dot (3rd Gen) - Smart speaker with Alexa - Charcoal','2019-10-12 00:00:00','Smart speaker with Alexa',49.99,6,'D',1010,'/images/Smart speaker with Alexa.jpg'),
+		(4013,'2018-06-28 00:00:00','Fire HD 8 Tablet (8\" HD Display, 16 GB) - Black',NULL,'Fire HD 8 Tablet',79.9,9,'A',1012,'/images/Fire HD 8 Tablet.jpg');
 
 INSERT INTO happymall.resource 
 VALUES (5000,'2019-10-11 00:00:00',NULL,'2019-10-12 00:00:00',4000),
