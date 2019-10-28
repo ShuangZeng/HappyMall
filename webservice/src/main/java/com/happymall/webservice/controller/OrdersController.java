@@ -2,6 +2,8 @@ package com.happymall.webservice.controller;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.happymall.webservice.domain.Orders;
+import com.happymall.webservice.service.EmailService;
 import com.happymall.webservice.service.OrderService;
 
 @RestController
@@ -23,16 +26,42 @@ public class OrdersController {
 
 	@Autowired
 	OrderService os;
+	
+	@Autowired
+	EmailService es;
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
 	// All creating order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void processAddNewOrder(@RequestBody Orders orderToBeAdded) {
+	@RequestMapping(value = "/addNew", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void processAddNewOrder(@RequestBody Orders orderToBeAdded) throws MessagingException {
 		os.addOrder(orderToBeAdded);
+	}
+	
+	@RequestMapping(value = "/addNewWithNotification", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void processAddNewOrderWithNotification(@RequestBody Orders orderToBeAdded) {
+		try {
+			os.addOrder(orderToBeAdded);
+			es.notifyBuyerOfPurchase(orderToBeAdded);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/sendNotification", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void processSendNotification(@RequestBody Orders order) {
+		try {
+			es.notifyBuyerOfPurchase(order);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// End Create-------------------------------------------------------------------------------

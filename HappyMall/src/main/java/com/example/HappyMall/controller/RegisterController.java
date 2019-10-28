@@ -103,8 +103,8 @@ public class RegisterController {
             
             //Create a new order
 			Address address = addressService.getAddressDefaultByUserId(user.getId());
-			Orders orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
-			ordersService.save(orders);
+			Orders orders = new Orders(user, "", address, address, "ShoppingCart");
+			ordersService.addOrder(orders);
 ////
             ModelAndView mv = new ModelAndView("redirect:/login");
             return mv;

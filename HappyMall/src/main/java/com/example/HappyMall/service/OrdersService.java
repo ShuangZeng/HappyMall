@@ -19,6 +19,10 @@ public interface OrdersService {
 	// -----------------------------------------------------------------------------------------
 
 	void addOrder(Orders order);
+	
+	void addWithSendingEmail(Orders order);
+	
+	void sendNotification(Orders order);
 
 	// End
 	// Create-----------------------------------------------------------------------------------
@@ -53,7 +57,7 @@ public interface OrdersService {
 
 	Orders requestToRefundOrder(int orderId);
 
-	void save(Orders orders);
+	void save(Orders order);
 
 	// End Update-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------

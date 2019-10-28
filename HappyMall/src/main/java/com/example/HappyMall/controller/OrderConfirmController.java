@@ -123,6 +123,9 @@ public class OrderConfirmController {
 			orders.setStatus("Completed");
 			ordersService.save(orders);
 			System.out.println("Finish a payment");
+			
+			// Sending out email notification
+			ordersService.sendNotification(orders);
 	
 			System.out.println("Update the product's quantity in the inventory");
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
@@ -137,7 +140,7 @@ public class OrderConfirmController {
 			// Create new order for user with the order's status is "New"
 			System.out.println("Create a new order");
 			Address address = addressService.getAddressDefaultByUserId(user.getId());
-			newOrder = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+			newOrder = new Orders(user, "", address, address, "ShoppingCart");
 			ordersService.save(newOrder);
 			System.out.println("Finish a new order");
 		

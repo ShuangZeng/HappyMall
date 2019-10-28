@@ -84,6 +84,24 @@ public class OrderServiceImpl implements OrdersService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void addWithSendingEmail(Orders order) {
+		try {
+			ors.addWithSendingEmail(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void sendNotification(Orders order) {
+		try {
+			ors.sendNotification(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	// End Create-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
