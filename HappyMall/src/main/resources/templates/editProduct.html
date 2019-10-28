@@ -10,7 +10,7 @@
 		<h1>Edit Product</h1>
 		<br />
 		<form action="#" th:action="@{/products/updateProduct}" th:object="${product}"
-			method="post">
+			method="post" enctype="multipart/form-data">
 
 			<table border="0" cellpadding="10">
 				<tr>
@@ -35,6 +35,7 @@
 					<td><input type="text" th:field="*{quantity}" /></td>
 				</tr>
 				<tr>
+					<td colspan="2"><input type="file" name="productImage" />
 					<td><button type="submit">Save</button></td>
 				</tr>
 			</table>

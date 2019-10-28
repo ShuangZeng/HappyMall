@@ -35,8 +35,16 @@ public class EditAcountController {
 	@GetMapping(value = "/account")
 	public String getAccount(Model model,HttpSession session){
 		User user = (User)model.asMap().get("user");
-		List<Address> listAddress = addressService.findByUserId(user.getId());
-		model.addAttribute("listAddress", listAddress);
+		List<Address> listAddress = null;
+		try {
+			listAddress = addressService.findByUserId(user.getId());	
+			model.addAttribute("listAddress", listAddress);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("error fetching address");
+		}
+		
 		return "editUser";		
 	}
 	

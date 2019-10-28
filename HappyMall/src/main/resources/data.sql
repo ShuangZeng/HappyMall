@@ -47,7 +47,7 @@ VALUES (6000,'A','2019-10-12 00:00:00','2019-10-11 00:00:00','$2a$10$AswL9uFisOg
 INSERT INTO happymall.product (id, create_date, description, modified_date, name, price, quantity, status, vendor_id, image_Url)
 
 VALUES (4000,'2019-10-11 00:00:00','Includes 20 pieces: cot, high chair, slide, and many accessories','2019-10-12 00:00:00','Calico Critters Baby Nursery Set',12.21,15,'A',1004,'/images/Calico Critters Baby Nursery Set.jpg'),
-		(4001,'2019-10-12 00:00:00','Simple setup with an included High Speed HDMI Cable',NULL,'Roku Express | Easy High Definition (HD)',26.99,9,'A',1005,'/images/Roku Express | Easy High Definition (HD).jpg'),
+		(4001,'2019-10-12 00:00:00','Simple setup with an included High Speed HDMI Cable',NULL,'Roku Express Easy High Definition (HD)',26.99,9,'A',1005,'/images/Roku Express Easy High Definition (HD).jpg'),
 		(4002,'2019-10-09 00:00:00','50% Cotton / 50% Polyester','2019-10-11 00:00:00','Hanes Men\'s Ecosmart Fleece Sweatshirt',16.99,41,'A',1006,'/images/Hanes Men Ecosmart Fleece Sweatshirt.jpg'),
 		(4003,'2019-10-12 00:00:00','This Barbie doll is dressed to dance the day away in a stage-ready ballerina costume',NULL,'Barbie Fairytale Ballerina Doll, Brunette',6.05,23,'A',1005,'/images/Barbie Fairytale Ballerina Doll Brunette.jpg'),
 		(4004,'2019-09-19 00:00:00','Series Ultra HD Smart TV with HDR and Alexa Compatibility (2019 Model)','2019-10-12 00:00:00','Samsung UN55RU7100FXZA Flat 55-Inch 4K UHD 7',988,10,'D',1005,'/images/Samsung UN55RU7100FXZA Flat 55-Inch 4K UHD 7.jpg'),
