@@ -90,9 +90,9 @@ public class RegisterController {
         	System.out.println(user);
         	int roleId = user.getRole().getId();
             
-            if(roleId == 1) {
+            if(roleId == 1 || roleId == 2) {
             	user.setActive_Ind('A');
-            }else if(roleId == 2 || roleId ==3) {
+            }else if(roleId ==3) {
             	user.setActive_Ind('U');
             }
             user.setCreateDate(new Date());

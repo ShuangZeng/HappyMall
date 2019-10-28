@@ -156,7 +156,7 @@
 							<td>Address: <span class="info" id="shippingAddress"
 								th:text="${orders}?*{shippingAddress}"></span> <span
 								style="visibility: hidden" id="shippingId"
-								th:text="${orders}?*{shippingAddress.id}"></span>
+								th:text="${orders}?(*{shippingAddress}?*{shippingAddress.id})"></span>
 								<div class="float-right">
 									<a id="btnEditShippingAddress" href="#" data-toggle="modal"
 										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
@@ -190,7 +190,7 @@
 							<td>Billing Address: <span class="info" id="billingAddress"
 								th:text="${orders}?*{billingAddress}"></span> <span
 								style="visibility: hidden" id="billingId"
-								th:text="${orders}?*{billingAddress.id}"></span>
+								th:text="${orders}?(*{billingAddress}?*{billingAddress.id})"></span>
 								<div class="float-right">
 									<a id="btnEditBillingAddress" href="#" data-toggle="modal"
 										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
