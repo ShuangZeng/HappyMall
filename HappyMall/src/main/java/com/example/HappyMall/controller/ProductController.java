@@ -91,8 +91,8 @@ public class ProductController {
 		if (productImage != null && !productImage.isEmpty()) { 
 			try { 
 				byte[] bytes = productImage.getBytes();
-				productImage.transferTo( new File("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
-		        path = Paths.get("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
+				productImage.transferTo( new File("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
+		        path = Paths.get("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
 		        Files.write(path, bytes);
 				System.out.println("Image Transfered to "+ path.toString());
 			} 
@@ -117,8 +117,8 @@ public class ProductController {
 		if (productImage != null && !productImage.isEmpty()) { 
 			try { 
 				byte[] bytes = productImage.getBytes();
-				productImage.transferTo( new File("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
-		        path = Paths.get("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
+				productImage.transferTo( new File("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
+		        path = Paths.get("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
 		        Files.write(path, bytes);
 				System.out.println("Image Transfered to "+ path.toString());
 			} 

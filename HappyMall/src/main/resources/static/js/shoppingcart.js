@@ -223,7 +223,7 @@ function createCardDetail() {
       datatype: "json",
       success: function(cardDetail){
     	  console.log("card: " + cardDetail);
-    	  if(cardDetail != null)
+    	  if(cardDetail != null && cardDetail != "")
     	  {
     		  setInterval('location.reload()', 500);
     	  }

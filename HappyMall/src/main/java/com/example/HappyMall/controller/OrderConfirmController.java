@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.HappyMall.domain.Address;
+import com.example.HappyMall.domain.CardDetail;
 import com.example.HappyMall.domain.OrderLine;
 import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.domain.Payment;
@@ -123,9 +124,12 @@ public class OrderConfirmController {
 			orders.setStatus("Completed");
 			ordersService.save(orders);
 			System.out.println("Finish a payment");
+			CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(user.getId());
+			cardDetail.setRemainingValue(cardDetail.getRemainingValue() - orders.getTotal());
+			cardDetailService.save(cardDetail);
 			
 			// Sending out email notification
-			ordersService.sendNotification(orders);
+			//ordersService.sendNotification(orders);
 	
 			System.out.println("Update the product's quantity in the inventory");
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
@@ -150,7 +154,6 @@ public class OrderConfirmController {
 			e.printStackTrace();
 		}
 
-		model.addAttribute("orders", newOrder);
 		return "redirect:/index";
 	}
 }
