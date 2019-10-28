@@ -24,10 +24,10 @@ public class CardDetailController {
 	@Autowired
 	CardDetailService cardDetailService;
 	
-	@RequestMapping({"","/all"})
-	public List<CardDetail> list(Model model) {
+	@RequestMapping("/all/{id}")
+	public List<CardDetail> list(Model model, @PathVariable("id") int userId) {
  		
-		return  cardDetailService.getAllCardDetails();
+		return  cardDetailService.findCardByUser(userId);
 	}
 	
 	@GetMapping("/{id}")
@@ -64,10 +64,20 @@ public class CardDetailController {
 		return  cardDetailService.findCardByUser(userId);
 	}
 	
+	@RequestMapping("/default/{id}")
+	public CardDetail findDefaultCardByUser(@PathVariable("id") int userId) {
+ 		
+		return  cardDetailService.findDefaultCardByUser(userId);
+	}
+	
 	@RequestMapping(value = "/is-valid", method = RequestMethod.POST)
-	public Boolean isCardValid(@RequestBody CardDetail cardDetail) {
+	public CardDetail isCardValid(@RequestBody CardDetail cardDetail) {
 		
-		return cardDetailService.isCardValid(cardDetail);
+		Boolean flag = cardDetailService.isCardValid(cardDetail);
+		if(flag)
+			return cardDetail;
+		
+		return null;
 	}
 
 }

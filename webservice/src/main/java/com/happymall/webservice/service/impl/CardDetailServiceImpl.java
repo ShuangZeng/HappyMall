@@ -64,4 +64,10 @@ public class CardDetailServiceImpl implements CardDetailService {
 		return mockServerDao.isCardValid(cardDetail);
 	}
 
+	@Override
+	public CardDetail findDefaultCardByUser(int id) {
+		
+		return cardDetailDao.findDefaultCardByUser(id);
+	}
+
 }

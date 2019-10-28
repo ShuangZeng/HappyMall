@@ -7,6 +7,7 @@ import com.happymall.webservice.domain.CardDetail;
 public interface CardDetailService {
 	
 	List<CardDetail> findCardByUser(int id);
+	CardDetail findDefaultCardByUser(int id);
 	List<CardDetail> getAllCardDetails();
 	CardDetail getCardDetail(int id);
 	void addCardDetail(CardDetail cardDetail);

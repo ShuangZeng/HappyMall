@@ -28,5 +28,12 @@ public class CardDetailDaoImpl extends GenericDaoImpl<CardDetail> implements Car
 		Query query = entityManager.createQuery("select c from CardDetail c join c.user u  where u.id  =:id");
 		return (List<CardDetail>) query.setParameter("id", id).getResultList();
 	}
+
+	@Override
+	public CardDetail findDefaultCardByUser(int id) {
+		
+		Query query = entityManager.createQuery("select c from CardDetail c join c.user u  where u.id  =:id and c.default_card =:flag");
+		return (CardDetail) query.setParameter("id", id).setParameter("flag", true).getSingleResult();
+	}
 	
 }
