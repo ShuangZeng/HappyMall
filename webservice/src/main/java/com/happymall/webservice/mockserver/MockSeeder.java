@@ -57,6 +57,8 @@ public class MockSeeder {
 	    			mock.setValue(Double.parseDouble(nextRecord[2]));
 	    			mock.setRemainingValue(Double.parseDouble(nextRecord[3]));
 	    			String cvv = (int)(Math.random() *1000) + "";
+	    			if(cvv.length() == 1) cvv = "00"+cvv;
+	    			if(cvv.length() == 2) cvv = "0"+cvv;
 	    			mock.setCvv(cvv);
 	    			mock.setIssuedDate(new Date());
 	    			mock.setExpiredDate(new Date());
