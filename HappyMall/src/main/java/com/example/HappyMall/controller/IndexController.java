@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -66,6 +68,7 @@ public class IndexController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
+		System.out.println(user);
 		modelAndView.addObject("user", user);
 		modelAndView.addObject("product", new Product());
 
@@ -122,8 +125,8 @@ public class IndexController {
 //		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 6)));
 //		model.addAttribute("currentPage", page);
 		List<Product> products = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
-				.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList());
-		products.forEach(p -> p.getImageUrl());
+				.filter(p -> !p.getStatus().equals("D")).filter(p -> !p.getStatus().equals("U")).collect(Collectors.toList());
+		// products.forEach(p -> p.getImageUrl());
 		model.addAttribute("productList", products);
 		return "index";
 	}
@@ -133,7 +136,7 @@ public class IndexController {
 		model.addAttribute("product", new Product());
 		return "advancedSearchProducts";
 	}
-	
+
 	@GetMapping(value = "/index/searchResult")
 	public String searchResult(Model model, @RequestParam String productName) {
 		List<Product> productList = null;
@@ -159,8 +162,7 @@ public class IndexController {
 					&& (p.getPrice() > Double.parseDouble(productPrice) - 10)));
 			Predicate<Product> checkVendor = p -> p.getVendor().getFullName().equals(productVendor);
 			productList = productService.getProductsByName(productName).stream()
-					.filter(checkValid.and(checkPrice).and(checkVendor))
-					.collect(Collectors.toList());
+					.filter(checkValid.and(checkPrice).and(checkVendor)).collect(Collectors.toList());
 			productList.forEach(p -> System.out.println(p.getName()));
 		} catch (Exception e) {
 			productList = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
@@ -180,11 +182,17 @@ public class IndexController {
 			addToCartByGuest(id, model);
 		} else {
 			System.out.println("User: " + user.getEmail());
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			// Get orders by user. If does not exist, create new orders for user
+			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
+			Orders orders = null;
+			if (listOrdersNew != null && listOrdersNew.size() > 0) {
+				orders = listOrdersNew.get(0);
+			} 
 			// create new Order if it does not exist
 			if (orders == null) {
 				Address address = addressService.getAddressDefaultByUserId(user.getId());
 				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+				ordersService.save(orders);
 			}
 			// Process for Order_line
 			addToCartByEndUser(id, user, orders);

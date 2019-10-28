@@ -31,13 +31,13 @@
 				<!-- <form th:action="@{/search/searchResult}" method="get" class="float-right" id="formShoppingcartBtn">
 					<input class="btn btn-primary" type="submit" value="Search"/>
 				</form> -->
-				<a href="/index/advancedSearchProduct" align="center"><h3>Advanced Search</h3></a>
 				<form th:action="@{/index/searchResult}" th:object="${product}"
 						method="GET">
 						<input type="text" name="productName" th:value="${product}?${product.name}" />
 						<input class="btn btn-success btn-xs" type="submit"
 							value="Search Product">
 				</form>
+				<h5><a href="/index/advancedSearchProduct">Advanced Search</a></h5>
 				<form th:action="@{/shoppingcart}" method="get" class="float-right" id="formShoppingcartBtn">
 					<input class="btn btn-secondary" type="submit" value="Shopping Cart"/>
 				</form>

@@ -14,6 +14,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Vendor</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 </head>
 <body style="text-align: center;">
 	<header th:insert="header :: navbar"> </header>
@@ -50,6 +51,11 @@
 				<h3>List of products:</h3>
 			</div>
 		</div>
+
+		<form th:action="@{/products/admin/newProduct}" method="GET">
+			<input class="btn btn-default btn-xs" type="submit"
+				value="New Product">
+		</form>
 
 
 		<table class="table table-hover " style="display: inline">

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.HappyMall.domain.Address;
 
+//ThaoDao created and edited
 @Repository
 @Transactional
 public interface AddressRepository extends  JpaRepository<Address, Integer>  {

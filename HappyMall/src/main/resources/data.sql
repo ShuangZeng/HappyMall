@@ -47,7 +47,7 @@ VALUES (6000,'A','2019-10-12 00:00:00','2019-10-11 00:00:00','$2a$10$AswL9uFisOg
 INSERT INTO happymall.product (id, create_date, description, modified_date, name, price, quantity, status, vendor_id, image_Url)
 
 VALUES (4000,'2019-10-11 00:00:00','Includes 20 pieces: cot, high chair, slide, and many accessories','2019-10-12 00:00:00','Calico Critters Baby Nursery Set',12.21,15,'A',1004,'/images/Calico Critters Baby Nursery Set.jpg'),
-		(4001,'2019-10-12 00:00:00','Simple setup with an included High Speed HDMI Cable',NULL,'Roku Express | Easy High Definition (HD)',26.99,9,'A',1005,'/images/Roku Express | Easy High Definition (HD).jpg'),
+		(4001,'2019-10-12 00:00:00','Simple setup with an included High Speed HDMI Cable',NULL,'Roku Express Easy High Definition (HD)',26.99,9,'A',1005,'/images/Roku Express Easy High Definition (HD).jpg'),
 		(4002,'2019-10-09 00:00:00','50% Cotton / 50% Polyester','2019-10-11 00:00:00','Hanes Men\'s Ecosmart Fleece Sweatshirt',16.99,41,'A',1006,'/images/Hanes Men Ecosmart Fleece Sweatshirt.jpg'),
 		(4003,'2019-10-12 00:00:00','This Barbie doll is dressed to dance the day away in a stage-ready ballerina costume',NULL,'Barbie Fairytale Ballerina Doll, Brunette',6.05,23,'A',1005,'/images/Barbie Fairytale Ballerina Doll Brunette.jpg'),
 		(4004,'2019-09-19 00:00:00','Series Ultra HD Smart TV with HDR and Alexa Compatibility (2019 Model)','2019-10-12 00:00:00','Samsung UN55RU7100FXZA Flat 55-Inch 4K UHD 7',988,10,'D',1005,'/images/Samsung UN55RU7100FXZA Flat 55-Inch 4K UHD 7.jpg'),
@@ -101,13 +101,13 @@ VALUES (2000,'Abington','2019-10-12 00:00:00',1,'777 Brockton Avenue',NULL,'2019
 		 (2020,'Fairfield','2019-10-12 00:00:00',0,'2000 N Court',NULL,'2019-10-12 00:00:00','IA','52556',1000);
 
 INSERT INTO happymall.card_detail (id, active_ind, card_number, create_date, expired_date, issued_date, modified_date, name_on_card, remaining_value, `type`, `value`, address_id, user_id, default_card)
-VALUES (3000,'A','4532904476883190','2019-10-11 00:00:00','2025-06-15 00:00:00','2019-10-10 00:00:00','2019-10-12 00:00:00','Gauge Tran',1000,'VISA',500,2000,1000, 1),
-		(3001,'A','4907313621537770','2019-10-10 00:00:00','2019-12-12 00:00:00','2019-10-10 00:00:00','2019-10-12 00:00:00','Brooks Griffin',5000,'VISA',1500,2001,1001, 1),
-		(3002,'A','4692200350707520','2019-10-10 00:00:00','2021-12-07 00:00:00','2019-10-04 00:00:00','2019-10-12 00:00:00','Camren Richmond',2500,'VISA',160.5,2002,1002, 1),
-		(3003,'A','4692200350707520','2019-10-09 00:00:00','2021-07-04 00:00:00','2018-09-19 00:00:00','2019-10-12 00:00:00','Ciara Cooke',900,'VISA',1239.06,2003,1003, 1),
-		(3004,'A','4692200350707520','2019-10-10 00:00:00','2022-10-20 00:00:00','2017-06-08 00:00:00','2019-10-12 00:00:00','Aleena Mclean',1200,'VISA',85.49,2004,1004, 1),
-		(3005,'A','4454902576470230','2019-10-10 00:00:00','2023-11-15 00:00:00','2018-08-08 00:00:00','2019-10-11 00:00:00','Mareli Rich',1400,'VISA',106.97,2005,1005, 1),
-		(3006,'A','5858585858588585','2019-10-10 00:00:00','2021-05-01 00:00:00','2017-06-08 00:00:00','2019-10-12 00:00:00','Aleena Mclean',1200,'MASTER',85.49,2004,1000, 0);
+VALUES (3000,'A','4532904476883190','2019-10-11 00:00:00','2025-06-15 00:00:00','2019-10-10 00:00:00','2019-10-12 00:00:00','Gauge Tran',1000,'Visacard',500,2000,1000, 1),
+		(3001,'A','4907313621537770','2019-10-10 00:00:00','2019-12-12 00:00:00','2019-10-10 00:00:00','2019-10-12 00:00:00','Brooks Griffin',5000,'Visacard',1500,2001,1001, 1),
+		(3002,'A','4692200350707520','2019-10-10 00:00:00','2021-12-07 00:00:00','2019-10-04 00:00:00','2019-10-12 00:00:00','Camren Richmond',2500,'Visacard',160.5,2002,1002, 1),
+		(3003,'A','4692200350707520','2019-10-09 00:00:00','2021-07-04 00:00:00','2018-09-19 00:00:00','2019-10-12 00:00:00','Ciara Cooke',900,'Visacard',1239.06,2003,1003, 1),
+		(3004,'A','4692200350707520','2019-10-10 00:00:00','2022-10-20 00:00:00','2017-06-08 00:00:00','2019-10-12 00:00:00','Aleena Mclean',1200,'Visacard',85.49,2004,1004, 1),
+		(3005,'A','4454902576470230','2019-10-10 00:00:00','2023-11-15 00:00:00','2018-08-08 00:00:00','2019-10-11 00:00:00','Mareli Rich',1400,'Visacard',106.97,2005,1005, 1),
+		(3006,'A','5858585858588585','2019-10-10 00:00:00','2021-05-01 00:00:00','2017-06-08 00:00:00','2019-10-12 00:00:00','Aleena Mclean',1200,'Mastercard',85.49,2004,1000, 0);
 
 INSERT INTO happymall.orders (id, create_date, modified_date, order_code, service_fee, `status`, sub_total, tax, total, billing_address_id, shipping_address_id, user_id)
 VALUES (9000,'2019-10-11 00:00:00',NULL,'od01',500.74,'Returned',2002.99,140.2,2143.19,2000, 2000, 1000),

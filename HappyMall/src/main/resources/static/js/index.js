@@ -1,5 +1,5 @@
 /**
- * 
+ * ThaoDao created and edited
  */
 
 $(document).ready(function() {	

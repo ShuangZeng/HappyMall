@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.HappyMall.domain.CardDetail;
 
-
+//ThaoDao created and edited
 public interface CardDetailService {
 
 	List<CardDetail> findByUserIdAndActiveInd(int userId, char active_ind);

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.HappyMall.domain.Payment;
@@ -15,6 +17,8 @@ import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.rest.RestHttpHeader;
 import com.example.HappyMall.rest.service.PaymentRestService;
 
+@Service
+@Transactional
 public class PaymentRestServiceImpl implements PaymentRestService {
 	
 	@Autowired

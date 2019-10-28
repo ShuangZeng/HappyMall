@@ -1,39 +1,57 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8" />
+<base target="_blank" />
+<meta charset="ISO-8859-1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Create New Product</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 </head>
-<body>
-    <div align="center">
-        <h1>Create New Product</h1>
-        <br />
-        <form action="#" th:action="@{/products/saveProduct}" th:object="${product}"
-            method="post">
- 
-            <table border="0" cellpadding="10">
-                <tr>
-                    <td>Product Name:</td>
-                    <td><input type="text" th:field="*{name}" /></td>
-                </tr>
-                <tr>
-                    <td>Description:</td>
-                    <td><input type="text" th:field="*{description}" /></td>
-                </tr>
-                <tr>
-                    <td>Price:</td>
-                    <td><input type="text" th:field="*{price}" /></td>
-                </tr>
-                <tr>
-                    <td>Quantity:</td>
-                    <td><input type="text" th:field="*{quantity}" /></td>
-                </tr>                            
-                <tr>
-                    <td colspan="2"><button type="submit">Save</button> </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+<body style="text-align: center;">
+	<header th:insert="header :: navbar"> </header>
+	<div align="center">
+		<h1>Create New Product</h1>
+		<br />
+		<form action="#" th:action="@{/products/saveProduct}"
+			th:object="${product}" method="post" enctype="multipart/form-data">
+
+			<table border="0" cellpadding="10">
+				<tr>
+					<td>Product Name:</td>
+					<td><input type="text" th:field="*{name}" /></td>
+				</tr>
+				<tr>
+					<td>Description:</td>
+					<td><input type="text" th:field="*{description}" /></td>
+				</tr>
+				<tr>
+					<td>Price:</td>
+					<td><input type="text" th:field="*{price}" /></td>
+				</tr>
+				<tr>
+					<td>Quantity:</td>
+					<td><input type="text" th:field="*{quantity}" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="file" name="productImage"/>
+					<td colspan="2"><button type="submit" value="save">Save</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+		</br>
+		</br>
+		</br>
+		</br>
+	<footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>

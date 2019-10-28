@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.HappyMall.domain.SystemConfig;
 
+//ThaoDao created and edited
 public interface SystemConfigService {
 
 	void save (SystemConfig systemConfig);

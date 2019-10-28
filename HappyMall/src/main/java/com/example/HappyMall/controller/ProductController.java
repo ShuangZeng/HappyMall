@@ -1,7 +1,16 @@
 package com.example.HappyMall.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -13,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +36,9 @@ import com.example.HappyMall.service.ProductService;
 @RequestMapping({ "/products" })
 public class ProductController {
 
+	@Autowired
+	ServletContext context;
+	
 	@Autowired
 	private ProductService productService;
 
@@ -68,11 +81,30 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("product") Product product, Model model) {
-		User user = (User) model.asMap().get("user");
+	public String saveProduct(@ModelAttribute("product") Product product, @RequestParam("productImage") MultipartFile productImage,
+			Model model) throws IOException {
+
+		String rootDirectory = context.getRealPath("/HappyMall/src/main/resources/static/images/");
+		System.out.println(rootDirectory);
+		User user = (User) model.asMap().get("user");		
+		if (productImage != null && !productImage.isEmpty()) { 
+			try { 
+				byte[] bytes = productImage.getBytes();
+				productImage.transferTo( new File(rootDirectory + productImage.getOriginalFilename())); 
+		        Path path = Paths.get(rootDirectory + productImage.getOriginalFilename());
+		        Files.write(path, bytes);
+				System.out.println("Image Transfered");
+			} 
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("File not found");
+			}
+		}
+		product.setImageUrl(rootDirectory + productImage.getOriginalFilename());
+		System.out.println(rootDirectory + productImage.getOriginalFilename());
 		product.setVendor(user);
 		productService.addProduct(product);
-		return "redirect:/products/admin/update/";
+		return "redirect:/vendor/";
 	}
 
 //	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
@@ -80,6 +112,13 @@ public class ProductController {
 //	    productService.addProduct(product);
 //	    return "redirect:/products/admin/update";
 //	}
+//	
+//	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
+//    public void importParse(@RequestParam("myFile") MultipartFile myFile) {
+//         // ... do whatever you want with 'myFile'
+//         // Redirect to a successful upload page
+////         return "redirect:products/admin/newProduct";
+//    }
 
 	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
 	public String updateProduct(@ModelAttribute("product") Product product) {
@@ -101,13 +140,12 @@ public class ProductController {
 	}
 
 	@GetMapping(value = "/admin/update/delete")
-	public String deleteProduct(Model model, @RequestParam String productId){
+	public String deleteProduct(Model model, @RequestParam String productId) {
 		Product p = new Product();
 		p.setId(Integer.valueOf(productId));
 		productService.deleteProduct(p);
 		return "redirect:/products/admin/update";
 	}
-	
 
 	@GetMapping(value = "/admin/products")
 	public String getProductsList(Model model, Authentication authentication) {

@@ -1,5 +1,5 @@
 /**
- * 
+ * ThaoDao created and edited
  */
 $("document").ready(function(){
 	$(".table .eBtn").click(function(event){

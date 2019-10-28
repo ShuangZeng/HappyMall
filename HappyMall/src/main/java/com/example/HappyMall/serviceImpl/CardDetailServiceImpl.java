@@ -9,6 +9,7 @@ import com.example.HappyMall.domain.CardDetail;
 import com.example.HappyMall.repository.CardDetailRepository;
 import com.example.HappyMall.service.CardDetailService;
 
+//ThaoDao created and edited
 @Service
 public class CardDetailServiceImpl implements CardDetailService{
 

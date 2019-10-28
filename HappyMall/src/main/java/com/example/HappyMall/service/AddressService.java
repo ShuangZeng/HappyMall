@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.HappyMall.domain.*;
 
-
+//ThaoDao created and edited
 public interface AddressService {
 	List<Address> findByUserId(int userId);
 	Address getAddressDefaultByUserId(int userId);

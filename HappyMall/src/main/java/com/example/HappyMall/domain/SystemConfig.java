@@ -1,5 +1,8 @@
 package com.example.HappyMall.domain;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -59,12 +62,22 @@ public class SystemConfig {
 		this.tax = tax;
 	}
 		
+	public String getAppliedDateString() {
+		SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+		return formatter.format(appliedDate);
+	}
+	
 	public Date getAppliedDate() {
 		return appliedDate;
 	}
 
 	public void setAppliedDate(Date appliedDate) {
 		this.appliedDate = appliedDate;
+	}
+
+	public String getCreateDateString() {
+		SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+		return formatter.format(createDate);
 	}
 
 	public Date getCreateDate() {
@@ -96,4 +109,12 @@ public class SystemConfig {
 		this.createDate = new Date();
 		this.appliedDate = appliedDate;
 	}
+
+	@Override
+	public String toString() {
+		return "SystemConfig [id=" + id + ", serviceFee=" + serviceFee + ", tax=" + tax + ", appliedDate=" + appliedDate
+				+ ", createDate=" + createDate + ", modifiedDate=" + modifiedDate + "]";
+	}
+	
+	
 }
