@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.HappyMall.domain.OrderLine;
 
+//ThaoDao created and edited
 public interface OrderLineService {
 	List<OrderLine> findByOrdersId (int ordersId);
 	

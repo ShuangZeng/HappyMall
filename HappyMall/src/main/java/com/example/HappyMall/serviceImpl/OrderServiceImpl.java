@@ -30,6 +30,7 @@ public class OrderServiceImpl implements OrdersService {
 	@Autowired
 	OrderRestService ors;
 
+	//ThaoDao created and edited some functions below
 	@Override
 	public Orders findByStatus(String status) {
 		// TODO Auto-generated method stub
@@ -69,6 +70,7 @@ public class OrderServiceImpl implements OrdersService {
 		}
 		return orders;
 	}
+	//_________________________//
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.example.HappyMall.domain.SystemConfig;
 import com.example.HappyMall.service.SystemConfigService;
 
+//ThaoDao created and edited
 @Controller
 public class SystemConfigController {
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.HappyMall.domain.*;
 import com.example.HappyMall.service.*;
 
+//ThaoDao created and edited
 @Controller
 @SessionAttributes({ "user", "listItem" })
 public class ShoppingCartController {
@@ -200,8 +201,8 @@ public class ShoppingCartController {
 	}
 
 	@PostMapping("/shoppingcart/createCardDetail")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void createCard(@Valid @RequestBody CardDetail cardDetail, BindingResult result, Model model) {
+	//@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public @ResponseBody CardDetail createCard(@Valid @RequestBody CardDetail cardDetail, BindingResult result, Model model) {
 		try
 		{
 			if (!result.hasErrors()) {
@@ -220,13 +221,16 @@ public class ShoppingCartController {
 				listCard.add(cardDetail);
 				cardDetailService.saveAll(listCard);
 				System.out.println("Card has been created");
+				return cardDetail;
 			} else {
 				System.out.println("Sorry, an error has occur. Card has not been created.");
+				return null;
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			return null;
 		}
 	}
 

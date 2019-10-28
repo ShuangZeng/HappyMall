@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.HappyMall.domain.OrderLine;
 
+//ThaoDao created and edited
 @Repository
 @Transactional
 public interface OrderLineRepository extends  JpaRepository<OrderLine, Integer>, ShoppingCartRepository  {

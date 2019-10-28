@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.HappyMall.domain.SystemConfig;
 
+//ThaoDao created and edited
 @Repository
 @Transactional
 public interface SystemConfigRepository extends  JpaRepository<SystemConfig, Integer> {

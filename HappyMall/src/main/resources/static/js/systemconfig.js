@@ -1,9 +1,9 @@
 /**
- * 
+ * ThaoDao created and edited
  */
 $("document").ready(function(){
 	
-	$("#createDate, #appliedDate").datepicker({
+	$("#appliedDate").datepicker({
 	    format: "mm-dd-yyyy",
 	    startDate: new Date(),
 	    autoclose: true
@@ -21,7 +21,7 @@ $("document").ready(function(){
 		        console.log("Edit: " + systemConfig);
 				$("#id").val(systemConfig.id);
 				//$("#createDate").val(systemConfig.createDateString);
-				$("#createDate").datepicker('update', systemConfig.createDateString);
+				$("#createDate").val(systemConfig.createDateString);
 				//$("#appliedDate").val(systemConfig.appliedDateString);
 				$("#appliedDate").datepicker('update', systemConfig.appliedDateString);
 				$("#tax").val(systemConfig.tax);
@@ -29,13 +29,25 @@ $("document").ready(function(){
 			});
         }else
         {
+        	let date = new Date();
+        	let dateString = "";
+        	if(date.getMonth() < 10)
+        		dateString = "0" + date.getMonth();
+        	else
+        		dateString = date.getMonth();
+        	if(date.getDate() < 10)
+        		dateString = dateString + "-0" + date.getDate();
+        	else
+        		dateString = dateString + "-" + date.getDate();
+    		dateString = dateString + "-" + date.getFullYear();
+    		console.log(dateString);
         	$("#id").val('0');
-			$("#createDate").val('');
+			$("#createDate").val(dateString);
 			$("#appliedDate").val('');
 			$("#tax").val('');
 			$("#serviceFee").val('');
         }
-		$("#systemConfigModal").modal();
+		$("#systemConfigModal").modal('show');
 	});
 	
 	$(".table .dBtn").click(function(event){

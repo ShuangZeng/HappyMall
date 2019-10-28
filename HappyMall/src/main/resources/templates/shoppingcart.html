@@ -28,7 +28,7 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
 </head>
-<body>
+<body> <!-- ThaoDao created and edited -->
 	<header th:insert="header :: navbar"> </header>
 	<div class="container">
 		<H2 align="center">SHOPPING CART</H2>
@@ -425,12 +425,18 @@
 									<label for="cardNumber">Card Number:</label> <input type="text"
 										class="form-control" placeholder="Card number" id="cardNumber"
 										th:required="required"
-										pattern="^5[1-5]\d{14}$">
+										pattern="^5[1-5]\d{14}$" title="It should be a Master card's number.">
 								</div>
 								<div class="form-group">
 									<label for="expiredDate">Expired date:</label> 
 									<!-- <input type="month" class="form-control" id="expiredDate" th:required="required"> -->
 									<input type="text" class="form-control" id="expiredDate" placeholder="Select Date" th:required="required">
+								</div>
+								<div class="form-group">
+									<label for="cardCVV">CVV:</label> <input type="password"
+										class="form-control" placeholder="CVV number" id="cardCVV"
+										th:required="required"
+										pattern="^\d{3}$" title="It should have 3 numbers.">
 								</div>
 							</div>
 							<div class="input-group mb-3">

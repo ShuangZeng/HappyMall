@@ -9,6 +9,7 @@ import com.example.HappyMall.domain.SystemConfig;
 import com.example.HappyMall.repository.SystemConfigRepository;
 import com.example.HappyMall.service.SystemConfigService;
 
+//ThaoDao created and edited
 @Service
 public class SystemConfigServiceImpl implements SystemConfigService {
 

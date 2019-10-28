@@ -23,6 +23,7 @@ import com.example.HappyMall.service.PaymentService;
 import com.example.HappyMall.service.ProductService;
 import com.example.HappyMall.service.SystemConfigService;
 
+//ThaoDao created and edited
 @Controller
 @SessionAttributes({ "user"})
 public class OrderConfirmController {
@@ -50,50 +51,53 @@ public class OrderConfirmController {
 
 	@GetMapping("/shoppingcart/confirm")
 	public String getOrderConfirmPage(Model model) {
-		System.out.println("Load Order confirm page...");
-		User user = (User) model.asMap().get("user");
-		System.out.println("User: " + user);
-
-		if (user != null) {
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-			System.out.println("Orders: " + orders);
-
-			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
-			if (listOrderLine == null)
-				listOrderLine = new ArrayList<OrderLine>();
-			System.out.println("orderLine size: " + listOrderLine.size());
-
-			System.out.println("Check item's quantity for the list of items");
-			for (int i = 0; i < listOrderLine.size(); i++) {
-				Product product = listOrderLine.get(i).getProduct();
-				if (product.getQuantity() == 0) {
-					orderLineService.deleteByOrdersIdAndProductId(orders.getId(), product.getId());
-					listOrderLine.remove(i);
-				} else if (listOrderLine.get(i).getQuantity() > product.getQuantity()) {
-					System.out.println("update the item's quantity if it greater than product's quantity");
-					listOrderLine.get(i).setQuantity(product.getQuantity());
-				}
-			}
-			orderLineService.saveAll(listOrderLine);
-
-			SystemConfig systemConfig = systemConfigService.getToApplied();
-			ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-
-			System.out.println("reload new data for order");
-			Orders updatedOrders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-			System.out.println("Orders after updating: " + updatedOrders);
-
-			model.addAttribute("orders", updatedOrders);
-			model.addAttribute("listOrderLine", listOrderLine);
-			model.addAttribute("totalProduct", listOrderLine.size());
-			model.addAttribute("cardDetail", cardDetailService.getCardDefaultByUserId(user.getId()));
-		}
-		else
+		try
 		{
-			model.addAttribute("orders", null);
-			model.addAttribute("listOrderLine", null);
-			model.addAttribute("totalProduct", 0);
-			model.addAttribute("cardDetail", null);
+			System.out.println("Load Order confirm page...");
+			User user = (User) model.asMap().get("user");
+			System.out.println("User: " + user);
+	
+			if (user != null) {
+				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				System.out.println("Orders: " + orders);
+	
+				List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
+				if (listOrderLine == null)
+					listOrderLine = new ArrayList<OrderLine>();
+				System.out.println("orderLine size: " + listOrderLine.size());
+	
+				System.out.println("Check item's quantity for the list of items");
+				for (int i = 0; i < listOrderLine.size(); i++) {
+					Product product = listOrderLine.get(i).getProduct();
+					if (product.getQuantity() == 0) {
+						orderLineService.deleteByOrdersIdAndProductId(orders.getId(), product.getId());
+						listOrderLine.remove(i);
+					} else if (listOrderLine.get(i).getQuantity() > product.getQuantity()) {
+						System.out.println("update the item's quantity if it greater than product's quantity");
+						listOrderLine.get(i).setQuantity(product.getQuantity());
+					}
+				}
+				orderLineService.saveAll(listOrderLine);
+	
+				SystemConfig systemConfig = systemConfigService.getToApplied();
+				orders = ordersService.updateMoneyByOrders_New(orders, systemConfig);
+	
+				model.addAttribute("orders", orders);
+				model.addAttribute("listOrderLine", listOrderLine);
+				model.addAttribute("totalProduct", listOrderLine.size());
+				model.addAttribute("cardDetail", cardDetailService.getCardDefaultByUserId(user.getId()));
+			}
+			else
+			{
+				model.addAttribute("orders", null);
+				model.addAttribute("listOrderLine", null);
+				model.addAttribute("totalProduct", 0);
+				model.addAttribute("cardDetail", null);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 
 		return "orderconfirm";

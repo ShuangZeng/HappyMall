@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.repository.ShoppingCartRepository;
 
+//ThaoDao created and edited
 @Repository
 @Transactional
 public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {

@@ -6,12 +6,12 @@ import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.domain.SystemConfig;
 
 public interface OrdersService {
+	//ThaoDao created and edited
 	Orders findByStatus(String status);
-
 	List<Orders> findByStatusAndUserId(String status, int userId);
-
 	void updateMoneyByOrdersId(int orderId, int tax, int serviceFee);
 	Orders updateMoneyByOrders_New(Orders orders, SystemConfig systemConfig);
+	//________________________//
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------

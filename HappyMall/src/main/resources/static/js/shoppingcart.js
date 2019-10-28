@@ -1,5 +1,5 @@
 /**
- * 
+ * ThaoDao created and edited
  */
 
 $(document).ready(function() {
@@ -220,8 +220,14 @@ function createCardDetail() {
       contentType: "application/json",
       data: JSON.stringify(card),
       datatype: "json",
-      success: function(){
-    	  setInterval('location.reload()', 500);
+      success: function(cardDetail){
+    	  if(cardDetail != null)
+    	  {
+    		  alert(cardDetail.cardNumber);
+    		  return false;
+    	  }
+    	  else
+    		  setInterval('location.reload()', 500);
       },  
       error: function(e){          
       	alert('Error: ' + e);  
