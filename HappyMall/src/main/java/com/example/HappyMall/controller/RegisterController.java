@@ -58,13 +58,6 @@ public class RegisterController {
         roleList.add(role1);
         System.out.println(roleList);
         
-        Role role2 = new Role();
-        role2.setId(3);
-        role2.setRole("Customer");
-        roleList.add(role2);
-        System.out.println(roleList);
-        
-        
         modelAndView.addObject("roleList", roleList);
         
         modelAndView.setViewName("register");
