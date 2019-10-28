@@ -207,21 +207,28 @@ public class ShoppingCartController {
 		{
 			if (!result.hasErrors()) {
 				System.out.println("Create card detail");
-				User user = (User) model.asMap().get("user");
-				Address address = cardDetail.getAddress();
-				addressService.save(address);
-				List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
-				for (CardDetail item : listCard)
-					item.setDefault_card(false);
-				cardDetail.setDefault_card(true);
-				cardDetail.setAddress(address);
-				cardDetail.setUser(user);
-				cardDetail.setCreateDate(new Date());
-				cardDetail.setActive_Ind('A');
-				listCard.add(cardDetail);
-				cardDetailService.saveAll(listCard);
-				System.out.println("Card has been created");
-				return cardDetail;
+				//Check isValid()
+				System.out.println("Card Detail: " + cardDetail);
+//				if (cardDetailService.isCardValid(cardDetail))
+//				{
+					User user = (User) model.asMap().get("user");
+					Address address = cardDetail.getAddress();
+					addressService.save(address);
+					List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
+					for (CardDetail item : listCard)
+						item.setDefault_card(false);
+					cardDetail.setDefault_card(true);
+					cardDetail.setActive_Ind('A');
+					cardDetail.setAddress(address);
+					cardDetail.setUser(user);
+					cardDetail.setCreateDate(new Date());
+					listCard.add(cardDetail);
+					cardDetailService.saveAll(listCard);
+					System.out.println("Card has been created");
+					return cardDetail;
+//				}
+//				else
+//					return null;
 			} else {
 				System.out.println("Sorry, an error has occur. Card has not been created.");
 				return null;

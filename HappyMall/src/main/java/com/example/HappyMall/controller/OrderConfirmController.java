@@ -105,38 +105,47 @@ public class OrderConfirmController {
 
 	@PostMapping("/shoppingcart/confirm")
 	public String confirmOrder(Model model) {
-		System.out.println("Create a payment");
-		User user = (User) model.asMap().get("user");
-		Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-		System.out.println("Order: " + orders);
-		Payment payment = new Payment();
-		payment.setOrders(orders);
-		payment.setStatus("Pending");
-		payment.setPaymentTotal(orders.getTotal());
-		payment.setCardDetail(cardDetailService.getCardDefaultByUserId(user.getId()));
-		paymentService.save(payment);
-
-		System.out.println("Update the order's status to Completed");
-		orders.setStatus("Completed");
-		ordersService.save(orders);
-		System.out.println("Finish a payment");
-
-		System.out.println("Update the product's quantity in the inventory");
-		List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
-		for (OrderLine orderLine : listOrderLine) {
-			int itemQuantity = orderLine.getQuantity();
-			Product product = orderLine.getProduct();
-			product.setQuantity(product.getQuantity() - itemQuantity);
-			System.out.println("Product is updated: " + product + " - Quantity update: " + itemQuantity);
-			productService.updateProduct(product);
+		Orders newOrder = null;
+		try 
+		{
+			System.out.println("Create a payment");
+			User user = (User) model.asMap().get("user");
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			System.out.println("Order: " + orders);
+			Payment payment = new Payment();
+			payment.setOrders(orders);
+			payment.setStatus("Pending");
+			payment.setPaymentTotal(orders.getTotal());
+			payment.setCardDetail(cardDetailService.getCardDefaultByUserId(user.getId()));
+			paymentService.save(payment);
+	
+			System.out.println("Update the order's status to Completed");
+			orders.setStatus("Completed");
+			ordersService.save(orders);
+			System.out.println("Finish a payment");
+	
+			System.out.println("Update the product's quantity in the inventory");
+			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
+			for (OrderLine orderLine : listOrderLine) {
+				int itemQuantity = orderLine.getQuantity();
+				Product product = orderLine.getProduct();
+				product.setQuantity(product.getQuantity() - itemQuantity);
+				System.out.println("Product is updated: " + product + " - Quantity update: " + itemQuantity);
+				productService.updateProduct(product);
+			}
+	
+			// Create new order for user with the order's status is "New"
+			System.out.println("Create a new order");
+			Address address = addressService.getAddressDefaultByUserId(user.getId());
+			newOrder = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+			ordersService.save(newOrder);
+			System.out.println("Finish a new order");
+		
 		}
-
-		// Create new order for user with the order's status is "New"
-		System.out.println("Create a new order");
-		Address address = addressService.getAddressDefaultByUserId(user.getId());
-		Orders newOrder = new Orders(user, String.valueOf(Math.random()), address, address, "New");
-		ordersService.save(newOrder);
-		System.out.println("Finish a new order");
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 
 		model.addAttribute("orders", newOrder);
 		return "redirect:/index";

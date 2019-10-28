@@ -210,6 +210,7 @@ function createCardDetail() {
     card.type = $("input:radio[name='cardType']:checked").val();
     card.nameOnCard = $("#nameOnCard").val();
     card.cardNumber = $("#cardNumber").val();
+    card.cvv = $("#cardCVV").val();
     card.expiredDate =  date.substring(3, 7) + "-" + date.substring(0, 2) + "-01";
     card.address = address;
     console.log(card);
@@ -221,13 +222,16 @@ function createCardDetail() {
       data: JSON.stringify(card),
       datatype: "json",
       success: function(cardDetail){
+    	  console.log("card: " + cardDetail);
     	  if(cardDetail != null)
     	  {
-    		  alert(cardDetail.cardNumber);
-    		  return false;
+    		  setInterval('location.reload()', 500);
     	  }
     	  else
-    		  setInterval('location.reload()', 500);
+    		  {
+    		  alert("Card is not valid. Please check again!");
+    		  return false;
+    		  }
       },  
       error: function(e){          
       	alert('Error: ' + e);  
