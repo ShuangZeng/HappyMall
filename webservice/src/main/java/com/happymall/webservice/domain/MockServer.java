@@ -29,8 +29,8 @@ public class MockServer {
 	@Column(length = 50)
 	private String nameOnCard;
 	
-	@Column
-	private int cvv;
+	@Column(columnDefinition = "varchar(3) default 000")
+	private String cvv;
 	
 	@Column
 	private double value;
@@ -64,11 +64,11 @@ public class MockServer {
 		return cardNumber;
 	}
 	
-	public int getCvv() {
+	public String getCvv() {
 		return cvv;
 	}
 
-	public void setCvv(int cvv) {
+	public void setCvv(String cvv) {
 		this.cvv = cvv;
 	}
 

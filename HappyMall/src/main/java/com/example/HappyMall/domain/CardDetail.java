@@ -45,7 +45,8 @@ public class CardDetail {
 	@NotBlank
 	private String nameOnCard;
 	
-	private int cvv;
+	@Column(columnDefinition = "varchar(3) default 000")
+	private String cvv;
 
 	private double value;
 	
@@ -104,11 +105,11 @@ public class CardDetail {
 		return nameOnCard;
 	}
 	
-	public int getCvv() {
+	public String getCvv() {
 		return cvv;
 	}
 
-	public void setCvv(int cvv) {
+	public void setCvv(String cvv) {
 		this.cvv = cvv;
 	}
 
