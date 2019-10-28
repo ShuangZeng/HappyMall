@@ -9,6 +9,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
@@ -30,11 +31,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return bCryptPasswordEncoder;
     }
     
-    
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(roleFormatter);
     }
     
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/static/images/**").addResourceLocations("file:images/");
+    }
+    
 }
-

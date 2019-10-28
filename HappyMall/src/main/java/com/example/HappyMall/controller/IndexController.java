@@ -126,7 +126,7 @@ public class IndexController {
 //		model.addAttribute("currentPage", page);
 		List<Product> products = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
 				.filter(p -> !p.getStatus().equals("D")).filter(p -> !p.getStatus().equals("U")).collect(Collectors.toList());
-		// products.forEach(p -> p.getImageUrl());
+		products.forEach(p -> System.out.println(p.getImageUrl()));
 		model.addAttribute("productList", products);
 		return "index";
 	}
