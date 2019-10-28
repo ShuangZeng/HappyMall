@@ -30,6 +30,9 @@ public class MockServer {
 	private String nameOnCard;
 	
 	@Column
+	private int cvv;
+	
+	@Column
 	private double value;
 	
 	@Column
@@ -71,6 +74,14 @@ public class MockServer {
 
 	public void setNameOnCard(String nameOnCard) {
 		this.nameOnCard = nameOnCard;
+	}
+
+	public int getCvv() {
+		return cvv;
+	}
+
+	public void setCvv(int cvv) {
+		this.cvv = cvv;
 	}
 
 	public double getValue() {

@@ -44,6 +44,8 @@ public class CardDetail {
 	
 	@NotBlank
 	private String nameOnCard;
+	
+	private int cvv;
 
 	private double value;
 	
@@ -100,6 +102,14 @@ public class CardDetail {
 
 	public String getNameOnCard() {
 		return nameOnCard;
+	}
+	
+	public int getCvv() {
+		return cvv;
+	}
+
+	public void setCvv(int cvv) {
+		this.cvv = cvv;
 	}
 
 	public void setNameOnCard(String nameOnCard) {
