@@ -18,4 +18,6 @@ public interface CardDetailService {
 	void save (CardDetail cardDetail);
 	
 	void saveAll (List<CardDetail> listCardDetail);
+	
+	Boolean isCardValid(CardDetail cardDetail);
 }

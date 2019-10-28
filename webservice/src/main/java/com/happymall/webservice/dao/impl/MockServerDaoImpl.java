@@ -37,7 +37,7 @@ public class MockServerDaoImpl  extends GenericDaoImpl<MockServer> implements Mo
 			return false;
 		if(! M.getActiveInd().equalsIgnoreCase("A"))
 			return false;
-		if(M.getCardNumber().equals(cardDetail.getCardNumber()) && M.getNameOnCard().equalsIgnoreCase(cardDetail.getNameOnCard()))
+		if(M.getCardNumber().equals(cardDetail.getCardNumber()) && M.getNameOnCard().equalsIgnoreCase(cardDetail.getNameOnCard()) && M.getCvv().equalsIgnoreCase(cardDetail.getCvv()))
 			return true;
 		return false;
 	}
