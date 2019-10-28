@@ -83,9 +83,9 @@ public class RegisterController {
         	System.out.println(user);
         	int roleId = user.getRole().getId();
             
-            if(roleId == 1 || roleId == 2) {
+            if(roleId == 1) {
             	user.setActive_Ind('A');
-            }else if(roleId ==3) {
+            }else if(roleId == 2) {
             	user.setActive_Ind('U');
             }
             user.setCreateDate(new Date());
@@ -95,9 +95,9 @@ public class RegisterController {
             modelAndView.addObject("user", new User());
             
             //Create a new order
-			Address address = addressService.getAddressDefaultByUserId(user.getId());
-			Orders orders = new Orders(user, "", address, address, "ShoppingCart");
-			ordersService.addOrder(orders);
+//			Address address = addressService.getAddressDefaultByUserId(user.getId());
+//			Orders orders = new Orders(user, "", address, address, "ShoppingCart");
+//			ordersService.addOrder(orders);
 ////
             ModelAndView mv = new ModelAndView("redirect:/login");
             return mv;
