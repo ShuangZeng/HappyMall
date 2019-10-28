@@ -71,6 +71,13 @@ $(document).ready(function() {
         event.preventDefault();
 		var productId = $(this).attr('id');
 		var quantity = $(this).val();
+        $id = "#" + productId;
+        $noti = "#" + productId + "_noti";
+        $productQuantity = "#" + productId + "_quantity";
+        if(quantity == $($productQuantity).text())
+        	$($noti).attr("hidden", false);
+        else
+        	$($noti).attr("hidden", true);
         console.log("productId: " + productId);
         console.log("quantity: " + quantity);
         let url = "http://localhost:8080/shoppingcart/updateQuantity/guest/"  + productId + "/" + quantity;
@@ -80,10 +87,12 @@ $(document).ready(function() {
 		      url :  url,
 		      contentType: "application/json",
 		      success: function(order){
-		    	  $('#totalBeforeTax').html(order.subTotal);
-		    	  $('#estimatedTax').html(order.tax);
-		    	  $('#orderTotal').html(order.total);
-		    	  formatMoney();
+		          console.log("Edit quantity success");
+		          let ordertotal = order.total;
+			    	  $('#totalBeforeTax').html(order.subTotal);
+			    	  $('#estimatedTax').html(order.tax);
+			    	  $('#orderTotal').html(order.total);
+			    	  formatMoney();
 		      },  
 		      error: function(e){          
 		      	alert('Error: ' + e);  
@@ -95,6 +104,13 @@ $(document).ready(function() {
 	$(".enduserQuantity").change(function() {
 		let orderLineId = $(this).attr('id');
 		let quantity = $(this).val();
+        $id = "#" + orderLineId;
+        $noti = "#" + orderLineId + "_noti";
+        $productQuantity = "#" + orderLineId + "_quantity";
+        if(quantity == $($productQuantity).text())
+        	$($noti).attr("hidden", false);
+        else
+        	$($noti).attr("hidden", true);
         console.log("orderLineId: " + orderLineId);
         console.log("quantity: " + quantity);
         let url = "http://localhost:8080/shoppingcart/updateQuantity/enduser/"  + orderLineId + "/" + quantity;
@@ -104,11 +120,12 @@ $(document).ready(function() {
 		      url :  url,
 		      contentType: "application/json",
 		      success: function(order){
-		          console.log("update success");
-		    	  $('#totalBeforeTax').html(order.subTotal);
-		    	  $('#estimatedTax').html(order.tax);
-		    	  $('#orderTotal').html(order.total);
-		    	  formatMoney();
+		          console.log("Edit quantity success");
+		          let ordertotal = order.total;
+			    	  $('#totalBeforeTax').html(order.subTotal);
+			    	  $('#estimatedTax').html(order.tax);
+			    	  $('#orderTotal').html(order.total);		        	  
+			    	  formatMoney();
 		      },  
 		      error: function(e){        
 		      	setInterval('location.reload()', 2000);

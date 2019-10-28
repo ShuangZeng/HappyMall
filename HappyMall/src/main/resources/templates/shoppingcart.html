@@ -58,6 +58,7 @@
 					<div class="col-9">
 						<div class="row itemRow emphasize">
 							<span th:text="${item.product.name}">Product's Name</span>
+							<span th:id="${item.product.id} + '_quantity'" th:text="${item.product.quantity}" th:hidden="true">Product's Quantity</span>
 						</div>
 						<div class="row itemRow">
 							<span th:text="${item.product.description}">Product's
@@ -69,7 +70,8 @@
 						<div class="row itemRow">
 							<div class="col-9">
 								<input th:id="${item.product.id}" class="quantity guestQuantity"
-									type="number" th:value="${item.quantity}" />
+									type="number" th:value="${item.quantity}" min="1" th:max="${item.product.quantity}">
+								<span th:id="${item.product.id} + '_noti'" class="alert alert-danger alertQuantity" th:hidden="true">No more products in the inventory.</span>
 							</div>
 							<div>
 								<a href="#" class="float-right"
@@ -86,7 +88,8 @@
 					</div>
 					<div class="col-9">
 						<div class="row itemRow emphasize">
-							<span th:text="${item.product.name}">Product's Name</span>
+							<span th:text="${item.product.name}">Product's Name</span>							
+							<span th:id="${item.id} + '_quantity'" th:text="${item.product.quantity}" th:hidden="true">Product's Quantity</span>
 						</div>
 						<div class="row itemRow">
 							<span th:text="${item.product.description}">Product's
@@ -98,7 +101,8 @@
 						<div class="row itemRow">
 							<div class="col-9">
 								<input th:id="${item.id}" class="quantity enduserQuantity"
-									type="number" th:value="${item.quantity}" />
+									type="number" th:value="${item.quantity}" min="1" th:max="${item.product.quantity}">
+								<span th:id="${item.id} + '_noti'" class="alert alert-danger alertQuantity" th:hidden="true">No more products in the inventory.</span>
 							</div>
 							<div>
 								<a href="#" class="float-right"

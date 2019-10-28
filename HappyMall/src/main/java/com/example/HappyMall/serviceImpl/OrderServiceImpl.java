@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.HappyMall.domain.OrderLine;
 import com.example.HappyMall.domain.Orders;
+import com.example.HappyMall.domain.SystemConfig;
+import com.example.HappyMall.repository.OrderLineRepository;
 import com.example.HappyMall.repository.OrdersRepository;
 import com.example.HappyMall.rest.service.OrderRestService;
 import com.example.HappyMall.service.OrdersService;
@@ -22,6 +25,8 @@ public class OrderServiceImpl implements OrdersService {
 	private EntityManager em;
 	@Autowired
 	private OrdersRepository ordersRepository;
+	@Autowired
+	private OrderLineRepository orderLineRepository;
 	@Autowired
 	OrderRestService ors;
 
@@ -43,7 +48,27 @@ public class OrderServiceImpl implements OrdersService {
 		ordersRepository.updateMoneyByOrdersId(orderId, tax, serviceFee);
 	}
 
-	
+	@Override
+	public Orders updateMoneyByOrders_New(Orders orders, SystemConfig systemConfig) {
+		// TODO Auto-generated method stub
+		try
+		{
+			List<OrderLine> listOrderLine = orderLineRepository.findByOrdersId(orders.getId());
+			double subTotal = listOrderLine.size() > 0
+					? listOrderLine.stream().map(i -> i.getProduct().getPrice() * i.getQuantity()).reduce(0.00, Double::sum)
+					: 0.00;
+			double tax = subTotal * systemConfig.getTax() / 100;
+			orders.setSubTotal(subTotal);
+			orders.setTax(tax);
+			orders.setTotal(subTotal + tax);
+			ordersRepository.save(orders);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return orders;
+	}
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------

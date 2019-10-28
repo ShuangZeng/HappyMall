@@ -71,7 +71,6 @@ public class ShoppingCartController {
 				ordersService.save(orders);
 				System.out.println("complete creating orders...");
 			}
-			System.out.println("check error");
 			System.out.println("Orders: " + orders);
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
 			if (listOrderLine == null)
@@ -100,21 +99,28 @@ public class ShoppingCartController {
 	}
 	@GetMapping("/shoppingcart/remove/{id:\\d+}")
 	public String removeFromCart(@PathVariable int id, Model model, HttpSession session) {
-		System.out.println("remove from cart...");
-		User user = (User) model.asMap().get("user");
-		if (user == null) {
-			System.out.println("Not log in yet...");
-			List<Item> listItem = (List<Item>) model.asMap().get("listItem");
-			int index = isExistItem(id, listItem);
-			if (index > -1)
-				listItem.remove(index);
-		} else {
-			System.out.println("User: " + user.getEmail());
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-			orderLineService.deleteByOrdersIdAndProductId(orders.getId(), id);
-			SystemConfig systemConfig = systemConfigService.getToApplied();
-			ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-			orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+		try
+		{
+			System.out.println("remove from cart...");
+			User user = (User) model.asMap().get("user");
+			if (user == null) {
+				System.out.println("Not log in yet...");
+				List<Item> listItem = (List<Item>) model.asMap().get("listItem");
+				int index = isExistItem(id, listItem);
+				if (index > -1)
+					listItem.remove(index);
+			} else {
+				System.out.println("User: " + user.getEmail());
+				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				orderLineService.deleteByOrdersIdAndProductId(orders.getId(), id);
+				SystemConfig systemConfig = systemConfigService.getToApplied();
+				ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
+				//orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 
 		return "redirect:/shoppingcart";
@@ -130,163 +136,219 @@ public class ShoppingCartController {
 
 	@PostMapping("/orders/editshippingaddress")
 	public String editShippingAddress(@ModelAttribute("orders") Orders ordersUpdate, Model model) {
-		System.out.println("shipping address: " + ordersUpdate.getShippingAddress() + " - default: " + ordersUpdate.getShippingAddress());
-		System.out.println("orders: " + ordersUpdate);
-
-		User user = (User) model.asMap().get("user");
-		Address address = addressService.getAddress(ordersUpdate.getShippingAddress().getId());
-		Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-		orders.setShippingAddress(address);
-		orders.setModifiedDate(new Date());
-		ordersService.save(orders);
+		try
+		{
+			System.out.println("shipping address: " + ordersUpdate.getShippingAddress() + " - default: " + ordersUpdate.getShippingAddress());
+			System.out.println("orders: " + ordersUpdate);
+	
+			User user = (User) model.asMap().get("user");
+			Address address = addressService.getAddress(ordersUpdate.getShippingAddress().getId());
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			orders.setShippingAddress(address);
+			orders.setModifiedDate(new Date());
+			ordersService.save(orders);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return "redirect:/shoppingcart";
 	}
 
 	@PostMapping("/orders/editbillingaddress")
 	public String editBillingAddress(@ModelAttribute("orders") Orders ordersUpdate, Model model) {
-		System.out.println("billing address: " + ordersUpdate.getBillingAddress() + " - default: " + ordersUpdate.getBillingAddress());
-		System.out.println("orders: " + ordersUpdate);
-
-		User user = (User) model.asMap().get("user");
-		Address address = addressService.getAddress(ordersUpdate.getBillingAddress().getId());
-		Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-		orders.setBillingAddress(address);
-		orders.setModifiedDate(new Date());
-		ordersService.save(orders);
+		try
+		{
+			System.out.println("billing address: " + ordersUpdate.getBillingAddress() + " - default: " + ordersUpdate.getBillingAddress());
+			System.out.println("orders: " + ordersUpdate);
+	
+			User user = (User) model.asMap().get("user");
+			Address address = addressService.getAddress(ordersUpdate.getBillingAddress().getId());
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			orders.setBillingAddress(address);
+			orders.setModifiedDate(new Date());
+			ordersService.save(orders);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return "redirect:/shoppingcart";
 	}
 
 	@PostMapping("/shoppingcart/setcarddefault")
 	public String setDefautCard(@ModelAttribute("cardDetail") CardDetail cardDetail, Model model) {
-		User user = (User) model.asMap().get("user");
-		List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
-		for (CardDetail card : listCard)
-			if (card.getId() == cardDetail.getId())
-				card.setDefault_card(true);
-			else
-				card.setDefault_card(false);
-		cardDetailService.saveAll(listCard);
+		try
+		{
+			User user = (User) model.asMap().get("user");
+			List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
+			for (CardDetail card : listCard)
+			{
+				if (card.getId() == cardDetail.getId())
+					card.setDefault_card(true);
+				else
+					card.setDefault_card(false);
+				card.setModifiedDate(new Date());
+			}
+			cardDetailService.saveAll(listCard);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return "redirect:/shoppingcart";
 	}
 
 	@PostMapping("/shoppingcart/createCardDetail")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void createCard(@Valid @RequestBody CardDetail cardDetail, BindingResult result, Model model) {
-		if (!result.hasErrors()) {
-			System.out.println("Create card detail");
-			User user = (User) model.asMap().get("user");
-			Address address = cardDetail.getAddress();
-			addressService.save(address);
-			List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
-			for (CardDetail item : listCard)
-				item.setDefault_card(false);
-			cardDetail.setDefault_card(true);
-			cardDetail.setAddress(address);
-			cardDetail.setUser(user);
-			cardDetail.setCreateDate(new Date());
-			cardDetail.setActive_Ind('A');
-			listCard.add(cardDetail);
-			cardDetailService.saveAll(listCard);
-			System.out.println("Card has been created");
-		} else {
-			System.out.println("Sorry, an error has occur. Card has not been created.");
+		try
+		{
+			if (!result.hasErrors()) {
+				System.out.println("Create card detail");
+				User user = (User) model.asMap().get("user");
+				Address address = cardDetail.getAddress();
+				addressService.save(address);
+				List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
+				for (CardDetail item : listCard)
+					item.setDefault_card(false);
+				cardDetail.setDefault_card(true);
+				cardDetail.setAddress(address);
+				cardDetail.setUser(user);
+				cardDetail.setCreateDate(new Date());
+				cardDetail.setActive_Ind('A');
+				listCard.add(cardDetail);
+				cardDetailService.saveAll(listCard);
+				System.out.println("Card has been created");
+			} else {
+				System.out.println("Sorry, an error has occur. Card has not been created.");
+			}
 		}
-		// return "redirect:/shoppingcart";
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@PostMapping(value = "/shoppingcart/createShippingAddress")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void createShippingAddress(@RequestBody Address newAddress, BindingResult result, Model model) {
-		System.out.println("Create Shipping address");
-		if (!result.hasErrors()) {
-			System.out.println("Create address");
-			System.out.println("New address: " + newAddress);
-			User user = (User) model.asMap().get("user");
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-			newAddress.setCreateDate(new Date());
-			newAddress.setUser(orders.getUser());
-			addressService.save(newAddress);
-			orders.setShippingAddress(newAddress);
-			ordersService.save(orders);
-			System.out.println("Address has been created");
-		} else {
-			System.out.println("Sorry, an error has occur. Address has not been created.");
+		try
+		{
+			System.out.println("Create Shipping address");
+			if (!result.hasErrors()) {
+				System.out.println("Create address");
+				System.out.println("New address: " + newAddress);
+				User user = (User) model.asMap().get("user");
+				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				newAddress.setCreateDate(new Date());
+				newAddress.setUser(orders.getUser());
+				addressService.save(newAddress);
+				orders.setShippingAddress(newAddress);
+				ordersService.save(orders);
+				System.out.println("Address has been created");
+			} else {
+				System.out.println("Sorry, an error has occur. Address has not been created.");
+			}
 		}
-		// return "redirect:/shoppingcart";
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@PostMapping(value = "/shoppingcart/createBillingAddress")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void createBillingAddress(@RequestBody Address newAddress, BindingResult result, Model model) {
-		System.out.println("Create Billing address");
-		if (!result.hasErrors()) {
-			System.out.println("Create address");
-			System.out.println("New address: " + newAddress);
-			User user = (User) model.asMap().get("user");
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-			newAddress.setCreateDate(new Date());
-			newAddress.setUser(orders.getUser());
-			addressService.save(newAddress);
-			orders.setBillingAddress(newAddress);
-			ordersService.save(orders);
-			System.out.println("Address has been created");
-		} else {
-			System.out.println("Sorry, an error has occur. Address has not been created.");
+		try
+		{
+			System.out.println("Create Billing address");
+			if (!result.hasErrors()) {
+				System.out.println("Create address");
+				System.out.println("New address: " + newAddress);
+				User user = (User) model.asMap().get("user");
+				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				newAddress.setCreateDate(new Date());
+				newAddress.setUser(orders.getUser());
+				addressService.save(newAddress);
+				orders.setBillingAddress(newAddress);
+				ordersService.save(orders);
+				System.out.println("Address has been created");
+			} else {
+				System.out.println("Sorry, an error has occur. Address has not been created.");
+			}
 		}
-		// return "redirect:/shoppingcart";
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 
 	@RequestMapping(value="/shoppingcart/updateQuantity/guest/{productId}/{quantity}", method=RequestMethod.PUT)
 	public @ResponseBody Orders updateQuantityGuest(@PathVariable(value = "productId") int productId,
 			@PathVariable(value = "quantity") int quantity, Model model) {
-		System.out.println("Update quantity: type: guest, productId: " + productId + ", quantity: " + quantity);
-		Orders order = new Orders();
-		List<Item> listItem = (List<Item>) model.asMap().get("listItem");
-		Product product = productService.getProduct(productId);
-		if (product != null && listItem != null && listItem.size() > 0) {
-			int index = isExistItem(productId, listItem);
-			if (index > -1) {
-				System.out.println("Check quantity...");
-				if (product.getQuantity() >= quantity) {
-					System.out.println("update quantity of item in cart...");
-					listItem.get(index).setQuantity(quantity);
+		try
+		{
+			System.out.println("Update quantity: type: guest, productId: " + productId + ", quantity: " + quantity);
+			Orders order = new Orders();
+			List<Item> listItem = (List<Item>) model.asMap().get("listItem");
+			Product product = productService.getProduct(productId);
+			if (product != null && listItem != null && listItem.size() > 0) {
+				int index = isExistItem(productId, listItem);
+				if (index > -1) {
+					System.out.println("Check quantity...");
+					if (product.getQuantity() >= quantity) {
+						System.out.println("update quantity of item in cart...");
+						listItem.get(index).setQuantity(quantity);
+					}
+					System.out.println("Get order to return for json...");
+					SystemConfig systemConfig = systemConfigService.getToApplied();
+					double subTotalGuest = listItem.size() > 0 ? listItem.stream()
+							.map(i -> i.getProduct().getPrice() * i.getQuantity()).reduce(0.00, Double::sum) : 0.00;
+					double taxGuest = subTotalGuest * systemConfig.getTax() / 100;
+					order.setSubTotal(subTotalGuest);
+					order.setTax(taxGuest);
+					order.setTotal(subTotalGuest + taxGuest);
 				}
-				System.out.println("Get order to return for json...");
-				SystemConfig systemConfig = systemConfigService.getToApplied();
-				double subTotalGuest = listItem.size() > 0 ? listItem.stream()
-						.map(i -> i.getProduct().getPrice() * i.getQuantity()).reduce(0.00, Double::sum) : 0.00;
-				double taxGuest = subTotalGuest * systemConfig.getTax() / 100;
-				order.setSubTotal(subTotalGuest);
-				order.setTax(taxGuest);
-				order.setTotal(subTotalGuest + taxGuest);
 			}
+			return order;
 		}
-		return order;
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return new Orders();
+		}
 	}
 
 	@RequestMapping(value = "/shoppingcart/updateQuantity/enduser/{orderLineId}/{quantity}", method = RequestMethod.PUT)
 	public @ResponseBody Orders updateQuantityEndUser(@PathVariable(value = "orderLineId") int orderLineId,
 			@PathVariable(value = "quantity") int quantity, Model model) {
-		System.out.println("Update quantity: type: guest, productId: " + orderLineId + ", quantity: " + quantity);
-		OrderLine orderLine = orderLineService.getOrderLine(orderLineId);
-
-		if (orderLine != null) {
-			System.out.println("Check quantity...");
-			if (orderLine.getProduct().getQuantity() >= quantity) {
-				orderLine.setQuantity(quantity);
-				orderLine.setTotal(orderLine.getPrice() * quantity);
-				orderLineService.save(orderLine);
-				System.out.println("Order update:" + orderLine.getOrders());
+		try
+		{
+			System.out.println("Update quantity: type: guest, productId: " + orderLineId + ", quantity: " + quantity);
+			OrderLine orderLine = orderLineService.getOrderLine(orderLineId);
+	
+			if (orderLine != null) {
+				System.out.println("Check quantity... Product Quantity: " + orderLine.getProduct().getQuantity());
+				if (orderLine.getProduct().getQuantity() >= quantity) {
+					orderLine.setQuantity(quantity);
+					orderLine.setTotal(orderLine.getPrice() * quantity);
+					orderLineService.save(orderLine);
+					System.out.println("Order update:" + orderLine.getOrders());
+					//ordersService.updateMoneyByOrdersId(orderLine.getOrders().getId(), systemConfig.getTax(), systemConfig.getServiceFee());
+				}
 				SystemConfig systemConfig = systemConfigService.getToApplied();
-				ordersService.updateMoneyByOrdersId(orderLine.getOrders().getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-				//ordersService.save(order);
+				Orders orders = ordersService.updateMoneyByOrders_New(orderLine.getOrders(), systemConfig);
+				System.out.println("Order after update quantity: " + orders);
+				return orders;
+			} else {
+				return new Orders();
 			}
-			User user = (User) model.asMap().get("user");
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-			System.out.println("Order after update quantity: " + orders);
-			return orders;
-		} else {
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 			return new Orders();
 		}
 	}

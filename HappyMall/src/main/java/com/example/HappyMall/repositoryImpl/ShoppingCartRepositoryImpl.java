@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.repository.ShoppingCartRepository;
 
 @Repository
@@ -27,7 +28,7 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 				"    serviceFee = IFNULL((select sum(b.price * b.quantity) * %d / 100 from OrderLine b where b.orders = a.id), 0) " + 
 				" where a.id = %d",tax, tax, serviceFee, orderId);
 		
-        Query query = em.createQuery(queryStr);
+        Query query = em.createQuery(queryStr);        
         
         query.executeUpdate();
         System.out.println("Complete execute database to update order.");

@@ -3,6 +3,7 @@ package com.example.HappyMall.service;
 import java.util.List;
 
 import com.example.HappyMall.domain.Orders;
+import com.example.HappyMall.domain.SystemConfig;
 
 public interface OrdersService {
 	Orders findByStatus(String status);
@@ -10,6 +11,7 @@ public interface OrdersService {
 	List<Orders> findByStatusAndUserId(String status, int userId);
 
 	void updateMoneyByOrdersId(int orderId, int tax, int serviceFee);
+	Orders updateMoneyByOrders_New(Orders orders, SystemConfig systemConfig);
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
