@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<base target="_blank" />
 <meta charset="ISO-8859-1">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,8 +13,10 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Product List</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 </head>
-<body>
+<body style="text-align: center;">
+	<header th:insert="header :: navbar"> </header>
 	<h1 class="text-center">Product List</h1>
 	<a href="/search/searchProducts" align="center"><h3>Search For Product</h3></a>
 	<table class="table table-hover " align="center" style="width: 80%">
@@ -39,5 +42,10 @@
 		</tbody>
 	</table>
 
+		</br>
+		</br>
+		</br>
+		</br>
+	<footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>

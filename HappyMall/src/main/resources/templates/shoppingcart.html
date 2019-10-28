@@ -53,7 +53,7 @@
 					th:hidden="${user}?true:false">
 					<div class="col-3 productImgContainer">
 						<img class="productImg"
-							th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" />
+							th:attr="src=@{${item.product.imageUrl}},title=#{logo},alt=#{logo}" />
 					</div>
 					<div class="col-9">
 						<div class="row itemRow emphasize">
@@ -84,7 +84,7 @@
 					th:each="item : ${listOrderLine}" th:hidden="${user}?false:true">
 					<div class="col-3 productImgContainer">
 						<img class="productImg"
-							th:attr="src=@{${item.product.listResouce}?${item.product.listResouce[0].imageUrl}},title=#{logo},alt=#{logo}" />
+							th:attr="src=@{${item.product.imageUrl}},title=#{logo},alt=#{logo}" />
 					</div>
 					<div class="col-9">
 						<div class="row itemRow emphasize">

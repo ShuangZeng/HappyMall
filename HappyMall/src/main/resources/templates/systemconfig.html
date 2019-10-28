@@ -22,9 +22,11 @@
 	<!-- Custom css and js -->
 	<script type="text/javascript" th:src="@{/js/systemconfig.js}"></script>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 </head>
 
 <body> <!-- ThaoDao created and edited -->
+	<header th:insert="header :: navbar"> </header>
 	<div class="container">
 		<H2 align="center">SYSTEM CONFIGURATION</H2>
 		<div class="col-12">
@@ -122,5 +124,10 @@
 	</div>
 
 
+		</br>
+		</br>
+		</br>
+		</br>
+	<footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>

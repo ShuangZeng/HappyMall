@@ -2,10 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8" />
+<base target="_blank" />
+<meta charset="ISO-8859-1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Search For Product</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 </head>
-<body>
+<body style="text-align: center;">
+	<header th:insert="header :: navbar"> </header>
         <h1 align="center">Search For Product</h1>
         <br />
         
@@ -17,6 +28,11 @@
 						<input class="btn btn-default btn-xs" type="submit"
 							value="Search Product">
 					</form>
-        
+    
+		</br>
+		</br>
+		</br>
+		</br>
+	<footer th:insert="footer :: navbar"> </footer>
 </body>
 </html>
