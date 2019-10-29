@@ -5,6 +5,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +36,10 @@ public class OrdersController {
 	// All creating order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@GetMapping(value = "/addNew")
-	public @ResponseBody Orders processAddNewOrder(@RequestBody Orders orderToBeAdded) {
+	@RequestMapping(value = "/addNew", method = RequestMethod.POST)
+	public void processAddNewOrder(@RequestBody Orders orderToBeAdded) {
 		os.addOrder(orderToBeAdded);
-		return orderToBeAdded;
+		//return orderToBeAdded;
 	}
 
 	@GetMapping(value = "/addNewWithNotification")
@@ -87,8 +88,8 @@ public class OrdersController {
 	@RequestMapping("/user")
 	public List<Orders> getAllOrdersByUser(@RequestParam("id") int userId, @RequestParam("isEnduser") boolean isEnduser) {
 		List<Orders> list = os.getAllOrdersByUser(userId, isEnduser);
-		System.out.println("ORDERS ARE: \n ");
-		list.forEach(o -> System.out.println(o));
+		//System.out.println("ORDERS ARE: \n ");
+		//list.forEach(o -> System.out.println(o));
 		return list;
 	}
 
@@ -102,17 +103,17 @@ public class OrdersController {
 	// All updating/modifying order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@GetMapping(value = "/update")
+	@RequestMapping(value = "/update")
 	public void processUpdateOrder(@RequestBody Orders orderToBeUpdated) {
 		os.updateOrder(orderToBeUpdated);
 	}
 
-	@GetMapping(value = "/refund")
+	@RequestMapping(value = "/refund")
 	public void processRefundOrder(@RequestBody Orders orderToBeUpdated, @RequestBody int userId,@RequestBody boolean isEnduser) {
 		os.refundOrder(orderToBeUpdated, userId, isEnduser);
 	}
 
-	@GetMapping(value = "/requestToRefund/{id}")
+	@RequestMapping(value = "/requestToRefund/{id}")
 	public Orders requestToRefundOrder(@PathVariable("id") int orderId) {
 		Orders orderToBeRefunded = os.getOrder(orderId);
 		orderToBeRefunded.setStatus("Pending To Refund");
@@ -131,7 +132,7 @@ public class OrdersController {
 	// All deleting/removing order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@GetMapping(value = "/delete")
+	@RequestMapping(value = "/delete")
 	public void processDeleteOrder(@RequestBody Orders orderToBeDeleted) {
 		orderToBeDeleted.setStatus("Delete");
 		os.updateOrder(orderToBeDeleted);
