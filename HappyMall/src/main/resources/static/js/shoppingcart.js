@@ -21,7 +21,7 @@ $(document).ready(function() {
 		}
 		else
 		{
-			$("#cardNumber").attr("pattern", "^5[1-5]\d{14}$");
+			$("#cardNumber").attr("pattern", "^5[1-5][0-9]{14}$");
 			$("#cardNumber").attr("title", "It should be a Master card's number.");
 		}
 	});
@@ -128,7 +128,7 @@ $(document).ready(function() {
 			    	  formatMoney();
 		      },  
 		      error: function(e){        
-		      	setInterval('location.reload()', 2000);
+		      	setInterval('location.reload()', 500);
 		      }  
 		    });  
 	});
@@ -161,7 +161,7 @@ function createShippingAddress() {
       data: JSON.stringify(address),
       datatype: "json",
       success: function(){
-    	setInterval('location.reload()', 2000);
+    	setInterval('location.reload()', 500);
       },  
       error: function(e){          
       	alert('Error: ' + e);  
@@ -186,7 +186,7 @@ function createBillingAddress() {
       data: JSON.stringify(address),
       datatype: "json",
       success: function(){
-    	setInterval('location.reload()', 2000);
+    	setInterval('location.reload()', 500);
       },  
       error: function(e){          
       	alert('Error: ' + e);  
