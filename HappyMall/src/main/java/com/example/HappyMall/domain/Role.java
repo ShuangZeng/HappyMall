@@ -5,7 +5,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
+@JsonSerialize
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role {
 
 	@Id

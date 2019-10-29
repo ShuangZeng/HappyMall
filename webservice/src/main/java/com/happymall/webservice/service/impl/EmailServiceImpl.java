@@ -39,7 +39,7 @@ import com.happymall.webservice.service.EmailService;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-	private static final String EMAIL_BUYER_PURCHASE_TEMPLATE_NAME = "html/buyer-purchase";
+	private static final String EMAIL_BUYER_PURCHASE_TEMPLATE_NAME = "/src/main/resources/mail/html/buyer-purchase";
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -52,8 +52,8 @@ public class EmailServiceImpl implements EmailService {
 
 	public void notifyBuyerOfPurchase(Orders orders) throws MessagingException {
 
-		String imageFooterName = "/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo5.png";
-		String imageHeaderName = "/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo1.png";
+		String imageFooterName = "C:\\Andy\\Workplace\\Eclipse-Workplace\\HappyMall\\webservice\\src\\main\\resources\\mail\\html\\images\\logo5.png";
+		String imageHeaderName = "C:\\Andy\\Workplace\\Eclipse-Workplace\\HappyMall\\webservice\\src\\main\\resources\\mail\\html\\images\\logo1.png";
 
 		// Prepare the evaluation context
 		Locale locale = new Locale("en");
@@ -68,18 +68,18 @@ public class EmailServiceImpl implements EmailService {
 		final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true /* multipart */, "UTF-8");
 		message.setSubject("Happy Mall Purchase");
 		message.setFrom("purchases@happymall.com");
-		message.setTo(orders.getUser().getEmail());
+		message.setTo("nhat.phamkhac@gmail.com");
+		//message.setTo(orders.getUser().getEmail());
 
 		// Create the HTML body using Thymeleaf
-		final String htmlContent = this.htmlTemplateEngine.process(EMAIL_BUYER_PURCHASE_TEMPLATE_NAME, ctx);
-		message.setText(htmlContent, true /* isHtml */);
+		//final String htmlContent = this.htmlTemplateEngine.process(EMAIL_BUYER_PURCHASE_TEMPLATE_NAME, ctx);
+		String content = "Order Confirmed. Your Order #" + orders.getOrderCode() + " with total value: " + orders.getTotal() + " is progressing. Thank you for your purchase!";
+		message.setText(content, true /* isHtml */);
 
 		// Add the inline image, referenced from the HTML code as
 		// "cid:${imageResourceName}"
-		message.addInline(imageHeaderName, new File(
-				"/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo1.png"));
-		message.addInline(imageFooterName, new File(
-				"/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo5.png"));
+		//message.addInline(imageHeaderName, new File("/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo1.png"));
+		//message.addInline(imageFooterName, new File("/home/biji/github/latest/HappyMall/webservice/src/main/resources/mail/html/images/logo5.png"));
 
 		// Send mail
 		this.mailSender.send(mimeMessage);

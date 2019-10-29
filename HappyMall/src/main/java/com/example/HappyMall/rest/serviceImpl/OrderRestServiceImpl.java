@@ -51,8 +51,7 @@ public class OrderRestServiceImpl implements OrderRestService {
 		serviceUrlExtended = serviceUrl + "/addNewWithNotification";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
-				Orders.class);
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);
 		// Orders order = responseEntity.getBody();
 		// return order;
 	}
@@ -62,10 +61,8 @@ public class OrderRestServiceImpl implements OrderRestService {
 		serviceUrlExtended = serviceUrl + "/sendNotification";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
-				Orders.class);
-		// Orders order = responseEntity.getBody();
-		// return order;
+		Orders responseEntity = restTemplate.postForObject(serviceUrlExtended, httpEntity, Orders.class);
+		//return responseEntity;
 	}
 
 	// End

@@ -51,7 +51,7 @@ public class OrdersController {
 		return orderToBeAdded;
 	}
 
-	@GetMapping(value = "/sendNotification")
+	@RequestMapping(value = "/sendNotification", method = RequestMethod.POST)
 	public @ResponseBody Orders processSendNotification(@RequestBody Orders order) {
 		try {
 			es.notifyBuyerOfPurchase(order);
