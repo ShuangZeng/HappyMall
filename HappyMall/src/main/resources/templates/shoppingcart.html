@@ -182,6 +182,7 @@
 								style="visibility: hidden" id="cardId"
 								th:text="${cardDetail}?${cardDetail.id}"></span>
 								<span class="alert alert-danger" th:if="${cardDetail} == null">You should have a payment method for checking out.</span>
+								<p class="alert alert-danger" th:hidden="${cardDetail}?(${orders}?${cardDetail.remainingValue} > ${orders.total})" >The total amount is greater then the remaining value.</p>
 								<div class="float-right">
 									<a id="btnEditPaymentMethod" href="#" data-toggle="modal"
 										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
@@ -204,7 +205,7 @@
 				</table>
 			</div>
 
-			<div class="float-right" th:if="${user} != null and ${orders} != null and ${orders.billingAddress} != null and ${orders.shippingAddress} != null and ${cardDetail} != null and ${totalProduct} > 0">
+			<div class="float-right" th:if="${user} != null and ${orders} != null and ${orders.billingAddress} != null and ${orders.shippingAddress} != null and ${cardDetail} != null and ${totalProduct} > 0 and ${cardDetail.remainingValue} > ${orders.total}">
 				<button type="submit" class="btn btn-primary">Check out</button>
 			</div>
 		</form>
