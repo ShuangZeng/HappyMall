@@ -26,19 +26,19 @@
 			<table border="0" cellpadding="10">
 				<tr>
 					<td>Product Name:</td>
-					<td><input type="text" th:field="*{name}" /></td>
+					<td><input type="text" th:field="*{name}" required/></td>
 				</tr>
 				<tr>
 					<td>Description:</td>
-					<td><input type="text" th:field="*{description}" /></td>
+					<td><input type="text" th:field="*{description}" required/></td>
 				</tr>
 				<tr>
 					<td>Price:</td>
-					<td><input type="text" th:field="*{price}" /></td>
+					<td><input type="text" th:field="*{price}" required/></td>
 				</tr>
 				<tr>
 					<td>Quantity:</td>
-					<td><input type="text" th:field="*{quantity}" /></td>
+					<td><input type="number" th:field="*{quantity}" min="1"/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><input type="file" name="productImage"/>

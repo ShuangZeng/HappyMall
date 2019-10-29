@@ -25,7 +25,6 @@
 				<h3 class="form-signin-heading" th:text="Welcome"></h3>
 				<div>
 					<select id="role" name="role" class="form-control">
-						<option value="">Choose a role,please</option>
 						<option th:each="role:${roleList}" th:value="${role.id}"
 							th:text="${role.role}"></option>
 
@@ -33,23 +32,23 @@
 				</div>
 				<br /> 
 				<input type="text" id="fullName" name="fullName"
-					th:placeholder="Fullname" class="form-control" /> <br />
+					th:placeholder="Fullname" class="form-control"  th:required="true"/> <br />
 					
 				 <input
 					type="text" id="userName" name="userName" th:placeholder="Usename"
-					class="form-control" /> <br /> 
+					class="form-control"  th:required="true"/> <br /> 
 				 <input type="email" id="email"
-					name="email" th:placeholder="Email" class="form-control" /> <br />
+					name="email" th:placeholder="Email" class="form-control" th:required="true"/> <br />
 					
 				 <input type="password" th:placeholder="Password" id="password"
-					name="password" class="form-control" /> <br />
+					name="password" class="form-control"  th:required="true"/> <br />
 				 
 				 <!-- <input type="text"
 					id="address" name="address" th:placeholder="Address"
 					class="form-control" /> <br />  -->
 				
-				 <input type="text" id="phone"
-					name="phone" th:placeholder="Phone" class="form-control" required />
+				 <input type="text" id="phone" pattern="^[\(]{0,1}([0-9]){3}[\)]{0,1}[ ]?([^0-1]){1}([0-9]){2}[ ]?[-]?[ ]?([0-9]){4}[ ]*((x){0,1}([0-9]){1,5}){0,1}$"
+					name="phone" th:placeholder="Phone" class="form-control" required title="(xxx) xxx-xxxx"/>
 				<br />
 				<div align="center" th:if="${errorMessage}">
             <p style="font-size: 20; color: #FF1C19;">There is some wrong happened, please correct it.</p >

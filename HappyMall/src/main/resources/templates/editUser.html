@@ -41,6 +41,8 @@
 </head>
 <body style="text-align: center;">
 	<header th:insert="header :: navbar"> </header>
+
+	<div class="container">
 	<h3 style="font-weight: bold">Edit Profile</h3>
 	<br>
 	<br>
@@ -73,7 +75,7 @@
 				</div>
 				<div class="col-md-3">
 					<input type="text" name="phone" id="phoneNumber"
-						onblur="checkPhone()" th:value="${user.phone}"
+						onblur="checkPhone()" th:value="${user.phone}" title="(xxx) xxx-xxxx"
 						pattern="^[\(]{0,1}([0-9]){3}[\)]{0,1}[ ]?([^0-1]){1}([0-9]){2}[ ]?[-]?[ ]?([0-9]){4}[ ]*((x){0,1}([0-9]){1,5}){0,1}$" style="margin-bottom: 3px">
 				</div>
 				<!-- <span style="color: red">Formatter: (910)456-7890. </span> -->
@@ -102,44 +104,9 @@
 			</div>
 		</div>
 
-		<!-- <table align="center">
-    <tr>
-    <th>ADDRESS: </th>
-      <th>Zipcode</th>
-    </tr>
-    <tr th:each="address : ${user.listAddress}">
-    <td> <input disabled type="text" name="address.id"th:value="${address.id}" style="margin-right:4px"></td>
-      <td> <input type="text" name="zipcode"th:value="${address.zipcode}" ></td>
-     </tr>
-</table>
-	
-	   
- <table align="center">
-    <tr>
-      <th>Line One</th>      
-      <th>Line Two</th>
-    </tr>
-    <tr th:each="address : ${user.listAddress}">
-     <td> <input type="text" name="lineOne"th:value="${address.lineOne}" style="margin-right:4px"></td>
-       <td> <input type="text" name="lineTwo"th:value="${address.lineTwo}" ></td>
-     </tr>
-</table>
-<table align="center">
-    <tr>
-      <th>City</th><th>State</th>
-    </tr>
-    <tr th:each="address : ${user.listAddress}">
-     <td> <input type="text" name="city"th:value="${address.city}" style="margin-right:4px"></td>
-     <td> <input type="text" name="state"th:value="${address.state}" ></td>
-     </tr>
-</table>
-	<br><br>  -->
-
 		<button class="btn btn-default btn-xs" type="submit">SUBMIT</button>
 	</form>
-
-
-	<div class="container">
+	
 		<h3 style="font-weight: bold">Edit Address</h3>
 		<div class="col-12">
 			<table class="table">

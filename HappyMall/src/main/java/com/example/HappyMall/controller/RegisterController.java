@@ -68,7 +68,9 @@ public class RegisterController {
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult, ModelMap modelMap) {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());
+        System.out.println("New user: " + user);
         if (userExists != null) {
+        	System.out.println("User is exists");
             bindingResult
                     .rejectValue("email", "error.user",
                             "There is already a user registered with the email provided");
