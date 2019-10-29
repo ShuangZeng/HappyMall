@@ -45,7 +45,7 @@ public class CardDetail {
 	@NotBlank
 	private String nameOnCard;
 	
-	@Column(columnDefinition = "varchar(3) default 000")
+	@Column(columnDefinition = "varchar(25) default 000")
 	private String cvv;
 
 	private double value;
