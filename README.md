@@ -1,9 +1,9 @@
 # HappyMall Store
 This is the project of project managment course code# cs-490
 
-====================================================================================================================
+==============================================================
 Technologies used: (Spring Boot, Thymeleaf, JavaScript, MySQL)
-====================================================================================================================
+==============================================================
 Setup: 
   1- create an empty schema named "happymall" in your MySQL Workbench.
   2- change these two lines in happymall/application.properties file 
@@ -19,4 +19,4 @@ Setup:
   6- rerun the /HappyMall/HappyMallApplication.java and /webservice/WebserviceApplication.java.
   7- Enjoy using out Application.
 
-====================================================================================================================
+===============================================================
