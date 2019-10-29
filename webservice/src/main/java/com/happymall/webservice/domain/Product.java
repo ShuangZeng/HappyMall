@@ -3,28 +3,18 @@ package com.happymall.webservice.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.happymall.webservice.dto.ProductDto;
 
 @Entity
@@ -33,31 +23,31 @@ public class Product {
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="vendor_id")
+	@JoinColumn(name = "vendor_id")
 	private User vendor;
-	
+
 	@NotBlank
 	private String name;
-	
+
 	@NotBlank
 	private String description;
-	
+
 	private double price;
-	
+
 	private int quantity;
-	
+
 	private String status;
-	
+
 	private String imageUrl;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
-	
+
 	@Transient
 	private List<Resource> listResouce;
 
@@ -137,11 +127,10 @@ public class Product {
 		return listResouce;
 	}
 
-
 	public void setListResouce(List<Resource> listResouce) {
 		this.listResouce = listResouce;
 	}
-	
+
 	public ProductDto toDto() {
 		ProductDto dto = new ProductDto();
 		dto.setId(id);
@@ -168,7 +157,5 @@ public class Product {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	
-	
-	
+
 }

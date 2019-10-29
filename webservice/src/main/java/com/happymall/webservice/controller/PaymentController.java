@@ -18,51 +18,51 @@ import com.happymall.webservice.domain.Payment;
 import com.happymall.webservice.service.PaymentService;
 
 @RestController
-@RequestMapping({"/payments"})
+@RequestMapping({ "/payments" })
 public class PaymentController {
-	
+
 	@Autowired
 	private PaymentService paymentService;
- 
- 	@RequestMapping({"","/all"})
+
+	@RequestMapping({ "", "/all" })
 	public List<Payment> list(Model model) {
- 		
-		return  paymentService.getAllPayments();
+
+		return paymentService.getAllPayments();
 	}
- 	
- 	@RequestMapping("/customer/{id}")
+
+	@RequestMapping("/customer/{id}")
 	public List<Payment> getCustomerPayments(@PathVariable("id") int cardDetailId) {
- 		
-		return  paymentService.getCustomerPayments(cardDetailId);
+
+		return paymentService.getCustomerPayments(cardDetailId);
 	}
- 	
- 	@RequestMapping("/order/{id}")
+
+	@RequestMapping("/order/{id}")
 	public Payment getPaymentByOrderId(@PathVariable("id") int orderId) {
- 		
-		return  paymentService.getPaymentByOrderId(orderId); 
+
+		return paymentService.getPaymentByOrderId(orderId);
 	}
-	
- 	@GetMapping("/{id}")
-	public @ResponseBody Payment getPaymentById( @PathVariable("id") int paymentId) {
+
+	@GetMapping("/{id}")
+	public @ResponseBody Payment getPaymentById(@PathVariable("id") int paymentId) {
 
 		return paymentService.getPayment(paymentId);
- 	}
- 	
- 	@RequestMapping(value = "", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void processAddNewPaymentForm(@RequestBody Payment paymentToBeAdded ) {
-
- 		paymentService.addPayment(paymentToBeAdded);
- 
 	}
-	
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void processAddNewPaymentForm(@RequestBody Payment paymentToBeAdded) {
+
+		paymentService.addPayment(paymentToBeAdded);
+
+	}
+
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public Payment processUpdatePaymentForm(@RequestBody Payment paymentToBeUpdated ) {
+	public Payment processUpdatePaymentForm(@RequestBody Payment paymentToBeUpdated) {
 
-			return paymentService.updatePayment(paymentToBeUpdated);
+		return paymentService.updatePayment(paymentToBeUpdated);
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void deletePayment(@RequestBody Payment paymentToBeDeleted) {
@@ -70,9 +70,5 @@ public class PaymentController {
 		paymentToBeDeleted.setStatus("D");
 		paymentService.updatePayment(paymentToBeDeleted);
 	}
- 	
- 	
- 	
- 	
 
 }

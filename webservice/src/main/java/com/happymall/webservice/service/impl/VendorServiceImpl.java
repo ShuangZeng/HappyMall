@@ -1,7 +1,6 @@
 package com.happymall.webservice.service.impl;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.happymall.webservice.dao.UserDao;
 import com.happymall.webservice.domain.User;
 import com.happymall.webservice.service.VendorService;
+
 @Service
 @Transactional
 public class VendorServiceImpl implements VendorService {
-	
+
 	@Autowired
 	private UserDao userDao;
 
@@ -35,7 +35,7 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public void addVendor(User vendor) {
 		userDao.save(vendor);
-		
+
 	}
 
 	@Override

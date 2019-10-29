@@ -15,45 +15,42 @@ import io.restassured.response.Response;
 @SpringBootTest
 @Transactional
 public class VendorControllerTests {
-	
+
 	private final String ROOT_URI = "http://localhost:8000/vendors";
-	
+
 	@Test
 	public void whenGetAllVendorsThenSuccess() {
-	    Response response = RestAssured.get(ROOT_URI);
+		Response response = RestAssured.get(ROOT_URI);
 
-	    Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-	    Assert.assertNotNull(response.getBody());
+		Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		Assert.assertNotNull(response.getBody());
 	}
-	
+
 	@Test
 	public void whenGetVendorByIdThenSuccess() {
-	    Response response = RestAssured.get(ROOT_URI + "/1001");
+		Response response = RestAssured.get(ROOT_URI + "/1001");
 
-	    Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-	    Assert.assertNotNull(response.getBody());
-	    
+		Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		Assert.assertNotNull(response.getBody());
+
 	}
-	
+
 	@Test
 	public void whenGetVendorByEmailThenSuccess() {
-	    Response response = RestAssured.get(ROOT_URI + "/email/sonnen@msn.com");
+		Response response = RestAssured.get(ROOT_URI + "/email/sonnen@msn.com");
 
-	    Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-	    Assert.assertNotNull(response.getBody());
-	    
+		Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		Assert.assertNotNull(response.getBody());
+
 	}
-	
+
 	@Test
 	public void whenGetVendorByPhoneThenSuccess() {
-	    Response response = RestAssured.get(ROOT_URI + "/phone/(389) 255-2383");
+		Response response = RestAssured.get(ROOT_URI + "/phone/(389) 255-2383");
 
-	    Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-	    Assert.assertNotNull(response.getBody());
-	    
+		Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		Assert.assertNotNull(response.getBody());
+
 	}
-	
-	
-
 
 }

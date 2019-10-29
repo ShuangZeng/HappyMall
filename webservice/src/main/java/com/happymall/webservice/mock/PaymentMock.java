@@ -4,8 +4,8 @@ import com.happymall.webservice.domain.Payment;
 
 public class PaymentMock {
 
-public static Payment create() {
-		
+	public static Payment create() {
+
 		return null;
 	}
 }

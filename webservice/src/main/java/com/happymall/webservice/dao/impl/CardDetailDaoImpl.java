@@ -17,23 +17,24 @@ public class CardDetailDaoImpl extends GenericDaoImpl<CardDetail> implements Car
 	public CardDetailDaoImpl() {
 		super.setDaoType(CardDetail.class);
 	}
-	
+
 	@Autowired
 	MockServerDao mockServerDao;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CardDetail> findCardByUser(int id) {
-		
+
 		Query query = entityManager.createQuery("select c from CardDetail c join c.user u  where u.id  =:id");
 		return (List<CardDetail>) query.setParameter("id", id).getResultList();
 	}
 
 	@Override
 	public CardDetail findDefaultCardByUser(int id) {
-		
-		Query query = entityManager.createQuery("select c from CardDetail c join c.user u  where u.id  =:id and c.default_card =:flag");
+
+		Query query = entityManager
+				.createQuery("select c from CardDetail c join c.user u  where u.id  =:id and c.default_card =:flag");
 		return (CardDetail) query.setParameter("id", id).setParameter("flag", true).getSingleResult();
 	}
-	
+
 }

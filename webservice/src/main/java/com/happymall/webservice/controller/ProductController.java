@@ -17,87 +17,80 @@ import org.springframework.web.bind.annotation.RestController;
 import com.happymall.webservice.domain.Product;
 import com.happymall.webservice.service.ProductService;
 
-
-
 @RestController
-@RequestMapping({"/products"})
+@RequestMapping({ "/products" })
 public class ProductController {
-	
+
 	@Autowired
 	private ProductService productService;
- 
- 	@RequestMapping({"","/all"})
+
+	@RequestMapping({ "", "/all" })
 	public List<Product> list(Model model) {
-		List<Product> list =  productService.getAllProducts();
-		
+		List<Product> list = productService.getAllProducts();
+
 		return list;
 	}
-	
- 	@GetMapping("/{id}")
-	public @ResponseBody Product getProductById( @PathVariable("id") int productId) {
+
+	@GetMapping("/{id}")
+	public @ResponseBody Product getProductById(@PathVariable("id") int productId) {
 
 		return productService.getProduct(productId);
- 	}
+	}
 
- 	@RequestMapping("/name/{name}")
-	public List<Product> getProductWithName( @PathVariable("name") String name) {
+	@RequestMapping("/name/{name}")
+	public List<Product> getProductWithName(@PathVariable("name") String name) {
 
 		return productService.getProductsByName(name);
- 	}
- 	
- 	@RequestMapping("/vendor/{name}")
-	public List<Product> getProductWithVendor( @PathVariable("name") String name) {
+	}
+
+	@RequestMapping("/vendor/{name}")
+	public List<Product> getProductWithVendor(@PathVariable("name") String name) {
 
 		return productService.getProductsByVendorName(name);
- 	}
+	}
 
-	   
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
-	public Product processAddNewProductForm(@RequestBody Product productToBeAdded ) {
+	public Product processAddNewProductForm(@RequestBody Product productToBeAdded) {
 //		System.out.println("##############################################################################################");
 //		System.out.println(productToBeAdded.getName()+": "+ productToBeAdded.getDescription()+": "+ productToBeAdded.getPrice()+": "+productToBeAdded.getQuantity());
-			productService.addProduct(productToBeAdded);
-			return productToBeAdded;
+		productService.addProduct(productToBeAdded);
+		return productToBeAdded;
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public Product processUpdateProductForm(@RequestBody Product productToBeUpdated ) {
+	public Product processUpdateProductForm(@RequestBody Product productToBeUpdated) {
 
-			return productService.updateProduct(productToBeUpdated);
+		return productService.updateProduct(productToBeUpdated);
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void deleteProduct(@RequestBody Product productToBeDeleted) {
 
-			productToBeDeleted.setStatus("D");
-			productService.updateProduct(productToBeDeleted);
+		productToBeDeleted.setStatus("D");
+		productService.updateProduct(productToBeDeleted);
 	}
-	
+
 	@RequestMapping(value = "/approve", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public Product approveProduct(@RequestBody Product product) {
-		
+
 		return productService.approveProduct(product);
 	}
-	
+
 	@RequestMapping(value = "/block", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public Product blockProduct(@RequestBody Product product) {
-		
+
 		return productService.blockProduct(product);
 	}
-	
+
 	@RequestMapping("/by/vendor/{id}")
-	public List<Product> getProductsByVendorId(@PathVariable("id") int id){
-		
+	public List<Product> getProductsByVendorId(@PathVariable("id") int id) {
+
 		return productService.getProductsByVendorId(id);
 	}
-	
-	
-	
-	
 
 }

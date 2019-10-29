@@ -2,7 +2,6 @@ package com.happymall.webservice.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.happymall.webservice.dao.OrderLineDao;
 import com.happymall.webservice.dao.OrdersDao;
-import com.happymall.webservice.dao.ProductDao;
 import com.happymall.webservice.domain.Orders;
 import com.happymall.webservice.service.OrderService;
 
@@ -22,12 +20,12 @@ public class OrderServiceImpl implements OrderService {
 	private OrdersDao orderDao;
 	@Autowired
 	private OrderLineDao olDao;
-	
+
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
 	// All creating order functions will be declared here
 	// -----------------------------------------------------------------------------------------
-	
+
 	@Override
 	public void addOrder(Orders order) {
 		try {
@@ -37,16 +35,15 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
-	// End Create-------------------------------------------------------------------------------
+	// End
+	// Create-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
-	
-	
-	
- 	//-----------------------------------------------------------------------------------------
- 	//Retrieve---------------------------------------------------------------------------------
- 	//All retrieving/getting order functions will be declared here
- 	//-----------------------------------------------------------------------------------------
- 	
+
+	// -----------------------------------------------------------------------------------------
+	// Retrieve---------------------------------------------------------------------------------
+	// All retrieving/getting order functions will be declared here
+	// -----------------------------------------------------------------------------------------
+
 	@Override
 	public Orders getOrder(int id) {
 		try {
@@ -56,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public List<Orders> getAllOrders() {
 		try {
@@ -70,35 +67,30 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Orders> getAllOrdersByUser(int userId, boolean isEnduser) {
 		List<Orders> list;
-		
+
 		if (isEnduser) {
-			//Get all orders by enduser id
-			list = this.getAllOrders().stream()
-						.filter(o -> o.getUser().getId() == userId)
-						.filter(o -> ! o.getStatus().equalsIgnoreCase("ShoppingCart"))
-						.filter(o -> ! o.getStatus().equalsIgnoreCase("New"))
-						.collect(Collectors.toList());
+			// Get all orders by enduser id
+			list = this.getAllOrders().stream().filter(o -> o.getUser().getId() == userId)
+					.filter(o -> !o.getStatus().equalsIgnoreCase("ShoppingCart"))
+					.filter(o -> !o.getStatus().equalsIgnoreCase("New")).collect(Collectors.toList());
 		} else {
-			//Get all orders by vendor id
-			list = olDao.findAll().stream()
-					.filter(o -> o.getProduct().getVendor().getId() == userId)
-					.map(o -> o.getOrders())
-					.collect(Collectors.toList());
+			// Get all orders by vendor id
+			list = olDao.findAll().stream().filter(o -> o.getProduct().getVendor().getId() == userId)
+					.map(o -> o.getOrders()).collect(Collectors.toList());
 		}
-		
+
 		return list;
 	}
-	
- 	//End Retrieve-----------------------------------------------------------------------------
- 	//-----------------------------------------------------------------------------------------
 
-	
+	// End
+	// Retrieve-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------
 
-	//-----------------------------------------------------------------------------------------
-	//Update-----------------------------------------------------------------------------------
-	//All updating/modifying order functions will be declared here
-	//-----------------------------------------------------------------------------------------
-	
+	// -----------------------------------------------------------------------------------------
+	// Update-----------------------------------------------------------------------------------
+	// All updating/modifying order functions will be declared here
+	// -----------------------------------------------------------------------------------------
+
 	@Override
 	public void updateOrder(Orders order) {
 		try {
@@ -117,22 +109,22 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
- 	//End Update-------------------------------------------------------------------------------
- 	//-----------------------------------------------------------------------------------------
+	// End
+	// Update-------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------
 
-	
-	
- 	//-----------------------------------------------------------------------------------------
- 	//Delete-----------------------------------------------------------------------------------
- 	//All deleting/removing order functions will be declared here
- 	//-----------------------------------------------------------------------------------------
- 	
+	// -----------------------------------------------------------------------------------------
+	// Delete-----------------------------------------------------------------------------------
+	// All deleting/removing order functions will be declared here
+	// -----------------------------------------------------------------------------------------
+
 	@Override
-	public void deleteOrder(int id) {		
-		//This code will physically remove the record. Commented out for now
-		//orderDao.delete(id);
+	public void deleteOrder(int id) {
+		// This code will physically remove the record. Commented out for now
+		// orderDao.delete(id);
 	}
-	
- 	//End Delete-------------------------------------------------------------------------------
- 	//-----------------------------------------------------------------------------------------
+
+	// End
+	// Delete-------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------
 }

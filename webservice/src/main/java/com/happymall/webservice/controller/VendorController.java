@@ -1,7 +1,6 @@
 package com.happymall.webservice.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,55 +18,54 @@ import com.happymall.webservice.service.VendorService;
 @RestController
 @RequestMapping("/vendors")
 public class VendorController {
-	
+
 	@Autowired
 	VendorService vendorService;
-	
-	@RequestMapping({"","/all"})
+
+	@RequestMapping({ "", "/all" })
 	public List<User> list(Model model) {
-		return  vendorService.getAllVendors();
- 
+		return vendorService.getAllVendors();
+
 	}
-	
+
 	@RequestMapping("/{id}")
-	public User getVendorById( @PathVariable("id") int vendorId) {
+	public User getVendorById(@PathVariable("id") int vendorId) {
 
 		return vendorService.getVendor(vendorId);
- 	}
-	
-	
+	}
+
 	@RequestMapping("/email/{email}")
-	public User getVendorWithEmail( @PathVariable("email") String email) {
+	public User getVendorWithEmail(@PathVariable("email") String email) {
 
 		return vendorService.getVendorByEmail(email);
- 	}
-	
+	}
+
 	@RequestMapping("/phone/{phone}")
-	public User getVendorWithPhone( @PathVariable("phone") String phone) {
+	public User getVendorWithPhone(@PathVariable("phone") String phone) {
 
 		return vendorService.getVendorByPhone(phone);
- 	}
-	
+	}
+
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void processAddNewVendorForm(@RequestBody User vendor ) {
+	public void processAddNewVendorForm(@RequestBody User vendor) {
 
-			vendorService.addVendor(vendor);
- 
+		vendorService.addVendor(vendor);
+
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public User processUpdateVendorForm(@RequestBody User vendor ) {
+	public User processUpdateVendorForm(@RequestBody User vendor) {
 
-			return vendorService.updateVendor(vendor);
+		return vendorService.updateVendor(vendor);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteVendor(@PathVariable("id") int vendorId ) {
+	public void deleteVendor(@PathVariable("id") int vendorId) {
 
-			vendorService.deleteVendor(vendorId);
+		vendorService.deleteVendor(vendorId);
 	}
 
 }

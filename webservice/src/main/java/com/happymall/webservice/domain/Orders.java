@@ -2,29 +2,17 @@ package com.happymall.webservice.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class Orders {
@@ -32,38 +20,38 @@ public class Orders {
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@NotBlank
 	private String orderCode;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="shipping_address_id")
+	@JoinColumn(name = "shipping_address_id")
 	private Address shippingAddress;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="billing_address_id")
+	@JoinColumn(name = "billing_address_id")
 	private Address billingAddress;
-	
-	private double subTotal=0.0;
-	
+
+	private double subTotal = 0.0;
+
 	private double tax;
-	
+
 	private double serviceFee;
-	
+
 	private double total;
 
 	private String status;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
-	
+
 	@Transient
 	private List<OrderLine> listOrderLine;
 
@@ -92,8 +80,8 @@ public class Orders {
 	}
 
 	public double getSubTotal() {
-		if(subTotal == 0) {
-			for(OrderLine L : listOrderLine){
+		if (subTotal == 0) {
+			for (OrderLine L : listOrderLine) {
 				subTotal += L.getTotal();
 			}
 		}
@@ -105,7 +93,7 @@ public class Orders {
 	}
 
 	public double getTax() {
-		if(tax == 0) {
+		if (tax == 0) {
 			tax = 0.07 * getSubTotal();
 		}
 		return tax;
@@ -124,7 +112,7 @@ public class Orders {
 	}
 
 	public double getTotal() {
-		if(total == 0) {
+		if (total == 0) {
 			total = getTax() + getSubTotal();
 		}
 		return total;
@@ -165,13 +153,10 @@ public class Orders {
 	public void setListOrderLine(List<OrderLine> listOrderLine) {
 		this.listOrderLine = listOrderLine;
 	}
-	
-	
-	
+
 	public Orders() {
 		// TODO Auto-generated constructor stub
 	}
-	
 
 	public Address getShippingAddress() {
 		return shippingAddress;
@@ -189,8 +174,6 @@ public class Orders {
 		this.billingAddress = billingAddress;
 	}
 
-	
-
 	public Orders(User user, @NotBlank String orderCode, Address shippingAddress, Address billingAddress,
 			String status) {
 		super();
@@ -201,7 +184,7 @@ public class Orders {
 		this.status = status;
 		this.createDate = new Date();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", user=" + user + ", orderCode=" + orderCode + ", shippingAddress="
@@ -209,6 +192,5 @@ public class Orders {
 				+ ", serviceFee=" + serviceFee + ", total=" + total + ", status=" + status + ", createDate="
 				+ createDate + ", modifiedDate=" + modifiedDate + "]";
 	}
-	
-	
+
 }

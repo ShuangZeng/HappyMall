@@ -7,7 +7,7 @@ import com.happymall.webservice.domain.Transaction;
 
 @Repository
 public class TransactionDaoImpl extends GenericDaoImpl<Transaction> implements TransactionDao {
-	
+
 	public TransactionDaoImpl() {
 		super.setDaoType(Transaction.class);
 	}

@@ -7,7 +7,7 @@ import com.happymall.webservice.domain.Role;
 
 @Repository
 public class RoleDaoImpl extends GenericDaoImpl<Role> implements RoleDao {
-	
+
 	public RoleDaoImpl() {
 		super.setDaoType(Role.class);
 	}

@@ -2,28 +2,16 @@ package com.happymall.webservice.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class Address {
@@ -31,13 +19,13 @@ public class Address {
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
-	
+
 	@NotBlank
 	private String lineOne;
-	
+
 	private String lineTwo;
 
 	@NotBlank
@@ -48,21 +36,20 @@ public class Address {
 
 	@NotBlank
 	private String zipcode;
-	
+
 	private boolean default_addr;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 
 	@Transient
 	private List<Orders> listOrdersShipping;
-	
+
 	@Transient
 	private List<Orders> listOrdersBilling;
-
 
 	@Override
 	public String toString() {
@@ -73,11 +60,11 @@ public class Address {
 		result.append(city + ", " + state + ", " + zipcode);
 		return result.toString();
 	}
-	
+
 	public Address() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -174,6 +161,4 @@ public class Address {
 		this.listOrdersBilling = listOrdersBilling;
 	}
 
-	
-	
 }

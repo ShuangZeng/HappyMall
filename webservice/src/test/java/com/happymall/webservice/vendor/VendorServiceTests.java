@@ -1,8 +1,8 @@
 package com.happymall.webservice.vendor;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,27 +21,27 @@ import com.happymall.webservice.service.impl.VendorServiceImpl;
 @SpringBootTest
 @Transactional
 public class VendorServiceTests {
-	
+
 	@TestConfiguration
 	static class VendorServiceImplTestContextConfiguration {
-		
+
 		@Bean
 		public VendorService vendorService() {
 			return new VendorServiceImpl();
 		}
-		
+
 		@Bean
 		public User vendor() {
 			return new User();
 		}
 	}
-	
+
 	@Autowired
 	private VendorService vendorService;
-	
+
 	@Autowired
 	private User vendor;
-	
+
 	@Test
 	public void whenGetAllVendorsThenListNotEmpty() {
 		Object vendors = vendorService.getAllVendors();
@@ -50,7 +50,7 @@ public class VendorServiceTests {
 		List<User> list = (List<User>) vendors;
 		assertThat(list.size()).isGreaterThan(0);
 	}
-	
+
 	@Test
 	public void whenGetVendorByEmailThenReturnVendor() {
 		String email = "sonnen@msn.com";
@@ -58,7 +58,7 @@ public class VendorServiceTests {
 		User vendor = vendorService.getVendorByEmail(email);
 		assertThat(vendor.getFullName()).isEqualTo(expectedName);
 	}
-	
+
 	@Test
 	public void whenGetVendorByPhoneThenReturnVendor() {
 		String phone = "(389) 255-2383";
@@ -66,7 +66,7 @@ public class VendorServiceTests {
 		User vendor = vendorService.getVendorByPhone(phone);
 		assertThat(vendor.getFullName()).isEqualTo(expectedName);
 	}
-	
+
 	@Test
 	public void whenGetVendorByIdThenReturnVendor() {
 		int id = 1001;
@@ -74,7 +74,7 @@ public class VendorServiceTests {
 		User vendor = vendorService.getVendor(id);
 		assertThat(vendor.getFullName()).isEqualTo(expectedName);
 	}
-	
+
 //	@Test
 //	public void whenAddVendorThenGetByEmail() {
 //		String email = "abc@def.com";
@@ -89,7 +89,5 @@ public class VendorServiceTests {
 //		User vendor = vendorService.getVendorByEmail(email);
 //		assertThat(vendor.getFullName()).isEqualTo(expectedName);
 //	}
-	
-	
 
 }

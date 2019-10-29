@@ -2,14 +2,12 @@ package com.happymall.webservice.mock;
 
 import java.util.Date;
 
-import com.happymall.webservice.dao.CardDetailDao;
-import com.happymall.webservice.dao.impl.CardDetailDaoImpl;
 import com.happymall.webservice.domain.CardDetail;
 
 public class CardDetailMock {
 
 	public static CardDetail create() {
-		
+
 		CardDetail C = new CardDetail();
 		C.setActive_Ind('A');
 		C.setAddress(AddressMock.create());
@@ -19,12 +17,12 @@ public class CardDetailMock {
 		C.setRemainingValue(5000.0);
 		C.setValue(5000.0);
 		C.setType("Visacard");
-		
+
 		return C;
 	}
-	
-public static CardDetail createAndPersist() {
-		
+
+	public static CardDetail createAndPersist() {
+
 		CardDetail C = new CardDetail();
 		C.setActive_Ind('A');
 		C.setAddress(AddressMock.createAndPersist());
@@ -34,9 +32,9 @@ public static CardDetail createAndPersist() {
 		C.setRemainingValue(5000.0);
 		C.setValue(5000.0);
 		C.setType("Visacard");
-		
-		//CD.save(C);
-		
+
+		// CD.save(C);
+
 		return C;
 	}
 }

@@ -14,59 +14,59 @@ import com.happymall.webservice.service.CardDetailService;
 @Service
 @Transactional
 public class CardDetailServiceImpl implements CardDetailService {
-	
+
 	@Autowired
 	CardDetailDao cardDetailDao;
-	
+
 	@Autowired
 	MockServerDao mockServerDao;
 
 	@Override
 	public List<CardDetail> findCardByUser(int id) {
-		
+
 		return cardDetailDao.findCardByUser(id);
 	}
 
 	@Override
 	public List<CardDetail> getAllCardDetails() {
-		
+
 		return cardDetailDao.findAll();
 	}
 
 	@Override
 	public CardDetail getCardDetail(int id) {
-		
+
 		return cardDetailDao.findOne(id);
 	}
 
 	@Override
 	public void addCardDetail(CardDetail cardDetail) {
-		
+
 		cardDetailDao.save(cardDetail);
-		
+
 	}
 
 	@Override
 	public CardDetail updateCardDetail(CardDetail cardDetail) {
-		
+
 		return cardDetailDao.update(cardDetail);
 	}
 
 	@Override
 	public void deleteCardDetail(int id) {
-		
+
 		cardDetailDao.delete(id);
 	}
 
 	@Override
 	public Boolean isCardValid(CardDetail cardDetail) {
-		
+
 		return mockServerDao.isCardValid(cardDetail);
 	}
 
 	@Override
 	public CardDetail findDefaultCardByUser(int id) {
-		
+
 		return cardDetailDao.findDefaultCardByUser(id);
 	}
 

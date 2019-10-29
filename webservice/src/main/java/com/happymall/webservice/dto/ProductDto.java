@@ -8,25 +8,25 @@ import com.happymall.webservice.domain.Resource;
 import com.happymall.webservice.domain.User;
 
 public class ProductDto {
-	
+
 	private int id;
-	
+
 	private User vendor;
-	
+
 	private String name;
-	
+
 	private String description;
-	
+
 	private double price;
-	
+
 	private int quantity;
-	
+
 	private String status;
 
 	private Date createDate;
-	
+
 	private Date modifiedDate;
-	
+
 	private List<Resource> listResouce;
 
 	public int getId() {
@@ -105,11 +105,10 @@ public class ProductDto {
 		return listResouce;
 	}
 
-
 	public void setListResouce(List<Resource> listResouce) {
 		this.listResouce = listResouce;
 	}
-	
+
 	public Product toProduct() {
 		Product dto = new Product();
 		dto.setId(id);

@@ -24,59 +24,60 @@ import com.opencsv.CSVReader;
 @Component
 @Transactional
 public class MockSeeder {
-	
+
 	@PersistenceContext
-    protected EntityManager entityManager;
-	
+	protected EntityManager entityManager;
+
 	@Autowired
 	MockServerDao mockServerDao;
-	
+
 	@EventListener
 	public void seed(ContextRefreshedEvent event) {
-	    seedMockServerTable();
+		seedMockServerTable();
 	}
-	
+
 	public void seedMockServerTable() {
-		
+
 		List<MockServer> data = mockServerDao.findAll();
-		if(data.isEmpty()) {
-			
+		if (data.isEmpty()) {
+
 			MockServer mock;
 			CSVReader csvReader;
 			try {
 				File file = ResourceUtils.getFile("classpath:seed.csv");
-				
-	            Reader reader = Files.newBufferedReader(file.toPath());
-	            csvReader = new CSVReader(reader);
-	            String[] nextRecord;
-	            while ((nextRecord = csvReader.readNext()) != null) {
 
-	    			mock = new MockServer();
-	    			mock.setCardNumber(nextRecord[0]);
-	    			mock.setNameOnCard(nextRecord[1]);
-	    			mock.setValue(Double.parseDouble(nextRecord[2]));
-	    			mock.setRemainingValue(Double.parseDouble(nextRecord[3]));
-	    			String cvv = (int)(Math.random() *1000) + "";
-	    			if(cvv.length() == 1) cvv = "00"+cvv;
-	    			if(cvv.length() == 2) cvv = "0"+cvv;
-	    			mock.setCvv(cvv);
-	    			mock.setIssuedDate(new Date());
-	    			mock.setExpiredDate(new Date());
-	    			mock.setType(nextRecord[4]);
-	    			mock.setActiveInd(nextRecord[5]);
-	    			
-	    			mockServerDao.save(mock);
-	                
-	            }
-		        csvReader.close();
-		    }catch(IOException e) {
-		    	System.out.println("Cannot read file");
-		    }
-			
+				Reader reader = Files.newBufferedReader(file.toPath());
+				csvReader = new CSVReader(reader);
+				String[] nextRecord;
+				while ((nextRecord = csvReader.readNext()) != null) {
+
+					mock = new MockServer();
+					mock.setCardNumber(nextRecord[0]);
+					mock.setNameOnCard(nextRecord[1]);
+					mock.setValue(Double.parseDouble(nextRecord[2]));
+					mock.setRemainingValue(Double.parseDouble(nextRecord[3]));
+					String cvv = (int) (Math.random() * 1000) + "";
+					if (cvv.length() == 1)
+						cvv = "00" + cvv;
+					if (cvv.length() == 2)
+						cvv = "0" + cvv;
+					mock.setCvv(cvv);
+					mock.setIssuedDate(new Date());
+					mock.setExpiredDate(new Date());
+					mock.setType(nextRecord[4]);
+					mock.setActiveInd(nextRecord[5]);
+
+					mockServerDao.save(mock);
+
+				}
+				csvReader.close();
+			} catch (IOException e) {
+				System.out.println("Cannot read file");
+			}
+
 			data = mockServerDao.findAll();
 			data.forEach(e -> System.out.println(e.getId()));
-		
-		
+
 		}
 	}
 

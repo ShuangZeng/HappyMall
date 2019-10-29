@@ -1,29 +1,31 @@
 package com.happymall.webservice.domain;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class EditAddress {
-	
+
 	@NotBlank
-	@Size(max=100)
+	@Size(max = 100)
 	private String name;
-	
+
 	@NotBlank
-	@Pattern(regexp="^(\\d{3})-\\d{3}-\\d{4}$")
+	@Pattern(regexp = "^(\\d{3})-\\d{3}-\\d{4}$")
 	private String phoneNumber;
-	
+
 	@NotBlank
-	@Size(max=100)
+	@Size(max = 100)
 	private String lineOne;
-	
+
 	@NotBlank
-	@Size(max=100)
+	@Size(max = 100)
 	private String lineTwo;
-	
+
 	public EditAddress() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -81,14 +83,14 @@ public class EditAddress {
 	}
 
 	@NotBlank
-	@Size(max=100)
+	@Size(max = 100)
 	private String city;
-	
+
 	@NotBlank
-	@Size(max=100)
+	@Size(max = 100)
 	private String state;
-	
+
 	@NotBlank
-	@Pattern(regexp="^\\d{5}$")
+	@Pattern(regexp = "^\\d{5}$")
 	private String zipcode;
 }

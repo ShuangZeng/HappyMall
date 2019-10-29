@@ -7,7 +7,7 @@ import com.happymall.webservice.domain.UserAuthorization;
 
 @Repository
 public class UserAuthorizationDaoImpl extends GenericDaoImpl<UserAuthorization> implements UserAuthorizationDao {
-	
+
 	public UserAuthorizationDaoImpl() {
 		super.setDaoType(UserAuthorization.class);
 	}

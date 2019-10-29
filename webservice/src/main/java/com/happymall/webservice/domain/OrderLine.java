@@ -1,28 +1,16 @@
 package com.happymall.webservice.domain;
 
 import java.util.Date;
-import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class OrderLine {
@@ -30,23 +18,23 @@ public class OrderLine {
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="orders_id")
+	@JoinColumn(name = "orders_id")
 	private Orders orders;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	private Product product;
-	
+
 	private double price;
-	
+
 	private int quantity;
-	
+
 	private double total;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
 
@@ -114,7 +102,6 @@ public class OrderLine {
 		this.modifiedDate = modifiedDate;
 	}
 
-
 	public OrderLine(Orders orders, Product product, double price, int quantity) {
 		super();
 		this.orders = orders;
@@ -124,7 +111,7 @@ public class OrderLine {
 		this.total = price * quantity;
 		this.createDate = new Date();
 	}
-	
+
 	public OrderLine() {
 		// TODO Auto-generated constructor stub
 	}
