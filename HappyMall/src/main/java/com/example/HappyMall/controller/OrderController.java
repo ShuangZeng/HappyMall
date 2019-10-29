@@ -114,6 +114,7 @@ public class OrderController {
 		
 		try {
 			User user = (User) model.asMap().get("user");
+			System.out.println("USER ID IS: "+ user.getId());
 			list = orderService.getAllOrdersByUser(user.getId(), true);
 		} catch (Exception e) {
 			e.printStackTrace();

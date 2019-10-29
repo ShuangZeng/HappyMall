@@ -23,6 +23,7 @@ import com.example.HappyMall.service.OrdersService;
 import com.example.HappyMall.service.PaymentService;
 import com.example.HappyMall.service.ProductService;
 import com.example.HappyMall.service.SystemConfigService;
+import com.example.HappyMall.service.VendorService;
 
 //ThaoDao created and edited
 @Controller
@@ -31,6 +32,9 @@ public class OrderConfirmController {
 
 	@Autowired
 	private OrdersService ordersService;
+	
+	@Autowired
+	private VendorService userService;
 
 	@Autowired
 	private OrderLineService orderLineService;
@@ -145,6 +149,61 @@ public class OrderConfirmController {
 			System.out.println("Create a new order");
 			Address address = addressService.getAddressDefaultByUserId(user.getId());
 			newOrder = new Orders(user, "", address, address, "ShoppingCart");
+			newOrder.setOrderCode("od03");
+			ordersService.save(newOrder);
+			System.out.println("Finish a new order");
+		
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return "redirect:/index";
+	}
+	
+	@PostMapping("/shoppingcart/test")
+	public String testOrder(Model model) {
+		Orders newOrder = null;
+		try 
+		{
+			System.out.println("Create a payment");
+			User user = userService.getVendor(1004);
+			Orders orders = ordersService.findByStatusAndUserId("New", 1004).get(0);
+			System.out.println("Order: " + orders);
+			Payment payment = new Payment();
+			payment.setOrders(orders);
+			payment.setStatus("Pending");
+			payment.setPaymentTotal(orders.getTotal());
+			payment.setCardDetail(cardDetailService.getCardDefaultByUserId(1004));
+			paymentService.save(payment);
+	
+			System.out.println("Update the order's status to Completed");
+			orders.setStatus("Completed");
+			ordersService.save(orders);
+			System.out.println("Finish a payment");
+			CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(1004);
+			cardDetail.setRemainingValue(cardDetail.getRemainingValue() - orders.getTotal());
+			cardDetailService.save(cardDetail);
+			
+			// Sending out email notification
+			//ordersService.sendNotification(orders);
+	
+			System.out.println("Update the product's quantity in the inventory");
+			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
+			for (OrderLine orderLine : listOrderLine) {
+				int itemQuantity = orderLine.getQuantity();
+				Product product = orderLine.getProduct();
+				product.setQuantity(product.getQuantity() - itemQuantity);
+				System.out.println("Product is updated: " + product + " - Quantity update: " + itemQuantity);
+				productService.updateProduct(product);
+			}
+	
+			// Create new order for user with the order's status is "New"
+			System.out.println("Create a new order");
+			Address address = addressService.getAddressDefaultByUserId(1004);
+			newOrder = new Orders(user, "", address, address, "ShoppingCart");
+			newOrder.setOrderCode("od02");
 			ordersService.save(newOrder);
 			System.out.println("Finish a new order");
 		

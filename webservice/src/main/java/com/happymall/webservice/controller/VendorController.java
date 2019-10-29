@@ -30,10 +30,11 @@ public class VendorController {
 	}
 	
 	@RequestMapping("/{id}")
-	public User getProductById( @PathVariable("id") int vendorId) {
+	public User getVendorById( @PathVariable("id") int vendorId) {
 
 		return vendorService.getVendor(vendorId);
  	}
+	
 	
 	@RequestMapping("/email/{email}")
 	public User getVendorWithEmail( @PathVariable("email") String email) {

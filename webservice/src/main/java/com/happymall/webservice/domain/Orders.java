@@ -48,7 +48,7 @@ public class Orders {
 	@JoinColumn(name="billing_address_id")
 	private Address billingAddress;
 	
-	private double subTotal;
+	private double subTotal=0.0;
 	
 	private double tax;
 	
@@ -200,6 +200,14 @@ public class Orders {
 		this.billingAddress = billingAddress;
 		this.status = status;
 		this.createDate = new Date();
+	}
+	
+	@Override
+	public String toString() {
+		return "Orders [id=" + id + ", user=" + user + ", orderCode=" + orderCode + ", shippingAddress="
+				+ shippingAddress + ", billingAddress=" + billingAddress + ", subTotal=" + subTotal + ", tax=" + tax
+				+ ", serviceFee=" + serviceFee + ", total=" + total + ", status=" + status + ", createDate="
+				+ createDate + ", modifiedDate=" + modifiedDate + "]";
 	}
 	
 	

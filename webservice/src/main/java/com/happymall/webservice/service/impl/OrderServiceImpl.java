@@ -75,6 +75,8 @@ public class OrderServiceImpl implements OrderService {
 			//Get all orders by enduser id
 			list = this.getAllOrders().stream()
 						.filter(o -> o.getUser().getId() == userId)
+						.filter(o -> ! o.getStatus().equalsIgnoreCase("ShoppingCart"))
+						.filter(o -> ! o.getStatus().equalsIgnoreCase("New"))
 						.collect(Collectors.toList());
 		} else {
 			//Get all orders by vendor id

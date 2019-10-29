@@ -86,7 +86,10 @@ public class OrdersController {
 
 	@RequestMapping("/user")
 	public List<Orders> getAllOrdersByUser(@RequestParam("id") int userId, @RequestParam("isEnduser") boolean isEnduser) {
-		return os.getAllOrdersByUser(userId, isEnduser);
+		List<Orders> list = os.getAllOrdersByUser(userId, isEnduser);
+		System.out.println("ORDERS ARE: \n ");
+		list.forEach(o -> System.out.println(o));
+		return list;
 	}
 
 	// End Retrieve-----------------------------------------------------------------------------

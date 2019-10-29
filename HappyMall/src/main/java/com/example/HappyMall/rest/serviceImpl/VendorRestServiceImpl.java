@@ -78,6 +78,7 @@ public class VendorRestServiceImpl implements VendorRestService {
 		User vendor = responseEntity.getBody();
 		return vendor;
 	}
+	
 
 	@Override
 	public User updateVendor(User vendor) {
