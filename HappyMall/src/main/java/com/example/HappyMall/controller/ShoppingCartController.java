@@ -213,7 +213,7 @@ public class ShoppingCartController {
 				System.out.println("Create card detail");
 				//Check isValid()
 				MockServer mockServer = mockServerService.findByNameOnCardAndCardNumberAndCvv(cardDetail.getNameOnCard(), cardDetail.getCardNumber(), cardDetail.getCvv());
-				System.out.println("Card Detail: " + cardDetail.getNameOnCard() + "-" + cardDetail.getCardNumber() + "-" + cardDetail.getCvv());
+				System.out.println("Card Detail: " + cardDetail.getNameOnCard() + "-" + cardDetail.getCardNumber() + "-" + cardDetail.getCvv() + "-" + cardDetail.getExpiredDate());
 				System.out.println("mockServer: " + mockServer);
 				if (mockServer != null)
 				{
@@ -223,16 +223,19 @@ public class ShoppingCartController {
 					List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
 					for (CardDetail item : listCard)
 						item.setDefault_card(false);
+					cardDetailService.saveAll(listCard);
 					cardDetail.setDefault_card(true);
 					cardDetail.setActive_Ind('A');
 					cardDetail.setAddress(address);
 					cardDetail.setUser(user);
-					cardDetail.setIssuedDate(mockServer.getIssuedDate());
+					//cardDetail.setIssuedDate(mockServer.getIssuedDate());
 					cardDetail.setRemainingValue(mockServer.getRemainingValue());
 					cardDetail.setValue(mockServer.getValue());
 					cardDetail.setCreateDate(new Date());
-					listCard.add(cardDetail);
-					cardDetailService.saveAll(listCard);
+					System.out.println("check error");
+					cardDetailService.save(cardDetail);
+					System.out.println("check error2");
+					//listCard.add(cardDetail);
 					System.out.println("Card has been created");
 					return cardDetail;
 				}
