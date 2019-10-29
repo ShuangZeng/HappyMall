@@ -37,9 +37,26 @@ public class OrderRestServiceImpl implements OrderRestService {
 
 	@Override
 	public void addOrder(Orders order) {
+		serviceUrlExtended = serviceUrl + "/addNew";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		restTemplate.postForObject(serviceUrl, httpEntity, Orders.class);
+		restTemplate.exchange(serviceUrlExtended, HttpMethod.POST, httpEntity, Orders.class);
+	}
+	
+	@Override
+	public void addWithSendingEmail(Orders order) {
+		serviceUrlExtended = serviceUrl + "/addNewWithNotification";
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
+		restTemplate.exchange(serviceUrlExtended, HttpMethod.POST, httpEntity, Orders.class);
+	}
+	
+	@Override
+	public void sendNotification(Orders order) {
+		serviceUrlExtended = serviceUrl + "/sendNotification";
+		RestTemplate restTemplate = restHelper.getRestTemplate();
+		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
+		restTemplate.exchange(serviceUrlExtended, HttpMethod.POST, httpEntity, Orders.class);
 	}
 	
 	// End Create-------------------------------------------------------------------------------

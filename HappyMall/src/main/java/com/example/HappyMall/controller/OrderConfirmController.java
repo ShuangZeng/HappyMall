@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.HappyMall.domain.Address;
+import com.example.HappyMall.domain.CardDetail;
 import com.example.HappyMall.domain.OrderLine;
 import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.domain.Payment;
@@ -105,40 +106,54 @@ public class OrderConfirmController {
 
 	@PostMapping("/shoppingcart/confirm")
 	public String confirmOrder(Model model) {
-		System.out.println("Create a payment");
-		User user = (User) model.asMap().get("user");
-		Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
-		System.out.println("Order: " + orders);
-		Payment payment = new Payment();
-		payment.setOrders(orders);
-		payment.setStatus("Pending");
-		payment.setPaymentTotal(orders.getTotal());
-		payment.setCardDetail(cardDetailService.getCardDefaultByUserId(user.getId()));
-		paymentService.save(payment);
-
-		System.out.println("Update the order's status to Completed");
-		orders.setStatus("Completed");
-		ordersService.save(orders);
-		System.out.println("Finish a payment");
-
-		System.out.println("Update the product's quantity in the inventory");
-		List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
-		for (OrderLine orderLine : listOrderLine) {
-			int itemQuantity = orderLine.getQuantity();
-			Product product = orderLine.getProduct();
-			product.setQuantity(product.getQuantity() - itemQuantity);
-			System.out.println("Product is updated: " + product + " - Quantity update: " + itemQuantity);
-			productService.updateProduct(product);
+		Orders newOrder = null;
+		try 
+		{
+			System.out.println("Create a payment");
+			User user = (User) model.asMap().get("user");
+			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			System.out.println("Order: " + orders);
+			Payment payment = new Payment();
+			payment.setOrders(orders);
+			payment.setStatus("Pending");
+			payment.setPaymentTotal(orders.getTotal());
+			payment.setCardDetail(cardDetailService.getCardDefaultByUserId(user.getId()));
+			paymentService.save(payment);
+	
+			System.out.println("Update the order's status to Completed");
+			orders.setStatus("Completed");
+			ordersService.save(orders);
+			System.out.println("Finish a payment");
+			CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(user.getId());
+			cardDetail.setRemainingValue(cardDetail.getRemainingValue() - orders.getTotal());
+			cardDetailService.save(cardDetail);
+			
+			// Sending out email notification
+			//ordersService.sendNotification(orders);
+	
+			System.out.println("Update the product's quantity in the inventory");
+			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
+			for (OrderLine orderLine : listOrderLine) {
+				int itemQuantity = orderLine.getQuantity();
+				Product product = orderLine.getProduct();
+				product.setQuantity(product.getQuantity() - itemQuantity);
+				System.out.println("Product is updated: " + product + " - Quantity update: " + itemQuantity);
+				productService.updateProduct(product);
+			}
+	
+			// Create new order for user with the order's status is "New"
+			System.out.println("Create a new order");
+			Address address = addressService.getAddressDefaultByUserId(user.getId());
+			newOrder = new Orders(user, "", address, address, "ShoppingCart");
+			ordersService.save(newOrder);
+			System.out.println("Finish a new order");
+		
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 
-		// Create new order for user with the order's status is "New"
-		System.out.println("Create a new order");
-		Address address = addressService.getAddressDefaultByUserId(user.getId());
-		Orders newOrder = new Orders(user, String.valueOf(Math.random()), address, address, "New");
-		ordersService.save(newOrder);
-		System.out.println("Finish a new order");
-
-		model.addAttribute("orders", newOrder);
 		return "redirect:/index";
 	}
 }

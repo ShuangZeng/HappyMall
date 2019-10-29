@@ -26,11 +26,7 @@ import com.example.HappyMall.service.OrdersService;
 @Controller
 @SessionAttributes({ "user" })
 @RequestMapping({"/orders"})
-public class OrderController {
-
-	@Autowired
-	private AddressService addressService;
-	
+public class OrderController {	
 	@Autowired
 	private OrdersService orderService;
 

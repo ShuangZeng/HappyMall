@@ -156,7 +156,8 @@
 							<td>Address: <span class="info" id="shippingAddress"
 								th:text="${orders}?*{shippingAddress}"></span> <span
 								style="visibility: hidden" id="shippingId"
-								th:text="${orders}?*{shippingAddress.id}"></span>
+								th:text="${orders}?(*{shippingAddress}?*{shippingAddress.id})"></span>
+								<span class="alert alert-danger" th:if="${orders} == null or ${orders.shippingAddress} == null">You should have a shipping address for checking out.</span>
 								<div class="float-right">
 									<a id="btnEditShippingAddress" href="#" data-toggle="modal"
 										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
@@ -180,6 +181,7 @@
 								th:text="${cardDetail}?${cardDetail}"></span> <span
 								style="visibility: hidden" id="cardId"
 								th:text="${cardDetail}?${cardDetail.id}"></span>
+								<span class="alert alert-danger" th:if="${cardDetail} == null">You should have a payment method for checking out.</span>
 								<div class="float-right">
 									<a id="btnEditPaymentMethod" href="#" data-toggle="modal"
 										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
@@ -190,7 +192,8 @@
 							<td>Billing Address: <span class="info" id="billingAddress"
 								th:text="${orders}?*{billingAddress}"></span> <span
 								style="visibility: hidden" id="billingId"
-								th:text="${orders}?*{billingAddress.id}"></span>
+								th:text="${orders}?(*{billingAddress}?*{billingAddress.id})"></span>
+								<span class="alert alert-danger" th:if="${orders} == null or ${orders.billingAddress} == null">You should have a billing address for checking out.</span>
 								<div class="float-right">
 									<a id="btnEditBillingAddress" href="#" data-toggle="modal"
 										data-backdrop="static" th:hidden="${user}?false:true">Edit</a>
@@ -201,8 +204,7 @@
 				</table>
 			</div>
 
-			<div class="float-right" th:hidden="${user}?false:true"
-				th:if="${totalProduct > 0}">
+			<div class="float-right" th:if="${user} != null and ${orders} != null and ${orders.billingAddress} != null and ${orders.shippingAddress} != null and ${cardDetail} != null and ${totalProduct} > 0">
 				<button type="submit" class="btn btn-primary">Check out</button>
 			</div>
 		</form>

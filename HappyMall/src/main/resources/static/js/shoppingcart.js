@@ -21,7 +21,7 @@ $(document).ready(function() {
 		}
 		else
 		{
-			$("#cardNumber").attr("pattern", "^5[1-5]\d{14}$");
+			$("#cardNumber").attr("pattern", "^5[1-5][0-9]{14}$");
 			$("#cardNumber").attr("title", "It should be a Master card's number.");
 		}
 	});
@@ -128,7 +128,7 @@ $(document).ready(function() {
 			    	  formatMoney();
 		      },  
 		      error: function(e){        
-		      	setInterval('location.reload()', 2000);
+		      	setInterval('location.reload()', 500);
 		      }  
 		    });  
 	});
@@ -161,7 +161,7 @@ function createShippingAddress() {
       data: JSON.stringify(address),
       datatype: "json",
       success: function(){
-    	setInterval('location.reload()', 2000);
+    	setInterval('location.reload()', 500);
       },  
       error: function(e){          
       	alert('Error: ' + e);  
@@ -186,7 +186,7 @@ function createBillingAddress() {
       data: JSON.stringify(address),
       datatype: "json",
       success: function(){
-    	setInterval('location.reload()', 2000);
+    	setInterval('location.reload()', 500);
       },  
       error: function(e){          
       	alert('Error: ' + e);  
@@ -210,6 +210,7 @@ function createCardDetail() {
     card.type = $("input:radio[name='cardType']:checked").val();
     card.nameOnCard = $("#nameOnCard").val();
     card.cardNumber = $("#cardNumber").val();
+    card.cvv = $("#cardCVV").val();
     card.expiredDate =  date.substring(3, 7) + "-" + date.substring(0, 2) + "-01";
     card.address = address;
     console.log(card);
@@ -221,13 +222,16 @@ function createCardDetail() {
       data: JSON.stringify(card),
       datatype: "json",
       success: function(cardDetail){
-    	  if(cardDetail != null)
+    	  console.log("card: " + cardDetail);
+    	  if(cardDetail != null && cardDetail != "")
     	  {
-    		  alert(cardDetail.cardNumber);
-    		  return false;
+    		  setInterval('location.reload()', 500);
     	  }
     	  else
-    		  setInterval('location.reload()', 500);
+    		  {
+    		  alert("Card is not valid. Please check again!");
+    		  return false;
+    		  }
       },  
       error: function(e){          
       	alert('Error: ' + e);  

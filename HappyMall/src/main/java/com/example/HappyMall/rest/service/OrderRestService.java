@@ -11,6 +11,10 @@ public interface OrderRestService {
 	// -----------------------------------------------------------------------------------------
 
 	void addOrder(Orders order);
+	
+	void addWithSendingEmail(Orders order);
+	
+	void sendNotification(Orders order);
 
 	// End Create-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------

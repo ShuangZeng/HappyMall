@@ -22,13 +22,15 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public List<Payment> findAllPayment() {
 		
-		return prs.getAllPayments();
+		//return prs.getAllPayments();
+		return paymentRepository.findAll();
 	}
 
 	@Override
 	public void save(Payment payment) {
 		// TODO Auto-generated method stub
-		prs.addPayment(payment);
+		//prs.addPayment(payment);
+		paymentRepository.save(payment);
 	}
 	
 	

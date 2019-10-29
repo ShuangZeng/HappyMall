@@ -3,6 +3,7 @@ package com.example.HappyMall.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +14,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.MutablePropertySources;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,7 +41,7 @@ public class ProductController {
 
 	@Autowired
 	ServletContext context;
-	
+
 	@Autowired
 	private ProductService productService;
 
@@ -81,49 +84,73 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("product") Product product, @RequestParam("productImage") MultipartFile productImage,
-			Model model) throws IOException {
+	public String saveProduct(@ModelAttribute("product") Product product,
+			@RequestParam("productImage") MultipartFile productImage, Model model) throws IOException {
 
-		String rootDirectory = context.getRealPath("/HappyMall/src/main/resources/static/images/");
-		System.out.println(rootDirectory);
-		User user = (User) model.asMap().get("user");		
-		if (productImage != null && !productImage.isEmpty()) { 
-			try { 
+		File pwd = null;
+		try {
+			pwd = new File(getClass().getResource("/").toURI());
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		String projectDir = pwd.getParentFile().getParentFile().getParent();
+		System.out.println("Project directory" + projectDir);
+		User user = (User) model.asMap().get("user");
+		Path path = null;
+		if (productImage != null && !productImage.isEmpty()) {
+			try {
 				byte[] bytes = productImage.getBytes();
-				productImage.transferTo( new File(rootDirectory + productImage.getOriginalFilename())); 
-		        Path path = Paths.get(rootDirectory + productImage.getOriginalFilename());
-		        Files.write(path, bytes);
-				System.out.println("Image Transfered");
-			} 
-			catch (Exception e) {
+				productImage.transferTo(new File(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename()));
+				path = Paths.get(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename());
+				Files.write(path, bytes);
+				System.out.println("Image Transfered to " + path.toString());
+			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("File not found");
 			}
 		}
-		product.setImageUrl(rootDirectory + productImage.getOriginalFilename());
-		System.out.println(rootDirectory + productImage.getOriginalFilename());
+		product.setImageUrl("/images/" + productImage.getOriginalFilename());
+		System.out.println("Image path: " + path.toString());
 		product.setVendor(user);
 		productService.addProduct(product);
 		return "redirect:/vendor/";
 	}
 
-//	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
-//	public String saveProduct(@ModelAttribute("product") Product product) {
-//	    productService.addProduct(product);
-//	    return "redirect:/products/admin/update";
-//	}
-//	
-//	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
-//    public void importParse(@RequestParam("myFile") MultipartFile myFile) {
-//         // ... do whatever you want with 'myFile'
-//         // Redirect to a successful upload page
-////         return "redirect:products/admin/newProduct";
-//    }
-
 	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
-	public String updateProduct(@ModelAttribute("product") Product product) {
+	public String updateProduct(Model model, @ModelAttribute("product") Product product,
+			@RequestParam("productImage") MultipartFile productImage) {
+		File pwd = null;
+		try {
+			pwd = new File(getClass().getResource("/").toURI());
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		String projectDir = pwd.getParentFile().getParentFile().getParent();
+		System.out.println("Project directory: " + projectDir);
+		User user = (User) model.asMap().get("user");
+
+		Path path = null;
+		if (productImage != null && !productImage.isEmpty()) {
+			try {
+				byte[] bytes = productImage.getBytes();
+				productImage.transferTo(new File(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename()));
+				path = Paths.get(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename());
+				Files.write(path, bytes);
+				System.out.println("Image Transfered to " + path.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("File not found");
+			}
+		}
+		System.out.println("Image path: " + path.toString());
+		product.setImageUrl("/images/" + productImage.getOriginalFilename());
+		product.setVendor(user);
 		productService.updateProduct(product);
-		return "redirect:/products/admin/update/";
+		return "redirect:/vendor/";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
@@ -144,7 +171,7 @@ public class ProductController {
 		Product p = new Product();
 		p.setId(Integer.valueOf(productId));
 		productService.deleteProduct(p);
-		return "redirect:/products/admin/update";
+		return "redirect:/vendor/";
 	}
 
 	@GetMapping(value = "/admin/products")

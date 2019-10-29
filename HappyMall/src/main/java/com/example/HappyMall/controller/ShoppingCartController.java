@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.HappyMall.domain.*;
+import com.example.HappyMall.rest.service.MockServerService;
 import com.example.HappyMall.service.*;
 
 //ThaoDao created and edited
@@ -39,6 +40,9 @@ public class ShoppingCartController {
 
 	@Autowired
 	private SystemConfigService systemConfigService;
+
+	@Autowired
+	private MockServerService mockServerService;
 
 	@GetMapping("/shoppingcart")
 	public String getShoppingCart(Model model, HttpSession session) {
@@ -207,21 +211,36 @@ public class ShoppingCartController {
 		{
 			if (!result.hasErrors()) {
 				System.out.println("Create card detail");
-				User user = (User) model.asMap().get("user");
-				Address address = cardDetail.getAddress();
-				addressService.save(address);
-				List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
-				for (CardDetail item : listCard)
-					item.setDefault_card(false);
-				cardDetail.setDefault_card(true);
-				cardDetail.setAddress(address);
-				cardDetail.setUser(user);
-				cardDetail.setCreateDate(new Date());
-				cardDetail.setActive_Ind('A');
-				listCard.add(cardDetail);
-				cardDetailService.saveAll(listCard);
-				System.out.println("Card has been created");
-				return cardDetail;
+				//Check isValid()
+				MockServer mockServer = mockServerService.findByNameOnCardAndCardNumberAndCvv(cardDetail.getNameOnCard(), cardDetail.getCardNumber(), cardDetail.getCvv());
+				System.out.println("Card Detail: " + cardDetail.getNameOnCard() + "-" + cardDetail.getCardNumber() + "-" + cardDetail.getCvv() + "-" + cardDetail.getExpiredDate());
+				System.out.println("mockServer: " + mockServer);
+				if (mockServer != null)
+				{
+					User user = (User) model.asMap().get("user");
+					Address address = cardDetail.getAddress();
+					addressService.save(address);
+					List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
+					for (CardDetail item : listCard)
+						item.setDefault_card(false);
+					cardDetailService.saveAll(listCard);
+					cardDetail.setDefault_card(true);
+					cardDetail.setActive_Ind('A');
+					cardDetail.setAddress(address);
+					cardDetail.setUser(user);
+					//cardDetail.setIssuedDate(mockServer.getIssuedDate());
+					cardDetail.setRemainingValue(mockServer.getRemainingValue());
+					cardDetail.setValue(mockServer.getValue());
+					cardDetail.setCreateDate(new Date());
+					System.out.println("check error");
+					cardDetailService.save(cardDetail);
+					System.out.println("check error2");
+					//listCard.add(cardDetail);
+					System.out.println("Card has been created");
+					return cardDetail;
+				}
+				else
+					return null;
 			} else {
 				System.out.println("Sorry, an error has occur. Card has not been created.");
 				return null;
