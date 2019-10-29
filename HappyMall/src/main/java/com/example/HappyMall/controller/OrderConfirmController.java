@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.HappyMall.domain.Address;
 import com.example.HappyMall.domain.CardDetail;
@@ -28,12 +30,12 @@ import com.example.HappyMall.service.VendorService;
 
 //ThaoDao created and edited
 @Controller
-@SessionAttributes({ "user"})
+@SessionAttributes({ "user" })
 public class OrderConfirmController {
 
 	@Autowired
 	private OrdersService ordersService;
-	
+
 	@Autowired
 	private VendorService userService;
 
@@ -57,21 +59,20 @@ public class OrderConfirmController {
 
 	@GetMapping("/shoppingcart/confirm")
 	public String getOrderConfirmPage(Model model) {
-		try
-		{
+		try {
 			System.out.println("Load Order confirm page...");
 			User user = (User) model.asMap().get("user");
 			System.out.println("User: " + user);
-	
+
 			if (user != null) {
 				Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 				System.out.println("Orders: " + orders);
-	
+
 				List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
 				if (listOrderLine == null)
 					listOrderLine = new ArrayList<OrderLine>();
 				System.out.println("orderLine size: " + listOrderLine.size());
-	
+
 				System.out.println("Check item's quantity for the list of items");
 				for (int i = 0; i < listOrderLine.size(); i++) {
 					Product product = listOrderLine.get(i).getProduct();
@@ -84,25 +85,21 @@ public class OrderConfirmController {
 					}
 				}
 				orderLineService.saveAll(listOrderLine);
-	
+
 				SystemConfig systemConfig = systemConfigService.getToApplied();
 				orders = ordersService.updateMoneyByOrders_New(orders, systemConfig);
-	
+
 				model.addAttribute("orders", orders);
 				model.addAttribute("listOrderLine", listOrderLine);
 				model.addAttribute("totalProduct", listOrderLine.size());
 				model.addAttribute("cardDetail", cardDetailService.getCardDefaultByUserId(user.getId()));
-			}
-			else
-			{
+			} else {
 				model.addAttribute("orders", null);
 				model.addAttribute("listOrderLine", null);
 				model.addAttribute("totalProduct", 0);
 				model.addAttribute("cardDetail", null);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -112,8 +109,7 @@ public class OrderConfirmController {
 	@PostMapping("/shoppingcart/confirm")
 	public String confirmOrder(Model model) {
 		Orders newOrder = null;
-		try 
-		{
+		try {
 			System.out.println("Create a payment");
 			User user = (User) model.asMap().get("user");
 			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
@@ -124,7 +120,7 @@ public class OrderConfirmController {
 			payment.setPaymentTotal(orders.getTotal());
 			payment.setCardDetail(cardDetailService.getCardDefaultByUserId(user.getId()));
 			paymentService.save(payment);
-	
+
 			System.out.println("Update the order's status to Completed");
 			orders.setStatus("Completed");
 			ordersService.save(orders);
@@ -132,10 +128,10 @@ public class OrderConfirmController {
 			CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(user.getId());
 			cardDetail.setRemainingValue(cardDetail.getRemainingValue() - orders.getTotal());
 			cardDetailService.save(cardDetail);
-			
+
 			// Sending out email notification
 			// ordersService.sendNotification(orders);
-	
+
 			System.out.println("Update the product's quantity in the inventory");
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
 			for (OrderLine orderLine : listOrderLine) {
@@ -145,7 +141,7 @@ public class OrderConfirmController {
 				System.out.println("Product is updated: " + product + " - Quantity update: " + itemQuantity);
 				productService.updateProduct(product);
 			}
-	
+
 			// Create new order for user with the order's status is "New"
 			System.out.println("Create a new order");
 			Address address = addressService.getAddressDefaultByUserId(user.getId());
@@ -153,21 +149,18 @@ public class OrderConfirmController {
 			newOrder = new Orders(user, "od" + (lastOrder.getId() + 1), address, address, "ShoppingCart");
 			ordersService.save(newOrder);
 			System.out.println("Finish a new order");
-		
-		}
-		catch (Exception e)
-		{
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return "redirect:/index";
 	}
-	
+
 	@PostMapping("/shoppingcart/test")
 	public String testOrder(Model model) {
 		Orders newOrder = null;
-		try 
-		{
+		try {
 			System.out.println("Create a payment");
 			User user = userService.getVendor(1004);
 			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", 1004).get(0);
@@ -178,7 +171,7 @@ public class OrderConfirmController {
 			payment.setPaymentTotal(orders.getTotal());
 			payment.setCardDetail(cardDetailService.getCardDefaultByUserId(1004));
 			paymentService.save(payment);
-	
+
 			System.out.println("Update the order's status to Completed");
 			orders.setStatus("Completed");
 			orders.setModifiedDate(new Date());
@@ -187,10 +180,10 @@ public class OrderConfirmController {
 			CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(1004);
 			cardDetail.setRemainingValue(cardDetail.getRemainingValue() - orders.getTotal());
 			cardDetailService.save(cardDetail);
-			
+
 			// Sending out email notification
-			//ordersService.sendNotification(orders);
-	
+			// ordersService.sendNotification(orders);
+
 			System.out.println("Update the product's quantity in the inventory");
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
 			for (OrderLine orderLine : listOrderLine) {
@@ -200,7 +193,7 @@ public class OrderConfirmController {
 				System.out.println("Product is updated: " + product + " - Quantity update: " + itemQuantity);
 				productService.updateProduct(product);
 			}
-	
+
 			// Create new order for user with the order's status is "New"
 			System.out.println("Create a new order");
 			Address address = addressService.getAddressDefaultByUserId(1004);
@@ -208,10 +201,8 @@ public class OrderConfirmController {
 			newOrder.setOrderCode("od02");
 			ordersService.save(newOrder);
 			System.out.println("Finish a new order");
-		
-		}
-		catch (Exception e)
-		{
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

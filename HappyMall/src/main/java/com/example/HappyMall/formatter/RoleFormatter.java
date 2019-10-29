@@ -10,15 +10,12 @@ import org.springframework.stereotype.Component;
 import com.example.HappyMall.domain.Role;
 import com.example.HappyMall.service.RoleService;
 
-
-
-
 @Component
-public class RoleFormatter implements Formatter<Role>{
+public class RoleFormatter implements Formatter<Role> {
 
 	@Autowired
 	RoleService roleService;
-	
+
 	@Override
 	public String print(Role role, Locale locale) {
 		return String.valueOf(role.getId());

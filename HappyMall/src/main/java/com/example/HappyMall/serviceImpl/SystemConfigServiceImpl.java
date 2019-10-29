@@ -15,7 +15,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
 	@Autowired
 	private SystemConfigRepository systemConfigRepository;
-	
+
 	@Override
 	public void save(SystemConfig systemConfig) {
 		// TODO Auto-generated method stub

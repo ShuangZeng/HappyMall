@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.HappyMall.domain.Address;
-import com.example.HappyMall.domain.User;
 import com.example.HappyMall.repository.AddressRepository;
 import com.example.HappyMall.service.AddressService;
 
@@ -16,7 +15,7 @@ public class AddressServiceImpl implements AddressService {
 
 	@Autowired
 	private AddressRepository addressRepository;
-	
+
 	@Override
 	public List<Address> findByUserId(int userId) {
 		// TODO Auto-generated method stub
@@ -40,7 +39,7 @@ public class AddressServiceImpl implements AddressService {
 		// TODO Auto-generated method stub
 		addressRepository.save(address);
 	}
-	
+
 	public Address saveAddress(Address address) {
 		// TODO Auto-generated method stub
 		return addressRepository.save(address);

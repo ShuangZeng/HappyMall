@@ -3,77 +3,68 @@ package com.example.HappyMall.domain;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class CardDetail {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-	
+	private int id;
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@NotBlank
 	private String cardNumber;
-	
+
 	@NotBlank
 	private String nameOnCard;
-	
+
 	@Column(columnDefinition = "varchar(3) default 000")
 	private String cvv;
 
 	private double value;
-	
+
 	private double remainingValue;
-	
+
 	@Past
 	private Date issuedDate;
 
 	@Future
 	private Date expiredDate;
-	
+
 	@OneToOne
 	private Address address;
-	
+
 	private String type;
-	
-	//@NotBlank
+
+	// @NotBlank
 	private char active_Ind;
-	
+
 	private boolean default_card;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
-	
+
 	@Transient
 	private List<Payment> listPayment;
 
@@ -104,7 +95,7 @@ public class CardDetail {
 	public String getNameOnCard() {
 		return nameOnCard;
 	}
-	
+
 	public String getCvv() {
 		return cvv;
 	}
@@ -196,7 +187,7 @@ public class CardDetail {
 	public void setListPayment(List<Payment> listPayment) {
 		this.listPayment = listPayment;
 	}
-		
+
 	public boolean isDefault_card() {
 		return default_card;
 	}
@@ -208,7 +199,7 @@ public class CardDetail {
 	public CardDetail() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -217,12 +208,12 @@ public class CardDetail {
 		result.append(nameOnCard + " - ");
 		if (type.equals("VISA"))
 			result.append("VISA: ");
-		else 
+		else
 			result.append("MASTER: ");
-		
+
 		result.append("***" + cardNumber.substring((cardNumber.length() - 3) < 0 ? 0 : (cardNumber.length() - 3)));
 		result.append(" - Expired date: " + formatter.format(expiredDate));
-		
+
 		return result.toString();
 	}
 }

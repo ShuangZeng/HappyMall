@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrdersService {
 	@Autowired
 	OrderRestService ors;
 
-	//ThaoDao created and edited some functions below
+	// ThaoDao created and edited some functions below
 	@Override
 	public Orders findByStatus(String status) {
 		// TODO Auto-generated method stub
@@ -52,20 +52,16 @@ public class OrderServiceImpl implements OrdersService {
 	@Override
 	public Orders updateMoneyByOrders_New(Orders orders, SystemConfig systemConfig) {
 		// TODO Auto-generated method stub
-		try
-		{
+		try {
 			List<OrderLine> listOrderLine = orderLineRepository.findByOrdersId(orders.getId());
-			double subTotal = listOrderLine.size() > 0
-					? listOrderLine.stream().map(i -> i.getProduct().getPrice() * i.getQuantity()).reduce(0.00, Double::sum)
-					: 0.00;
+			double subTotal = listOrderLine.size() > 0 ? listOrderLine.stream()
+					.map(i -> i.getProduct().getPrice() * i.getQuantity()).reduce(0.00, Double::sum) : 0.00;
 			double tax = subTotal * systemConfig.getTax() / 100;
 			orders.setSubTotal(subTotal);
 			orders.setTax(tax);
 			orders.setTotal(subTotal + tax);
 			ordersRepository.save(orders);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return orders;
@@ -76,7 +72,7 @@ public class OrderServiceImpl implements OrdersService {
 		// TODO Auto-generated method stub
 		return ordersRepository.findLastedOrder();
 	}
-	//_________________________//
+	// _________________________//
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
@@ -99,7 +95,7 @@ public class OrderServiceImpl implements OrdersService {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void sendNotification(Orders order) {
 		try {
@@ -108,11 +104,10 @@ public class OrderServiceImpl implements OrdersService {
 			e.printStackTrace();
 		}
 	}
-	// End Create-------------------------------------------------------------------------------
+	// End
+	// Create-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Retrieve---------------------------------------------------------------------------------
 	// All retrieving/getting order functions will be declared here
@@ -124,7 +119,7 @@ public class OrderServiceImpl implements OrdersService {
 	public Orders getOrder(int id) {
 		return ors.getOrder(id);
 	}
-	
+
 	@Override
 	public List<Orders> getAllOrders() {
 		return ors.getAllOrders();
@@ -135,11 +130,10 @@ public class OrderServiceImpl implements OrdersService {
 		return ors.getAllOrdersByUser(userId, isEnduser);
 	}
 
-	// End Retrieve-----------------------------------------------------------------------------
+	// End
+	// Retrieve-----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Update-----------------------------------------------------------------------------------
 	// All updating/modifying order functions will be declared here
@@ -155,8 +149,8 @@ public class OrderServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public	void refundOrder(int orderId, int vendorId) {
-		
+	public void refundOrder(int orderId, int vendorId) {
+
 	}
 
 	@Override
@@ -173,12 +167,11 @@ public class OrderServiceImpl implements OrdersService {
 	public void save(Orders order) {
 		ordersRepository.save(order);
 	}
-	
-	// End Update-------------------------------------------------------------------------------
+
+	// End
+	// Update-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Delete-----------------------------------------------------------------------------------
 	// All deleting/removing order functions will be declared here
@@ -193,6 +186,7 @@ public class OrderServiceImpl implements OrdersService {
 		}
 	}
 
-	// End Delete-------------------------------------------------------------------------------
+	// End
+	// Delete-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 }

@@ -13,10 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.HappyMall.domain.Orders;
-import com.example.HappyMall.domain.Product;
-import com.example.HappyMall.rest.service.OrderRestService;
-
 import com.example.HappyMall.rest.RestHttpHeader;
+import com.example.HappyMall.rest.service.OrderRestService;
 
 @Service
 @Transactional
@@ -41,36 +39,39 @@ public class OrderRestServiceImpl implements OrderRestService {
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
 		restTemplate.postForObject(serviceUrlExtended, httpEntity, Orders.class);
-		//ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
- 		//Orders order = responseEntity.getBody();
-		//return order;
+		// ResponseEntity<Orders> responseEntity =
+		// restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
+		// Orders.class);
+		// Orders order = responseEntity.getBody();
+		// return order;
 	}
-	
+
 	@Override
 	public void addWithSendingEmail(Orders order) {
 		serviceUrlExtended = serviceUrl + "/addNewWithNotification";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
- 		//Orders order = responseEntity.getBody();
-		//return order;
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
+				Orders.class);
+		// Orders order = responseEntity.getBody();
+		// return order;
 	}
-	
+
 	@Override
 	public void sendNotification(Orders order) {
 		serviceUrlExtended = serviceUrl + "/sendNotification";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
- 		//Orders order = responseEntity.getBody();
-		//return order;
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
+				Orders.class);
+		// Orders order = responseEntity.getBody();
+		// return order;
 	}
-	
-	// End Create-------------------------------------------------------------------------------
+
+	// End
+	// Create-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Retrieve---------------------------------------------------------------------------------
 	// All retrieving/getting order functions will be declared here
@@ -81,8 +82,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 		serviceUrlExtended = serviceUrl + "/" + id;
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
-		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
- 		Orders order = responseEntity.getBody();
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
+				Orders.class);
+		Orders order = responseEntity.getBody();
 		return order;
 	}
 
@@ -90,8 +92,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 	public List<Orders> getAllOrders() {
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
-		ResponseEntity<Orders[]> responseEntity = restTemplate.exchange(serviceUrl, HttpMethod.GET, httpEntity, Orders[].class);	
- 		List<Orders> orderList = Arrays.asList(responseEntity.getBody());
+		ResponseEntity<Orders[]> responseEntity = restTemplate.exchange(serviceUrl, HttpMethod.GET, httpEntity,
+				Orders[].class);
+		List<Orders> orderList = Arrays.asList(responseEntity.getBody());
 		return orderList;
 	}
 
@@ -100,16 +103,16 @@ public class OrderRestServiceImpl implements OrderRestService {
 		serviceUrlExtended = serviceUrl + "/user?id=" + userId + "&isEnduser=" + isEnduser;
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
-		ResponseEntity<Orders[]> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders[].class);	
- 		List<Orders> orderList = Arrays.asList(responseEntity.getBody());
+		ResponseEntity<Orders[]> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
+				Orders[].class);
+		List<Orders> orderList = Arrays.asList(responseEntity.getBody());
 		return orderList;
 	}
 
-	// End Retrieve-----------------------------------------------------------------------------
+	// End
+	// Retrieve-----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Update-----------------------------------------------------------------------------------
 	// All updating/modifying order functions will be declared here
@@ -121,29 +124,31 @@ public class OrderRestServiceImpl implements OrderRestService {
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
 		restTemplate.patchForObject(serviceUrlExtended + "update", httpEntity, Orders.class);
 	}
-	
+
 	@Override
 	public void refundOrder(int orderId, int vendorId) {
-		//RestTemplate restTemplate = restHelper.getRestTemplate();
-		//HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		//restTemplate.patchForObject(serviceUrlExtended + "refund", httpEntity, Orders.class);
+		// RestTemplate restTemplate = restHelper.getRestTemplate();
+		// HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order,
+		// restHelper.getHttpHeaders());
+		// restTemplate.patchForObject(serviceUrlExtended + "refund", httpEntity,
+		// Orders.class);
 	}
-	
+
 	@Override
 	public Orders requestToRefundOrder(int orderId) {
 		serviceUrlExtended = serviceUrl + "/" + orderId;
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity httpEntity = new HttpEntity(restHelper.getHttpHeaders());
-		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
- 		Orders order = responseEntity.getBody();
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity,
+				Orders.class);
+		Orders order = responseEntity.getBody();
 		return order;
 	}
 
-	// End Update-------------------------------------------------------------------------------
+	// End
+	// Update-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Delete-----------------------------------------------------------------------------------
 	// All deleting/removing order functions will be declared here
@@ -156,6 +161,7 @@ public class OrderRestServiceImpl implements OrderRestService {
 		restTemplate.patchForObject(serviceUrlExtended + "delete", httpEntity, Orders.class);
 	}
 
-	// End Delete-------------------------------------------------------------------------------
+	// End
+	// Delete-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 }

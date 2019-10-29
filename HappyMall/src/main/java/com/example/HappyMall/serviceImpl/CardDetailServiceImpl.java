@@ -12,13 +12,13 @@ import com.example.HappyMall.service.CardDetailService;
 
 //ThaoDao created and edited
 @Service
-public class CardDetailServiceImpl implements CardDetailService{
+public class CardDetailServiceImpl implements CardDetailService {
 
 	@Autowired
 	private CardDetailRepository cardDetailRepository;
 	@Autowired
 	private CardDetailRestService cardDetailRestService;
-	
+
 	@Override
 	public List<CardDetail> findByUserIdAndActiveInd(int userId, char active_ind) {
 		// TODO Auto-generated method stub

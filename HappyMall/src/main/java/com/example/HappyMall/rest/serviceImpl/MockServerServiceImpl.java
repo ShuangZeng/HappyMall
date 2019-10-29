@@ -15,7 +15,7 @@ public class MockServerServiceImpl implements MockServerService {
 
 	@Autowired
 	private MockServerRepository mockServerRepository;
-	
+
 	@Override
 	public MockServer findByNameOnCardAndCardNumberAndCvv(String nameOnCard, String cardNumber, String cvv) {
 		// TODO Auto-generated method stub

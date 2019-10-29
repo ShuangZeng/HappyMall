@@ -2,27 +2,17 @@ package com.example.HappyMall.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 
@@ -32,27 +22,26 @@ public class Payment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="card_detail_id")
+	@JoinColumn(name = "card_detail_id")
 	private CardDetail cardDetail;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private Orders orders;
-	
+
 	private double paymentTotal;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date paymentDate;
-	
+
 	private String Status;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
-	
+
 	@Transient
 	private List<Transaction> listTransaction;
 
@@ -127,7 +116,7 @@ public class Payment {
 	public void setListTransaction(List<Transaction> listTransaction) {
 		this.listTransaction = listTransaction;
 	}
-	
+
 	public Payment() {
 		// TODO Auto-generated constructor stub
 		this.createDate = new Date();

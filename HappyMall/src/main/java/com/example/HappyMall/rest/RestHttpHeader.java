@@ -16,32 +16,29 @@ import org.springframework.web.client.RestTemplate;
 //import edu.mum.service.UserCredentialsService;
 //import edu.mum.service.impl.UserCredentialsServiceImpl;
 
-
-
 @Component
 public class RestHttpHeader {
 	protected RestTemplate restTemplate;
 
 //	@Autowired
 //	UserCredentialsService userCredentialsService;
-	
+
 	public RestHttpHeader() {
 		restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 	}
-	
+
 	public RestTemplate getRestTemplate() {
 		return restTemplate;
 	}
 
 	/*
-	*		Set up authentication header
-	*		PLUS JSON Accept header
-	*/
+	 * Set up authentication header PLUS JSON Accept header
+	 */
 	public HttpHeaders getHttpHeaders() {
 
 //        String authHeader =(new Authenticator()).authenticate();
-		
+
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -54,4 +51,3 @@ public class RestHttpHeader {
 	}
 
 }
-

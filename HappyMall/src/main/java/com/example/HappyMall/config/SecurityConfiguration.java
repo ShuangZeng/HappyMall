@@ -1,7 +1,10 @@
 package com.example.HappyMall.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+//import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,74 +17,51 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
 
-//import com.example.HappyMall.Handler.CustomerLoginSuccessHandler;
-
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    
-    @Autowired
-    private CustomerLoginSuccessHandler customerLoginSuccessHandler;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private DataSource dataSource;
+	@Autowired
+	private CustomerLoginSuccessHandler customerLoginSuccessHandler;
 
-    @Value("${spring.queries.users-query}")
-    private String usersQuery;
+	@Autowired
+	private DataSource dataSource;
 
-    @Value("${spring.queries.roles-query}")
-    private String rolesQuery;
-    
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.
-                jdbcAuthentication()
-                .usersByUsernameQuery(usersQuery)
-                .authoritiesByUsernameQuery(rolesQuery)
-                .dataSource(dataSource)
-                .passwordEncoder(bCryptPasswordEncoder);
-    
+	@Value("${spring.queries.users-query}")
+	private String usersQuery;
 
-    }
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+	@Value("${spring.queries.roles-query}")
+	private String rolesQuery;
 
-        http.
-                authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/index/**").permitAll()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/shoppingcart/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("4")
-                .antMatchers("/vendor/**").hasAuthority("2")
-			    //.antMatchers("/home/**").hasAnyAuthority("VENDOR_USER","ADMIN","END_USER","CUSTOMER_USER")
-                //.antMatchers("/admin/**").hasAnyAuthority("VENDER_USER","ADMIN")
-                .anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/login").failureUrl("/login?error=true")
-                .successHandler(customerLoginSuccessHandler)
-                //.defaultSuccessUrl("/home")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
-                .accessDeniedPage("/access-denied");
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
+				.dataSource(dataSource).passwordEncoder(bCryptPasswordEncoder);
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**", "/h2-console/**", "/static/**", "/css/**", "/js/**", "/images/**");
-    }
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/login").permitAll().antMatchers("/index/**")
+				.permitAll().antMatchers("/register").permitAll().antMatchers("/shoppingcart/**").permitAll()
+				.antMatchers("/admin/**").hasAuthority("4").antMatchers("/vendor/**").hasAuthority("2")
+				// .antMatchers("/home/**").hasAnyAuthority("VENDOR_USER","ADMIN","END_USER","CUSTOMER_USER")
+				// .antMatchers("/admin/**").hasAnyAuthority("VENDER_USER","ADMIN")
+				.anyRequest().authenticated().and().csrf().disable().formLogin().loginPage("/login")
+				.failureUrl("/login?error=true").successHandler(customerLoginSuccessHandler)
+				// .defaultSuccessUrl("/home")
+				.usernameParameter("email").passwordParameter("password").and().logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
+				.exceptionHandling().accessDeniedPage("/access-denied");
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/resources/**", "/h2-console/**", "/static/**", "/css/**", "/js/**", "/images/**");
+	}
 
 }

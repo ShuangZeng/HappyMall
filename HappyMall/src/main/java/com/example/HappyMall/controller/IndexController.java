@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -126,7 +123,8 @@ public class IndexController {
 //		model.addAttribute("productList", productPageAndSortingRepository.findAll(PageRequest.of(page, 6)));
 //		model.addAttribute("currentPage", page);
 		List<Product> products = productService.getAllProducts().stream().filter(p -> p.getQuantity() != 0)
-				.filter(p -> !p.getStatus().equals("D")).filter(p -> !p.getStatus().equals("U")).collect(Collectors.toList());
+				.filter(p -> !p.getStatus().equals("D")).filter(p -> !p.getStatus().equals("U"))
+				.collect(Collectors.toList());
 		products.forEach(p -> System.out.println(p.getImageUrl()));
 		model.addAttribute("productList", products);
 		return "index";
@@ -188,7 +186,7 @@ public class IndexController {
 			Orders orders = null;
 			if (listOrdersNew != null && listOrdersNew.size() > 0) {
 				orders = listOrdersNew.get(0);
-			} 
+			}
 			// create new Order if it does not exist
 			if (orders == null) {
 				Address address = addressService.getAddressDefaultByUserId(user.getId());

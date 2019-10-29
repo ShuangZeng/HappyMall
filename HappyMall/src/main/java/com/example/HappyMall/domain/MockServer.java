@@ -1,7 +1,6 @@
 package com.example.HappyMall.domain;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,43 +11,41 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @Table
 public class MockServer {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id;
-	
+
 	@Column(length = 16)
 	private String cardNumber;
-	
+
 	@Column(length = 50)
 	private String nameOnCard;
-	
+
 	@Column(columnDefinition = "varchar(3) default 000")
 	private String cvv;
-	
+
 	@Column
 	private double value;
-	
+
 	@Column
 	private double remainingValue;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column
 	private Date issuedDate;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column
 	private Date expiredDate;
-	
+
 	@Column(length = 16)
 	private String type;
-	
+
 	@Column(length = 1)
 	private String activeInd;
 
@@ -131,7 +128,5 @@ public class MockServer {
 	public void setActiveInd(String active_Ind) {
 		this.activeInd = active_Ind;
 	}
-	
-	
 
 }

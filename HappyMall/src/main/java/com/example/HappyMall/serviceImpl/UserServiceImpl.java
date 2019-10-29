@@ -1,68 +1,60 @@
 package com.example.HappyMall.serviceImpl;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.HappyMall.domain.Role;
 import com.example.HappyMall.domain.User;
 import com.example.HappyMall.repository.RoleRepository;
 import com.example.HappyMall.repository.UserRepository;
 import com.example.HappyMall.service.UserService;
 
-
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-    UserRepository userRepository;
+	UserRepository userRepository;
 	@Autowired
-    RoleRepository roleRepository;
+	RoleRepository roleRepository;
 	@Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository,
-                       RoleRepository roleRepository,
-                       BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+			BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
-    @Override
-    public User findByUsername(String username) {
-    	// TODO Auto-generated method stub
-        return userRepository.findByFullName(username);
-    }
+	@Override
+	public User findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return userRepository.findByFullName(username);
+	}
 
-    @Override
-    public User findByUsernameAndPassword(String username, String password) {
-    	// TODO Auto-generated method stub
-    	return userRepository.findByFullNameAndPassword(username, password);
-}
-    
-    @Override
-    public User findByEmailAndPassword(String email, String password) {
-    	// TODO Auto-generated method stub
-    	return userRepository.findByEmailAndPassword(email, password);
-}
+	@Override
+	public User findByUsernameAndPassword(String username, String password) {
+		// TODO Auto-generated method stub
+		return userRepository.findByFullNameAndPassword(username, password);
+	}
 
+	@Override
+	public User findByEmailAndPassword(String email, String password) {
+		// TODO Auto-generated method stub
+		return userRepository.findByEmailAndPassword(email, password);
+	}
 
 	@Override
 	public User saveUser(User user) {
 		user.setModifiedDate(new Date());
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));        
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        return userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -88,7 +80,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User blockUser(User user) {
 		Optional<User> userRecordOptional = userRepository.findById(user.getId());
-		if(!userRecordOptional.isPresent()) return null;
+		if (!userRecordOptional.isPresent())
+			return null;
 		User userRecord = userRecordOptional.get();
 		userRecord.setActive_Ind('D');
 		userRepository.save(userRecord);
@@ -98,11 +91,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User approveUser(User user) {
 		Optional<User> userRecordOptional = userRepository.findById(user.getId());
-		if(!userRecordOptional.isPresent()) return null;
+		if (!userRecordOptional.isPresent())
+			return null;
 		User userRecord = userRecordOptional.get();
 		userRecord.setActive_Ind('A');
 		userRepository.save(userRecord);
 		return user;
-	}	
+	}
 }
-

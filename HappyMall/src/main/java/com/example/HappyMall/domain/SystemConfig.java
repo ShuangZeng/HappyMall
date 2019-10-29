@@ -1,7 +1,5 @@
 package com.example.HappyMall.domain;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,19 +18,19 @@ public class SystemConfig {
 	private int id;
 
 	private int serviceFee;
-	
+
 	private int tax;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	@Future
 	private Date appliedDate;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
-	
+
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date modifiedDate;
-	
+
 	public SystemConfig() {
 		// TODO Auto-generated constructor stub
 		this.createDate = new Date();
@@ -61,12 +59,12 @@ public class SystemConfig {
 	public void setTax(int tax) {
 		this.tax = tax;
 	}
-		
+
 	public String getAppliedDateString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 		return formatter.format(appliedDate);
 	}
-	
+
 	public Date getAppliedDate() {
 		return appliedDate;
 	}
@@ -95,9 +93,8 @@ public class SystemConfig {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
-	
-	public boolean checkEdit()
-	{
+
+	public boolean checkEdit() {
 		Date now = new Date();
 		return this.appliedDate.after(now) ? true : false;
 	}
@@ -115,6 +112,5 @@ public class SystemConfig {
 		return "SystemConfig [id=" + id + ", serviceFee=" + serviceFee + ", tax=" + tax + ", appliedDate=" + appliedDate
 				+ ", createDate=" + createDate + ", modifiedDate=" + modifiedDate + "]";
 	}
-	
-	
+
 }

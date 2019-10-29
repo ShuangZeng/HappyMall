@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.example.HappyMall.domain.User;
 
 @Controller
-@SessionAttributes ({"user"})
+@SessionAttributes({ "user" })
 public class AdminController {
 
 	@RequestMapping(value = "/admin")
-	public String getAdmin(Model model)
-	{
-		User user = (User)model.asMap().get("user");
+	public String getAdmin(Model model) {
+		User user = (User) model.asMap().get("user");
 		model.addAttribute("user", user);
 		return "admin";
 	}

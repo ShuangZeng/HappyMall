@@ -15,7 +15,7 @@ public class OrderLineServiceImpl implements OrderLineService {
 
 	@Autowired
 	private OrderLineRepository orderLineRepository;
-	
+
 	@Override
 	public List<OrderLine> findByOrdersId(int ordersId) {
 		// TODO Auto-generated method stub

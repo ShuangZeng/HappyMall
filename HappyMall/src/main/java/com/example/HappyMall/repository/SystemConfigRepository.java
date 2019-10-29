@@ -10,16 +10,12 @@ import com.example.HappyMall.domain.SystemConfig;
 //ThaoDao created and edited
 @Repository
 @Transactional
-public interface SystemConfigRepository extends  JpaRepository<SystemConfig, Integer> {
+public interface SystemConfigRepository extends JpaRepository<SystemConfig, Integer> {
 
-	@Query(value="select * from system_config " + 
-			"where applied_date < CURDATE() " + 
-			"order by applied_date desc " + 
-			"limit 1", nativeQuery = true)
+	@Query(value = "select * from system_config " + "where applied_date < CURDATE() " + "order by applied_date desc "
+			+ "limit 1", nativeQuery = true)
 	SystemConfig getToApplied();
-	
-	@Query(value="select * from system_config " + 
-			"where applied_date > CURDATE() " +
-			"limit 1", nativeQuery = true)
+
+	@Query(value = "select * from system_config " + "where applied_date > CURDATE() " + "limit 1", nativeQuery = true)
 	SystemConfig getNewest();
 }

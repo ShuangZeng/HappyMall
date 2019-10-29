@@ -11,27 +11,26 @@ import com.example.HappyMall.rest.service.PaymentRestService;
 import com.example.HappyMall.service.PaymentService;
 
 @Service("paymentService")
-public class PaymentServiceImpl implements PaymentService{
-	
+public class PaymentServiceImpl implements PaymentService {
+
 	@Autowired
 	PaymentRepository paymentRepository;
-	
+
 	@Autowired
 	PaymentRestService prs;
 
 	@Override
 	public List<Payment> findAllPayment() {
-		
-		//return prs.getAllPayments();
+
+		// return prs.getAllPayments();
 		return paymentRepository.findAll();
 	}
 
 	@Override
 	public void save(Payment payment) {
 		// TODO Auto-generated method stub
-		//prs.addPayment(payment);
+		// prs.addPayment(payment);
 		paymentRepository.save(payment);
 	}
-	
-	
+
 }

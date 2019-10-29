@@ -12,11 +12,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.HappyMall.domain.*;
+import com.example.HappyMall.domain.Address;
+import com.example.HappyMall.domain.CardDetail;
+import com.example.HappyMall.domain.Item;
+import com.example.HappyMall.domain.MockServer;
+import com.example.HappyMall.domain.OrderLine;
+import com.example.HappyMall.domain.Orders;
+import com.example.HappyMall.domain.Product;
+import com.example.HappyMall.domain.SystemConfig;
+import com.example.HappyMall.domain.User;
 import com.example.HappyMall.rest.service.MockServerService;
-import com.example.HappyMall.service.*;
+import com.example.HappyMall.service.AddressService;
+import com.example.HappyMall.service.CardDetailService;
+import com.example.HappyMall.service.OrderLineService;
+import com.example.HappyMall.service.OrdersService;
+import com.example.HappyMall.service.ProductService;
+import com.example.HappyMall.service.SystemConfigService;
 
 //ThaoDao created and edited
 @Controller
@@ -103,10 +125,10 @@ public class ShoppingCartController {
 		System.out.println("Finish getListItemForGuest...");
 		return listItem;
 	}
+
 	@GetMapping("/shoppingcart/remove/{id:\\d+}")
 	public String removeFromCart(@PathVariable int id, Model model, HttpSession session) {
-		try
-		{
+		try {
 			System.out.println("remove from cart...");
 			User user = (User) model.asMap().get("user");
 			if (user == null) {
@@ -120,12 +142,11 @@ public class ShoppingCartController {
 				Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 				orderLineService.deleteByOrdersIdAndProductId(orders.getId(), id);
 				SystemConfig systemConfig = systemConfigService.getToApplied();
-				ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
-				//orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(),
+						systemConfig.getServiceFee());
+				// orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -142,20 +163,18 @@ public class ShoppingCartController {
 
 	@PostMapping("/orders/editshippingaddress")
 	public String editShippingAddress(@ModelAttribute("orders") Orders ordersUpdate, Model model) {
-		try
-		{
-			System.out.println("shipping address: " + ordersUpdate.getShippingAddress() + " - default: " + ordersUpdate.getShippingAddress());
+		try {
+			System.out.println("shipping address: " + ordersUpdate.getShippingAddress() + " - default: "
+					+ ordersUpdate.getShippingAddress());
 			System.out.println("orders: " + ordersUpdate);
-	
+
 			User user = (User) model.asMap().get("user");
 			Address address = addressService.getAddress(ordersUpdate.getShippingAddress().getId());
 			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 			orders.setShippingAddress(address);
 			orders.setModifiedDate(new Date());
 			ordersService.save(orders);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:/shoppingcart";
@@ -163,20 +182,18 @@ public class ShoppingCartController {
 
 	@PostMapping("/orders/editbillingaddress")
 	public String editBillingAddress(@ModelAttribute("orders") Orders ordersUpdate, Model model) {
-		try
-		{
-			System.out.println("billing address: " + ordersUpdate.getBillingAddress() + " - default: " + ordersUpdate.getBillingAddress());
+		try {
+			System.out.println("billing address: " + ordersUpdate.getBillingAddress() + " - default: "
+					+ ordersUpdate.getBillingAddress());
 			System.out.println("orders: " + ordersUpdate);
-	
+
 			User user = (User) model.asMap().get("user");
 			Address address = addressService.getAddress(ordersUpdate.getBillingAddress().getId());
 			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 			orders.setBillingAddress(address);
 			orders.setModifiedDate(new Date());
 			ordersService.save(orders);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:/shoppingcart";
@@ -184,12 +201,10 @@ public class ShoppingCartController {
 
 	@PostMapping("/shoppingcart/setcarddefault")
 	public String setDefautCard(@ModelAttribute("cardDetail") CardDetail cardDetail, Model model) {
-		try
-		{
+		try {
 			User user = (User) model.asMap().get("user");
 			List<CardDetail> listCard = cardDetailService.findByUserIdAndActiveInd(user.getId(), 'A');
-			for (CardDetail card : listCard)
-			{
+			for (CardDetail card : listCard) {
 				if (card.getId() == cardDetail.getId())
 					card.setDefault_card(true);
 				else
@@ -197,27 +212,26 @@ public class ShoppingCartController {
 				card.setModifiedDate(new Date());
 			}
 			cardDetailService.saveAll(listCard);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:/shoppingcart";
 	}
 
 	@PostMapping("/shoppingcart/createCardDetail")
-	//@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public @ResponseBody CardDetail createCard(@Valid @RequestBody CardDetail cardDetail, BindingResult result, Model model) {
-		try
-		{
+	// @ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public @ResponseBody CardDetail createCard(@Valid @RequestBody CardDetail cardDetail, BindingResult result,
+			Model model) {
+		try {
 			if (!result.hasErrors()) {
 				System.out.println("Create card detail");
-				//Check isValid()
-				MockServer mockServer = mockServerService.findByNameOnCardAndCardNumberAndCvv(cardDetail.getNameOnCard(), cardDetail.getCardNumber(), cardDetail.getCvv());
-				System.out.println("Card Detail: " + cardDetail.getNameOnCard() + "-" + cardDetail.getCardNumber() + "-" + cardDetail.getCvv() + "-" + cardDetail.getExpiredDate());
+				// Check isValid()
+				MockServer mockServer = mockServerService.findByNameOnCardAndCardNumberAndCvv(
+						cardDetail.getNameOnCard(), cardDetail.getCardNumber(), cardDetail.getCvv());
+				System.out.println("Card Detail: " + cardDetail.getNameOnCard() + "-" + cardDetail.getCardNumber() + "-"
+						+ cardDetail.getCvv() + "-" + cardDetail.getExpiredDate());
 				System.out.println("mockServer: " + mockServer);
-				if (mockServer != null)
-				{
+				if (mockServer != null) {
 					User user = (User) model.asMap().get("user");
 					Address address = cardDetail.getAddress();
 					addressService.save(address);
@@ -229,26 +243,23 @@ public class ShoppingCartController {
 					cardDetail.setActive_Ind('A');
 					cardDetail.setAddress(address);
 					cardDetail.setUser(user);
-					//cardDetail.setIssuedDate(mockServer.getIssuedDate());
+					// cardDetail.setIssuedDate(mockServer.getIssuedDate());
 					cardDetail.setRemainingValue(mockServer.getRemainingValue());
 					cardDetail.setValue(mockServer.getValue());
 					cardDetail.setCreateDate(new Date());
 					System.out.println("check error");
 					cardDetailService.save(cardDetail);
 					System.out.println("check error2");
-					//listCard.add(cardDetail);
+					// listCard.add(cardDetail);
 					System.out.println("Card has been created");
 					return cardDetail;
-				}
-				else
+				} else
 					return null;
 			} else {
 				System.out.println("Sorry, an error has occur. Card has not been created.");
 				return null;
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -257,8 +268,7 @@ public class ShoppingCartController {
 	@PostMapping(value = "/shoppingcart/createShippingAddress")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void createShippingAddress(@RequestBody Address newAddress, BindingResult result, Model model) {
-		try
-		{
+		try {
 			System.out.println("Create Shipping address");
 			if (!result.hasErrors()) {
 				System.out.println("Create address");
@@ -275,9 +285,7 @@ public class ShoppingCartController {
 			} else {
 				System.out.println("Sorry, an error has occur. Address has not been created.");
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -285,8 +293,7 @@ public class ShoppingCartController {
 	@PostMapping(value = "/shoppingcart/createBillingAddress")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void createBillingAddress(@RequestBody Address newAddress, BindingResult result, Model model) {
-		try
-		{
+		try {
 			System.out.println("Create Billing address");
 			if (!result.hasErrors()) {
 				System.out.println("Create address");
@@ -303,19 +310,16 @@ public class ShoppingCartController {
 			} else {
 				System.out.println("Sorry, an error has occur. Address has not been created.");
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	@RequestMapping(value="/shoppingcart/updateQuantity/guest/{productId}/{quantity}", method=RequestMethod.PUT)
+	@RequestMapping(value = "/shoppingcart/updateQuantity/guest/{productId}/{quantity}", method = RequestMethod.PUT)
 	public @ResponseBody Orders updateQuantityGuest(@PathVariable(value = "productId") int productId,
 			@PathVariable(value = "quantity") int quantity, Model model) {
-		try
-		{
+		try {
 			System.out.println("Update quantity: type: guest, productId: " + productId + ", quantity: " + quantity);
 			Orders order = new Orders();
 			List<Item> listItem = (List<Item>) model.asMap().get("listItem");
@@ -339,9 +343,7 @@ public class ShoppingCartController {
 				}
 			}
 			return order;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new Orders();
 		}
@@ -350,11 +352,10 @@ public class ShoppingCartController {
 	@RequestMapping(value = "/shoppingcart/updateQuantity/enduser/{orderLineId}/{quantity}", method = RequestMethod.PUT)
 	public @ResponseBody Orders updateQuantityEndUser(@PathVariable(value = "orderLineId") int orderLineId,
 			@PathVariable(value = "quantity") int quantity, Model model) {
-		try
-		{
+		try {
 			System.out.println("Update quantity: type: guest, productId: " + orderLineId + ", quantity: " + quantity);
 			OrderLine orderLine = orderLineService.getOrderLine(orderLineId);
-	
+
 			if (orderLine != null) {
 				System.out.println("Check quantity... Product Quantity: " + orderLine.getProduct().getQuantity());
 				if (orderLine.getProduct().getQuantity() >= quantity) {
@@ -362,7 +363,8 @@ public class ShoppingCartController {
 					orderLine.setTotal(orderLine.getPrice() * quantity);
 					orderLineService.save(orderLine);
 					System.out.println("Order update:" + orderLine.getOrders());
-					//ordersService.updateMoneyByOrdersId(orderLine.getOrders().getId(), systemConfig.getTax(), systemConfig.getServiceFee());
+					// ordersService.updateMoneyByOrdersId(orderLine.getOrders().getId(),
+					// systemConfig.getTax(), systemConfig.getServiceFee());
 				}
 				SystemConfig systemConfig = systemConfigService.getToApplied();
 				Orders orders = ordersService.updateMoneyByOrders_New(orderLine.getOrders(), systemConfig);
@@ -371,9 +373,7 @@ public class ShoppingCartController {
 			} else {
 				return new Orders();
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new Orders();
 		}

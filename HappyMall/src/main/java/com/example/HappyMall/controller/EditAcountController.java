@@ -1,6 +1,5 @@
 package com.example.HappyMall.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,37 +16,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.HappyMall.domain.Address;
-import com.example.HappyMall.domain.SystemConfig;
 import com.example.HappyMall.domain.User;
 import com.example.HappyMall.service.AddressService;
 import com.example.HappyMall.service.UserService;
 
 @Controller
-@SessionAttributes({"user"})
+@SessionAttributes({ "user" })
 public class EditAcountController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AddressService addressService;
-	
+
 	@GetMapping(value = "/account")
-	public String getAccount(Model model,HttpSession session){
-		User user = (User)model.asMap().get("user");
+	public String getAccount(Model model, HttpSession session) {
+		User user = (User) model.asMap().get("user");
 		List<Address> listAddress = null;
 		try {
-			listAddress = addressService.findByUserId(user.getId());	
+			listAddress = addressService.findByUserId(user.getId());
 			model.addAttribute("listAddress", listAddress);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error fetching address");
 		}
-		
-		return "editUser";		
+
+		return "editUser";
 	}
-	
+
 	@PostMapping(value = "/account/edit")
 	public String editAccount(@Valid User user, BindingResult bindingResult, ModelMap modelMap) {
 //		List<Address> addresses = user.getListAddress();
@@ -55,39 +53,34 @@ public class EditAcountController {
 //		   addressService.saveAddress(address);
 //		  }
 		userService.saveUser(user);
-		
+
 //		System.out.print("address:"+ user.getListAddress());
 		return "redirect:/account";
 	}
-	
 
-	
 	@GetMapping("/account/address/getone")
 	@ResponseBody
-	public Address getOne(int id)
-	{
+	public Address getOne(int id) {
 		System.out.println("Get address for Editing");
 		return addressService.getAddress(id);
 	}
-	
+
 	@PostMapping("/account/address/save")
-	public String save (Address address, Model model)
-	{
+	public String save(Address address, Model model) {
 		System.out.println("Save address: " + address + "- Id: " + address.getId());
-		User user = (User)model.asMap().get("user");
-		if(address.getUser() == null)
+		User user = (User) model.asMap().get("user");
+		if (address.getUser() == null)
 			address.setUser(user);
 		addressService.save(address);
-		
+
 		return "redirect:/account";
 	}
-	
+
 	@GetMapping("/account/address/delete")
-	public String delete (Address address)
-	{
+	public String delete(Address address) {
 		System.out.println("Detele address");
 		addressService.delete(address);
-		
+
 		return "redirect:/account";
 	}
 }

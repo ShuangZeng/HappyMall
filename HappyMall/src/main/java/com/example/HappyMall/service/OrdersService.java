@@ -6,13 +6,17 @@ import com.example.HappyMall.domain.Orders;
 import com.example.HappyMall.domain.SystemConfig;
 
 public interface OrdersService {
-	//ThaoDao created and edited
+	// ThaoDao created and edited
 	Orders findByStatus(String status);
+
 	List<Orders> findByStatusAndUserId(String status, int userId);
+
 	void updateMoneyByOrdersId(int orderId, int tax, int serviceFee);
+
 	Orders updateMoneyByOrders_New(Orders orders, SystemConfig systemConfig);
+
 	Orders findLastedOrder();
-	//________________________//
+	// ________________________//
 
 	// -----------------------------------------------------------------------------------------
 	// Create-----------------------------------------------------------------------------------
@@ -20,33 +24,30 @@ public interface OrdersService {
 	// -----------------------------------------------------------------------------------------
 
 	void addOrder(Orders order);
-	
+
 	void addWithSendingEmail(Orders order);
-	
+
 	void sendNotification(Orders order);
 
 	// End
 	// Create-----------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Retrieve---------------------------------------------------------------------------------
 	// All retrieving/getting order functions will be declared here
 	// -----------------------------------------------------------------------------------------
-	
+
 	Orders getOrder(int id);
-	
+
 	List<Orders> getAllOrders();
 
 	List<Orders> getAllOrdersByUser(int userId, boolean isEnduser);
 
-	// End Retrieve-----------------------------------------------------------------------------
+	// End
+	// Retrieve-----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Update-----------------------------------------------------------------------------------
 	// All updating/modifying order functions will be declared here
@@ -60,11 +61,10 @@ public interface OrdersService {
 
 	void save(Orders order);
 
-	// End Update-------------------------------------------------------------------------------
+	// End
+	// Update-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 
-	
-	
 	// -----------------------------------------------------------------------------------------
 	// Delete-----------------------------------------------------------------------------------
 	// All deleting/removing order functions will be declared here
@@ -72,6 +72,7 @@ public interface OrdersService {
 
 	void deleteOrder(Orders order);
 
-	// End Delete-------------------------------------------------------------------------------
+	// End
+	// Delete-------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------
 }

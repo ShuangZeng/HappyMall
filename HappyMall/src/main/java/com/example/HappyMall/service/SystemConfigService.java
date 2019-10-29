@@ -7,15 +7,15 @@ import com.example.HappyMall.domain.SystemConfig;
 //ThaoDao created and edited
 public interface SystemConfigService {
 
-	void save (SystemConfig systemConfig);
-	
+	void save(SystemConfig systemConfig);
+
 	SystemConfig getToApplied();
-	
-	List<SystemConfig> getAll ();
-	
+
+	List<SystemConfig> getAll();
+
 	SystemConfig getNewest();
-	
+
 	SystemConfig getSystemConfig(int id);
-	
-	void delete (SystemConfig systemConfig);
+
+	void delete(SystemConfig systemConfig);
 }
