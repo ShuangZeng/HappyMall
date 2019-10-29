@@ -84,15 +84,16 @@ public class ProductController {
 	public String saveProduct(@ModelAttribute("product") Product product, @RequestParam("productImage") MultipartFile productImage,
 			Model model) throws IOException {
 
-		String rootDirectory = context.getRealPath("/");
-		System.out.println("Root Directory: "+rootDirectory);
+//		String rootDirectory = context.getRealPath("/");
+//		System.out.println("context path"+context.getContextPath());
+//		System.out.println("Root Directory: "+rootDirectory);
 		User user = (User) model.asMap().get("user");
 		Path path = null;
 		if (productImage != null && !productImage.isEmpty()) { 
 			try { 
 				byte[] bytes = productImage.getBytes();
-				productImage.transferTo( new File("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
-		        path = Paths.get("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
+				productImage.transferTo( new File("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
+		        path = Paths.get("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
 		        Files.write(path, bytes);
 				System.out.println("Image Transfered to "+ path.toString());
 			} 
@@ -111,14 +112,15 @@ public class ProductController {
 	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
 	public String updateProduct(Model model,@ModelAttribute("product") Product product, @RequestParam("productImage") MultipartFile productImage) {
 		User user = (User) model.asMap().get("user");
-		String rootDirectory = context.getRealPath("/");
-		System.out.println("Root Directory: "+rootDirectory);
+//		String rootDirectory = context.getRealPath("/");
+//		System.out.println("context path"+context.getContextPath());
+//		System.out.println("Root Directory: "+rootDirectory);
 		Path path = null;
 		if (productImage != null && !productImage.isEmpty()) { 
 			try { 
 				byte[] bytes = productImage.getBytes();
-				productImage.transferTo( new File("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
-		        path = Paths.get("E:/MUM/PM/HappyMall/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
+				productImage.transferTo( new File("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
+		        path = Paths.get("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
 		        Files.write(path, bytes);
 				System.out.println("Image Transfered to "+ path.toString());
 			} 
