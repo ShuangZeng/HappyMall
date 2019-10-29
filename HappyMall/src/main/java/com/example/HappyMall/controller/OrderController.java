@@ -62,7 +62,7 @@ public class OrderController {
 				// -> Get order lines only belongs to vnedor's product
 				orderLines = olService.findByOrdersId(order.getId()).stream()
 										.filter(ol -> ol.getProduct().getVendor().getId() == user.getId())
-										.collect(Collectors.toList());
+										.collect(Collectors.toList()); 
 			}
 			if (orderLines == null) orderLines = new ArrayList<OrderLine>();
 			

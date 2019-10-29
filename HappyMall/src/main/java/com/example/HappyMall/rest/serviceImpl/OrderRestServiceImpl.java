@@ -40,7 +40,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 		serviceUrlExtended = serviceUrl + "/addNew";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		restTemplate.exchange(serviceUrlExtended, HttpMethod.POST, httpEntity, Orders.class);
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
+ 		//Orders order = responseEntity.getBody();
+		//return order;
 	}
 	
 	@Override
@@ -48,7 +50,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 		serviceUrlExtended = serviceUrl + "/addNewWithNotification";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		restTemplate.exchange(serviceUrlExtended, HttpMethod.POST, httpEntity, Orders.class);
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
+ 		//Orders order = responseEntity.getBody();
+		//return order;
 	}
 	
 	@Override
@@ -56,7 +60,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 		serviceUrlExtended = serviceUrl + "/sendNotification";
 		RestTemplate restTemplate = restHelper.getRestTemplate();
 		HttpEntity<Orders> httpEntity = new HttpEntity<Orders>(order, restHelper.getHttpHeaders());
-		restTemplate.exchange(serviceUrlExtended, HttpMethod.POST, httpEntity, Orders.class);
+		ResponseEntity<Orders> responseEntity = restTemplate.exchange(serviceUrlExtended, HttpMethod.GET, httpEntity, Orders.class);	
+ 		//Orders order = responseEntity.getBody();
+		//return order;
 	}
 	
 	// End Create-------------------------------------------------------------------------------

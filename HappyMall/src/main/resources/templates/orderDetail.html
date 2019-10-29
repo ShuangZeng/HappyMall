@@ -27,8 +27,8 @@
 			<tr>
 				<td>Status</td>
 				<td>
-					<p th:text="${status}"></p>
-					<a href="#" class="btn btn-primary btn-xs" th:href="${'/orders/requestToRefund/' + orderId}">Request to refund</a>
+					<h3 th:text="${status}"></h3>
+					<!-- <a href="#" class="btn btn-primary btn-xs" th:href="${'/orders/requestToRefund/' + orderId}">Request to refund</a> -->
 				</td>
 			</tr>
 			<tr>
@@ -38,7 +38,7 @@
 						<thead>
 							<tr>
 								<th>Product Name</th>
-								<th>Vendor</th>
+								<!-- <th>Vendor</th> -->
 								<th>Description</th>
 								<th>Quantity</th>
 								<th>Price</th>
@@ -48,11 +48,11 @@
 						<tbody>
 							<tr th:each="item:${orderLines}">
 								<td th:text="${item.product.name}"></td>
-								<td th:text="${item.product.name}"></td>
+								<!-- <td th:text="${item.product.vendor}"></td> -->
 								<td th:text="${item.product.description}"></td>
-								<td th:text="${item.product.quantity}"></td>
-								<td th:text="${item.product.price}"></td>
-								<td th:text="${#numbers.formatDecimal(item.product.quantity*item.product.price, 2, 3)}"></td>
+								<td th:text="${item.quantity}"></td>
+								<td th:text="${item.price}"></td>
+								<td th:text="${#numbers.formatDecimal(item.total, 2, 3)}"></td>
 							</tr>
 						</tbody>
 					</table>
