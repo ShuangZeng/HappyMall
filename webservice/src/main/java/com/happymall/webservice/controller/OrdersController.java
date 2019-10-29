@@ -35,15 +35,14 @@ public class OrdersController {
 	// All creating order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@RequestMapping(value = "/addNew", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void processAddNewOrder(@RequestBody Orders orderToBeAdded) throws MessagingException {
+	@GetMapping(value = "/addNew")
+	public @ResponseBody Orders processAddNewOrder(@RequestBody Orders orderToBeAdded) {
 		os.addOrder(orderToBeAdded);
+		return orderToBeAdded;
 	}
-	
-	@RequestMapping(value = "/addNewWithNotification", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void processAddNewOrderWithNotification(@RequestBody Orders orderToBeAdded) {
+
+	@GetMapping(value = "/addNewWithNotification")
+	public @ResponseBody Orders processAddNewOrderWithNotification(@RequestBody Orders orderToBeAdded) {
 		try {
 			os.addOrder(orderToBeAdded);
 			es.notifyBuyerOfPurchase(orderToBeAdded);
@@ -51,17 +50,18 @@ public class OrdersController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return orderToBeAdded;
 	}
-	
-	@RequestMapping(value = "/sendNotification", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void processSendNotification(@RequestBody Orders order) {
+
+	@GetMapping(value = "/sendNotification")
+	public @ResponseBody Orders processSendNotification(@RequestBody Orders order) {
 		try {
 			es.notifyBuyerOfPurchase(order);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return order;
 	}
 
 	// End Create-------------------------------------------------------------------------------
@@ -102,17 +102,17 @@ public class OrdersController {
 	// All updating/modifying order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@RequestMapping(value = "/update")
+	@GetMapping(value = "/update")
 	public void processUpdateOrder(@RequestBody Orders orderToBeUpdated) {
 		os.updateOrder(orderToBeUpdated);
 	}
 
-	@RequestMapping(value = "/refund")
+	@GetMapping(value = "/refund")
 	public void processRefundOrder(@RequestBody Orders orderToBeUpdated, @RequestBody int userId,@RequestBody boolean isEnduser) {
 		os.refundOrder(orderToBeUpdated, userId, isEnduser);
 	}
 
-	@RequestMapping(value = "/requestToRefund/{id}")
+	@GetMapping(value = "/requestToRefund/{id}")
 	public Orders requestToRefundOrder(@PathVariable("id") int orderId) {
 		Orders orderToBeRefunded = os.getOrder(orderId);
 		orderToBeRefunded.setStatus("Pending To Refund");
@@ -131,8 +131,7 @@ public class OrdersController {
 	// All deleting/removing order functions will be declared here
 	// -----------------------------------------------------------------------------------------
 
-	@RequestMapping(value = "/delete", method = RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.OK)
+	@GetMapping(value = "/delete")
 	public void processDeleteOrder(@RequestBody Orders orderToBeDeleted) {
 		orderToBeDeleted.setStatus("Delete");
 		os.updateOrder(orderToBeDeleted);

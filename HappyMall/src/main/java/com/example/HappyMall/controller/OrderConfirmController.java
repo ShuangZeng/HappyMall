@@ -133,7 +133,7 @@ public class OrderConfirmController {
 			cardDetailService.save(cardDetail);
 			
 			// Sending out email notification
-			//ordersService.sendNotification(orders);
+			// ordersService.sendNotification(orders);
 	
 			System.out.println("Update the product's quantity in the inventory");
 			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
