@@ -3,6 +3,7 @@ package com.example.HappyMall.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +14,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.MutablePropertySources;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,7 +41,7 @@ public class ProductController {
 
 	@Autowired
 	ServletContext context;
-	
+
 	@Autowired
 	private ProductService productService;
 
@@ -81,23 +84,29 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("product") Product product, @RequestParam("productImage") MultipartFile productImage,
-			Model model) throws IOException {
+	public String saveProduct(@ModelAttribute("product") Product product,
+			@RequestParam("productImage") MultipartFile productImage, Model model) throws IOException {
 
-//		String rootDirectory = context.getRealPath("/");
-//		System.out.println("context path"+context.getContextPath());
-//		System.out.println("Root Directory: "+rootDirectory);
+		File pwd = null;
+		try {
+			pwd = new File(getClass().getResource("/").toURI());
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		String projectDir = pwd.getParentFile().getParentFile().getParent();
+		System.out.println("Project directory" + projectDir);
 		User user = (User) model.asMap().get("user");
 		Path path = null;
-		if (productImage != null && !productImage.isEmpty()) { 
-			try { 
+		if (productImage != null && !productImage.isEmpty()) {
+			try {
 				byte[] bytes = productImage.getBytes();
-				productImage.transferTo( new File("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
-		        path = Paths.get("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
-		        Files.write(path, bytes);
-				System.out.println("Image Transfered to "+ path.toString());
-			} 
-			catch (Exception e) {
+				productImage.transferTo(new File(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename()));
+				path = Paths.get(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename());
+				Files.write(path, bytes);
+				System.out.println("Image Transfered to " + path.toString());
+			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("File not found");
 			}
@@ -110,21 +119,29 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
-	public String updateProduct(Model model,@ModelAttribute("product") Product product, @RequestParam("productImage") MultipartFile productImage) {
+	public String updateProduct(Model model, @ModelAttribute("product") Product product,
+			@RequestParam("productImage") MultipartFile productImage) {
+		File pwd = null;
+		try {
+			pwd = new File(getClass().getResource("/").toURI());
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		String projectDir = pwd.getParentFile().getParentFile().getParent();
+		System.out.println("Project directory: " + projectDir);
 		User user = (User) model.asMap().get("user");
-//		String rootDirectory = context.getRealPath("/");
-//		System.out.println("context path"+context.getContextPath());
-//		System.out.println("Root Directory: "+rootDirectory);
+
 		Path path = null;
-		if (productImage != null && !productImage.isEmpty()) { 
-			try { 
+		if (productImage != null && !productImage.isEmpty()) {
+			try {
 				byte[] bytes = productImage.getBytes();
-				productImage.transferTo( new File("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename())); 
-		        path = Paths.get("/home/mohammed/git/HappyMall/HappyMall/src/main/resources/static/images/" + productImage.getOriginalFilename());
-		        Files.write(path, bytes);
-				System.out.println("Image Transfered to "+ path.toString());
-			} 
-			catch (Exception e) {
+				productImage.transferTo(new File(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename()));
+				path = Paths.get(projectDir + "/HappyMall/src/main/resources/static/images/"
+						+ productImage.getOriginalFilename());
+				Files.write(path, bytes);
+				System.out.println("Image Transfered to " + path.toString());
+			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("File not found");
 			}
