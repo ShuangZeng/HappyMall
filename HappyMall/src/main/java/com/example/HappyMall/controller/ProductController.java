@@ -149,6 +149,7 @@ public class ProductController {
 		System.out.println("Image path: " + path.toString());
 		product.setImageUrl("/images/" + productImage.getOriginalFilename());
 		product.setVendor(user);
+		product.setStatus("U");
 		productService.updateProduct(product);
 		return "redirect:/vendor/";
 	}

@@ -59,7 +59,6 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public Product updateProduct(Product product) {
-		product.setStatus("U");
 		product.setModifiedDate(new Date());
 		productRepository.save(product);
 //		return prs.updateProduct(product);
