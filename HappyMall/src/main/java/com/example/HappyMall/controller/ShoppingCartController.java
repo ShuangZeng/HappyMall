@@ -380,7 +380,16 @@ public class ShoppingCartController {
 	}
 
 	@PostMapping("/shoppingcart")
-	public String goToConfirmPage() {
-		return "redirect:/shoppingcart/confirm";
+	public String goToConfirmPage(Model model) {
+		User user = (User) model.asMap().get("user");
+		CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(user.getId());
+		Orders order = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
+		if (cardDetail.getRemainingValue() < order.getTotal())
+		{
+			return "redirect:/shoppingcart";
+		}
+		else
+			return "redirect:/shoppingcart/confirm";
 	}
+	
 }
