@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.service.ProductService;
 
+//Created and Edited by Mohammed Heakal
 @Controller
 @RequestMapping({ "/search" })
 public class SearchController {
@@ -32,11 +33,5 @@ public class SearchController {
 						.filter(p -> !p.getStatus().equals("D")).collect(Collectors.toList()));
 		return "searchResult";
 	}
-
-//	@GetMapping(value = "/adsearch")
-//	public String showAdSearchForm(ModelMap modelMap) {
-//		modelMap.addAttribute("product", new Product());
-//		return "/search/findProducts";
-//	}
 
 }

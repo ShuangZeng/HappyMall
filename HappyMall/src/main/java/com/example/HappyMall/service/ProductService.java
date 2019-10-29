@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import com.example.HappyMall.domain.Product;
 
+//Created and Edited by Mohammed Heakal
 public interface ProductService{
 	
 	Product addProduct(Product product);

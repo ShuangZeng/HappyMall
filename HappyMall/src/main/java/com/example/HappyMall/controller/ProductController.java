@@ -34,6 +34,7 @@ import com.example.HappyMall.domain.Product;
 import com.example.HappyMall.domain.User;
 import com.example.HappyMall.service.ProductService;
 
+//Created and Edited by Mohammed Heakal
 @Controller
 @SessionAttributes("user")
 @RequestMapping({ "/products" })

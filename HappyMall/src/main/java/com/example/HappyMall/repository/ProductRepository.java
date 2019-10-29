@@ -10,6 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.example.HappyMall.domain.Product;
 
+//Created and Edited by Mohammed Heakal
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 	
 Optional<Product> findByname(String name);
