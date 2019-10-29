@@ -1,6 +1,7 @@
 package com.example.HappyMall.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class OrderConfirmController {
 			System.out.println("User: " + user);
 	
 			if (user != null) {
-				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 				System.out.println("Orders: " + orders);
 	
 				List<OrderLine> listOrderLine = orderLineService.findByOrdersId(orders.getId());
@@ -115,7 +116,7 @@ public class OrderConfirmController {
 		{
 			System.out.println("Create a payment");
 			User user = (User) model.asMap().get("user");
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 			System.out.println("Order: " + orders);
 			Payment payment = new Payment();
 			payment.setOrders(orders);
@@ -148,8 +149,8 @@ public class OrderConfirmController {
 			// Create new order for user with the order's status is "New"
 			System.out.println("Create a new order");
 			Address address = addressService.getAddressDefaultByUserId(user.getId());
-			newOrder = new Orders(user, "", address, address, "ShoppingCart");
-			newOrder.setOrderCode("od03");
+			Orders lastOrder = ordersService.findLastedOrder();
+			newOrder = new Orders(user, "od" + (lastOrder.getId() + 1), address, address, "ShoppingCart");
 			ordersService.save(newOrder);
 			System.out.println("Finish a new order");
 		
@@ -169,7 +170,7 @@ public class OrderConfirmController {
 		{
 			System.out.println("Create a payment");
 			User user = userService.getVendor(1004);
-			Orders orders = ordersService.findByStatusAndUserId("New", 1004).get(0);
+			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", 1004).get(0);
 			System.out.println("Order: " + orders);
 			Payment payment = new Payment();
 			payment.setOrders(orders);
@@ -180,6 +181,7 @@ public class OrderConfirmController {
 	
 			System.out.println("Update the order's status to Completed");
 			orders.setStatus("Completed");
+			orders.setModifiedDate(new Date());
 			ordersService.save(orders);
 			System.out.println("Finish a payment");
 			CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(1004);

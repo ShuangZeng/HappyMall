@@ -70,6 +70,12 @@ public class OrderServiceImpl implements OrdersService {
 		}
 		return orders;
 	}
+
+	@Override
+	public Orders findLastedOrder() {
+		// TODO Auto-generated method stub
+		return ordersRepository.findLastedOrder();
+	}
 	//_________________________//
 
 	// -----------------------------------------------------------------------------------------

@@ -81,7 +81,7 @@ public class IndexController {
 			List<OrderLine> listOrderLine;
 
 			// Get orders by user. If does not exist, create new orders for user
-			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
+			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("ShoppingCart", user.getId());
 
 			Orders orders = null;
 			if (listOrdersNew != null && listOrdersNew.size() > 0) {
@@ -92,7 +92,8 @@ public class IndexController {
 			if (orders == null) {
 				System.out.println("create orders...");
 				Address address = addressService.getAddressDefaultByUserId(user.getId());
-				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+				Orders lastOrder = ordersService.findLastedOrder();
+				orders = new Orders(user, "od" + (lastOrder.getId() + 1), address, address, "ShoppingCart");
 				ordersService.save(orders);
 				System.out.println("complete creating orders...");
 			}
@@ -183,7 +184,7 @@ public class IndexController {
 		} else {
 			System.out.println("User: " + user.getEmail());
 			// Get orders by user. If does not exist, create new orders for user
-			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("New", user.getId());
+			List<Orders> listOrdersNew = ordersService.findByStatusAndUserId("ShoppingCart", user.getId());
 			Orders orders = null;
 			if (listOrdersNew != null && listOrdersNew.size() > 0) {
 				orders = listOrdersNew.get(0);
@@ -191,7 +192,8 @@ public class IndexController {
 			// create new Order if it does not exist
 			if (orders == null) {
 				Address address = addressService.getAddressDefaultByUserId(user.getId());
-				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+				Orders lastOrder = ordersService.findLastedOrder();
+				orders = new Orders(user, "od" + (lastOrder.getId() + 1), address, address, "ShoppingCart");
 				ordersService.save(orders);
 			}
 			// Process for Order_line

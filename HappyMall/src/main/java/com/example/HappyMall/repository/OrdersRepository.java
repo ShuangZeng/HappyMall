@@ -18,4 +18,6 @@ public interface OrdersRepository  extends  JpaRepository<Orders, Integer>, Shop
 	@Query(value="select * from happymall.orders where user_id = :userId and status = :status", nativeQuery=true)
 	List<Orders> findByStatusAndUserId(String status, int userId);
 	
+	@Query(value="select * from happymall.orders order by id desc limit 1", nativeQuery=true)
+	Orders findLastedOrder();
 }

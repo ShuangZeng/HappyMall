@@ -11,6 +11,7 @@ public interface OrdersService {
 	List<Orders> findByStatusAndUserId(String status, int userId);
 	void updateMoneyByOrdersId(int orderId, int tax, int serviceFee);
 	Orders updateMoneyByOrders_New(Orders orders, SystemConfig systemConfig);
+	Orders findLastedOrder();
 	//________________________//
 
 	// -----------------------------------------------------------------------------------------

@@ -16,6 +16,7 @@ $("document").ready(function(){
 				$("#city").val(address.city);
 				$("#state").val(address.state);
 				$("#zipcode").val(address.zipcode);
+				$("#default").attr("checked", address.default_addr);
 				$("#default_addr").val(address.default_addr);
 			});
 		$("#addressModal").modal();
@@ -34,6 +35,7 @@ $("document").ready(function(){
 			$("#city").val('');
 			$("#state").val('');
 			$("#zipcode").val('');
+			$("#default").attr("checked", false);
 			$("#default_addr").val(false);
 		$("#addressModal").modal();
 	});
@@ -43,5 +45,12 @@ $("document").ready(function(){
 		var href = $(this).attr('href');
 		$("#delRef").attr('href', href);
 		$("#confirmDelModal").modal();
+	});
+	
+	$("#default").change(function(){
+		if($(this).is(":checked"))
+			#("#default_addr").val("true");
+		else
+			#("#default_addr").val("false");
 	});
 });

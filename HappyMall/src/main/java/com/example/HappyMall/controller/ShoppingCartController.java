@@ -66,13 +66,14 @@ public class ShoppingCartController {
 		} else {
 			System.out.println("User: " + user.getEmail());
 			Orders orders = null;
-			List<Orders> listOrders = ordersService.findByStatusAndUserId("New", user.getId());
+			List<Orders> listOrders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId());
 			if (listOrders != null && listOrders.size() > 0)
 				orders = listOrders.get(0);
 			if (orders == null) {
 				System.out.println("create orders...");
 				Address address = addressService.getAddressDefaultByUserId(user.getId());
-				orders = new Orders(user, String.valueOf(Math.random()), address, address, "New");
+				Orders lastOrder = ordersService.findLastedOrder();
+				orders = new Orders(user, "od" + (lastOrder.getId() + 1), address, address, "ShoppingCart");
 				ordersService.save(orders);
 				System.out.println("complete creating orders...");
 			}
@@ -116,7 +117,7 @@ public class ShoppingCartController {
 					listItem.remove(index);
 			} else {
 				System.out.println("User: " + user.getEmail());
-				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 				orderLineService.deleteByOrdersIdAndProductId(orders.getId(), id);
 				SystemConfig systemConfig = systemConfigService.getToApplied();
 				ordersService.updateMoneyByOrdersId(orders.getId(), systemConfig.getTax(), systemConfig.getServiceFee());
@@ -148,7 +149,7 @@ public class ShoppingCartController {
 	
 			User user = (User) model.asMap().get("user");
 			Address address = addressService.getAddress(ordersUpdate.getShippingAddress().getId());
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 			orders.setShippingAddress(address);
 			orders.setModifiedDate(new Date());
 			ordersService.save(orders);
@@ -169,7 +170,7 @@ public class ShoppingCartController {
 	
 			User user = (User) model.asMap().get("user");
 			Address address = addressService.getAddress(ordersUpdate.getBillingAddress().getId());
-			Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+			Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 			orders.setBillingAddress(address);
 			orders.setModifiedDate(new Date());
 			ordersService.save(orders);
@@ -263,11 +264,12 @@ public class ShoppingCartController {
 				System.out.println("Create address");
 				System.out.println("New address: " + newAddress);
 				User user = (User) model.asMap().get("user");
-				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 				newAddress.setCreateDate(new Date());
 				newAddress.setUser(orders.getUser());
 				addressService.save(newAddress);
 				orders.setShippingAddress(newAddress);
+				orders.setModifiedDate(new Date());
 				ordersService.save(orders);
 				System.out.println("Address has been created");
 			} else {
@@ -290,11 +292,12 @@ public class ShoppingCartController {
 				System.out.println("Create address");
 				System.out.println("New address: " + newAddress);
 				User user = (User) model.asMap().get("user");
-				Orders orders = ordersService.findByStatusAndUserId("New", user.getId()).get(0);
+				Orders orders = ordersService.findByStatusAndUserId("ShoppingCart", user.getId()).get(0);
 				newAddress.setCreateDate(new Date());
 				newAddress.setUser(orders.getUser());
 				addressService.save(newAddress);
 				orders.setBillingAddress(newAddress);
+				orders.setModifiedDate(new Date());
 				ordersService.save(orders);
 				System.out.println("Address has been created");
 			} else {
