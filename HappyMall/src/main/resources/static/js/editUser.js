@@ -19,7 +19,7 @@ $("document").ready(function(){
 				$("#default").attr("checked", address.default_addr);
 				$("#default_addr").val(address.default_addr);
 			});
-		$("#addressModal").modal();
+		$("#addressModal").modal("show");
 	});	
 
 	$("#nBtn").click(function(event){
@@ -37,7 +37,7 @@ $("document").ready(function(){
 			$("#zipcode").val('');
 			$("#default").attr("checked", false);
 			$("#default_addr").val(false);
-		$("#addressModal").modal();
+		$("#addressModal").modal('show');
 	});
 	
 	$(".table .dBtn").click(function(event){
@@ -49,8 +49,8 @@ $("document").ready(function(){
 	
 	$("#default").change(function(){
 		if($(this).is(":checked"))
-			#("#default_addr").val("true");
+			$("#default_addr").val("true");
 		else
-			#("#default_addr").val("false");
+			$("#default_addr").val("false");
 	});
 });

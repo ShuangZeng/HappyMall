@@ -74,9 +74,9 @@
 				<div class="col-md-3">
 					<input type="text" name="phone" id="phoneNumber"
 						onblur="checkPhone()" th:value="${user.phone}"
-						style="margin-bottom: 3px">
+						pattern="^[\(]{0,1}([0-9]){3}[\)]{0,1}[ ]?([^0-1]){1}([0-9]){2}[ ]?[-]?[ ]?([0-9]){4}[ ]*((x){0,1}([0-9]){1,5}){0,1}$" style="margin-bottom: 3px">
 				</div>
-				<span style="color: red">Formatter: (910)456-7890. </span>
+				<!-- <span style="color: red">Formatter: (910)456-7890. </span> -->
 			</div>
 		</div>
 		<div class="row">

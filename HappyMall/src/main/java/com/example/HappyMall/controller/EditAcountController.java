@@ -66,7 +66,7 @@ public class EditAcountController {
 	@ResponseBody
 	public Address getOne(int id)
 	{
-		System.out.println("Get address for Edit");
+		System.out.println("Get address for Editing");
 		return addressService.getAddress(id);
 	}
 	
