@@ -126,6 +126,8 @@ $(document).ready(function() {
 			    	  $('#estimatedTax').html(order.tax);
 			    	  $('#orderTotal').html(order.total);		        	  
 			    	  formatMoney();
+			    	if ($("#payment_noti").attr("hidden") != "hidden")
+				      	setInterval('location.reload()', 500);
 		      },  
 		      error: function(e){        
 		      	setInterval('location.reload()', 500);
