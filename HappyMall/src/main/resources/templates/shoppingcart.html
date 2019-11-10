@@ -42,7 +42,7 @@
 			</div>
 		</div>
 
-		<form th:object="${orders}" th:action="@{/shoppingcart}" method="post">
+		<!-- <form th:object="${orders}" th:action="@{/shoppingcart}" method="post"> -->
 			<div class="col-12">
 				<div class="row table-head col-12">
 					Total product: <span th:text="${totalProduct}"> 0 </span> <span
@@ -120,17 +120,17 @@
 							<tr>
 								<td class="row-titile" scope="row">Total before Tax</td>
 								<td class="format-money" id="totalBeforeTax"
-									th:text="${orders}?*{subTotal}:${subTotalGuest}"></td>
+									th:text="${orders}?${orders.subTotal}:${subTotalGuest}"></td>
 							</tr>
 							<tr>
 								<td class="row-titile" scope="row">Estimated Tax</td>
 								<td class="format-money" id="estimatedTax"
-									th:text="${orders}?*{tax}:${taxGuest}"></td>
+									th:text="${orders}?${orders.tax}:${taxGuest}"></td>
 							</tr>
 							<tr>
 								<td class="row-titile emphasize" scope="row">Order total</td>
 								<td class="emphasize format-money" id="orderTotal"
-									th:text="${orders}?*{total}:${totalGuest}"></td>
+									th:text="${orders}?${orders.total}:${totalGuest}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -147,16 +147,16 @@
 					<tbody>
 						<tr>
 							<td>Name: <span class="info" id="shippingName"
-								th:text="${orders}?*{user.fullName}"></span> - Phone Number: <span
+								th:text="${orders}?${orders.user.fullName}"></span> - Phone Number: <span
 								class="info" id="shippingPhoneNo"
-								th:text="${orders}?*{user.phone}"></span>
+								th:text="${orders}?${orders.user.phone}"></span>
 							</td>
 						</tr>
 						<tr>
 							<td>Address: <span class="info" id="shippingAddress"
-								th:text="${orders}?*{shippingAddress}"></span> <span
+								th:text="${orders}?${orders.shippingAddress}"></span> <span
 								style="visibility: hidden" id="shippingId"
-								th:text="${orders}?(*{shippingAddress}?*{shippingAddress.id})"></span>
+								th:text="${orders}?(${orders.shippingAddress}?${orders.shippingAddress.id})"></span>
 								<span class="alert alert-danger" th:if="${orders} == null or ${orders.shippingAddress} == null">You should have a shipping address for checking out.</span>
 								<div class="float-right">
 									<a id="btnEditShippingAddress" href="#" data-toggle="modal"
@@ -191,9 +191,9 @@
 						</tr>
 						<tr>
 							<td>Billing Address: <span class="info" id="billingAddress"
-								th:text="${orders}?*{billingAddress}"></span> <span
+								th:text="${orders}?${orders.billingAddress}"></span> <span
 								style="visibility: hidden" id="billingId"
-								th:text="${orders}?(*{billingAddress}?*{billingAddress.id})"></span>
+								th:text="${orders}?(${orders.billingAddress}?${orders.billingAddress.id})"></span>
 								<span class="alert alert-danger" th:if="${orders} == null or ${orders.billingAddress} == null">You should have a billing address for checking out.</span>
 								<div class="float-right">
 									<a id="btnEditBillingAddress" href="#" data-toggle="modal"
@@ -206,9 +206,11 @@
 			</div>
 
 			<div class="float-right" th:if="${user} != null and ${orders} != null and ${orders.billingAddress} != null and ${orders.shippingAddress} != null and ${cardDetail} != null and ${totalProduct} > 0 and ${cardDetail.remainingValue} > ${orders.total}">
-				<button type="submit" class="btn btn-primary">Check out</button>
+				<form th:action="@{/shoppingcart/checkCheckout}" method="get">
+					<button type="submit" class="btn btn-primary">Check out</button>
+				</form>
 			</div>
-		</form>
+		<!-- </form> -->
 
 		<form th:action="@{/login}" method="get" class="float-right"
 			th:hidden="${user}?true:false">

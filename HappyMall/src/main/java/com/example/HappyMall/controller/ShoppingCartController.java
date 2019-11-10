@@ -379,7 +379,7 @@ public class ShoppingCartController {
 		}
 	}
 
-	@PostMapping("/shoppingcart")
+	@GetMapping("/shoppingcart/checkCheckout")
 	public String goToConfirmPage(Model model) {
 		User user = (User) model.asMap().get("user");
 		CardDetail cardDetail = cardDetailService.getCardDefaultByUserId(user.getId());
@@ -389,7 +389,14 @@ public class ShoppingCartController {
 			return "redirect:/shoppingcart";
 		}
 		else
-			return "redirect:/shoppingcart/confirm";
+		{
+			List<OrderLine> listOrderLine = orderLineService.findByOrdersId(order.getId());
+			model.addAttribute("orders", order);
+			model.addAttribute("listOrderLine", listOrderLine);
+			model.addAttribute("totalProduct", listOrderLine.size());
+			model.addAttribute("cardDetail", cardDetail);
+			return "forward:/shoppingcart/confirm";
+		}
 	}
 	
 }
